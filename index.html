@@ -1,0 +1,459 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f5ef">
+  <meta name="description" content="Thiệp mời đám cưới của chúng mình. Hãy cùng chia sẻ ngày đặc biệt này.">
+
+  <title>Our Wedding — Thiệp mời</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --cream: #f8f5ef;
+      --paper: #fffdf9;
+      --ink: #302c28;
+      --muted: #82786d;
+      --line: #ded6ca;
+      --olive: #777b62;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 20px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: "DM Sans", sans-serif;
+      line-height: 1.7;
+    }
+
+    a { color: inherit; }
+
+    .topline {
+      width: 100%;
+      height: 4px;
+      background: var(--olive);
+    }
+
+    .hero {
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 64px 22px;
+      position: relative;
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(32, 28, 24, .12),
+          rgba(32, 28, 24, .42)
+        ),
+        url("https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1800&q=85")
+        center 48% / cover no-repeat;
+      color: white;
+    }
+
+    .hero-inner {
+      max-width: 720px;
+      width: 100%;
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: .25em;
+      font-size: 10px;
+    }
+
+    .hero h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(52px, 10vw, 94px);
+      font-weight: 400;
+      line-height: 1;
+      margin: 26px 0 18px;
+    }
+
+    .ampersand {
+      display: block;
+      font-size: .62em;
+      font-style: italic;
+      margin: 8px 0;
+    }
+
+    .hero-date {
+      letter-spacing: .18em;
+      font-size: 12px;
+      margin-top: 30px;
+    }
+
+    .hero-note {
+      max-width: 390px;
+      margin: 18px auto 0;
+      font-size: 13px;
+    }
+
+    .button {
+      display: inline-block;
+      text-decoration: none;
+      padding: 13px 24px;
+      border: 1px solid var(--ink);
+      font-size: 11px;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      transition: .2s ease;
+    }
+
+    .button:hover {
+      background: var(--ink);
+      color: white;
+    }
+
+    .button-light {
+      border-color: rgba(255,255,255,.8);
+      margin-top: 26px;
+    }
+
+    .button-light:hover {
+      background: white;
+      color: var(--ink);
+    }
+
+    section {
+      padding: 82px 22px;
+    }
+
+    .section-inner {
+      max-width: 760px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .section-label {
+      font-size: 10px;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(37px, 7vw, 55px);
+      font-weight: 400;
+      line-height: 1.1;
+      margin: 16px 0;
+    }
+
+    .intro {
+      max-width: 490px;
+      margin: 20px auto;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .divider {
+      width: 45px;
+      height: 1px;
+      background: var(--olive);
+      margin: 28px auto;
+    }
+
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: clamp(18px, 6vw, 52px);
+      margin: 36px 0 8px;
+    }
+
+    .countdown-item strong {
+      display: block;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 38px;
+      font-weight: 400;
+      line-height: 1.2;
+    }
+
+    .countdown-item span {
+      font-size: 9px;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .details {
+      background: var(--paper);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 38px;
+      text-align: center;
+    }
+
+    .detail-card {
+      padding: 28px 18px;
+      border: 1px solid var(--line);
+    }
+
+    .detail-card h3 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 28px;
+      font-weight: 400;
+      margin: 8px 0;
+    }
+
+    .detail-card p {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 5px 0;
+    }
+
+    .detail-card .button {
+      margin-top: 18px;
+    }
+
+    .rsvp {
+      background: var(--cream);
+    }
+
+    .rsvp-inner {
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .form-frame {
+      margin-top: 35px;
+      background: white;
+      border: 1px solid var(--line);
+      padding: 8px;
+      text-align: left;
+    }
+
+    .form-frame iframe {
+      display: block;
+      width: 100%;
+      min-height: 680px;
+      border: 0;
+    }
+
+    .form-help {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 16px;
+    }
+
+    footer {
+      padding: 45px 20px;
+      background: #eee8de;
+      text-align: center;
+    }
+
+    footer .names {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 34px;
+    }
+
+    footer p {
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .08em;
+    }
+
+    @media (max-width: 560px) {
+      .hero { min-height: 82svh; }
+      section { padding: 65px 19px; }
+      .detail-grid { grid-template-columns: 1fr; gap: 14px; }
+      .form-frame { padding: 2px; }
+      .form-frame iframe { min-height: 760px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="topline"></div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">Together with our families</div>
+
+      <!-- THAY TÊN CỦA HAI BẠN TẠI ĐÂY -->
+      <h1>
+        Yen Hoa D.
+        <span class="ampersand">&</span>
+        Matteo B.
+      </h1>
+
+      <div class="divider" style="background:#fff"></div>
+
+      <!-- THAY NGÀY CƯỚI TẠI ĐÂY -->
+      <div class="hero-date">03 · 01 · 2027</div>
+
+      <p class="hero-note">
+        Chúng con/mình rất hạnh phúc khi được mời mọi người
+        cùng chia sẻ ngày đặc biệt này.
+      </p>
+
+      <a class="button button-light" href="#rsvp">
+        Xác nhận tham dự
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <div class="section-inner">
+        <div class="section-label">A day to remember</div>
+        <h2>Our Wedding Day</h2>
+
+        <p class="intro">
+          Sự hiện diện của mọi người là món quà quý giá đối với chúng con/mình
+          Hãy cùng tạo nên những kỷ niệm thật đẹp.
+        </p>
+
+        <div class="divider"></div>
+
+        <div class="section-label">The countdown</div>
+
+        <div class="countdown" aria-label="Đếm ngược ngày cưới">
+          <div class="countdown-item">
+            <strong id="days">--</strong>
+            <span>Ngày</span>
+          </div>
+          <div class="countdown-item">
+            <strong id="hours">--</strong>
+            <span>Giờ</span>
+          </div>
+          <div class="countdown-item">
+            <strong id="minutes">--</strong>
+            <span>Phút</span>
+          </div>
+          <div class="countdown-item">
+            <strong id="seconds">--</strong>
+            <span>Giây</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="details">
+      <div class="section-inner">
+        <div class="section-label">Save the date</div>
+        <h2>Wedding Details</h2>
+
+        <div class="detail-grid">
+          <article class="detail-card">
+            <div class="section-label">When</div>
+            <h3>Ngày & Giờ</h3>
+            <p>Chủ Nhật, ngày 03 tháng 01 năm 2027</p>
+            <p>8:30 — Đón khách</p>
+            <p>9:00 — Bắt đầu buổi tiệc</p>
+          </article>
+
+          <article class="detail-card">
+            <div class="section-label">Where</div>
+            <h3>Địa Điểm</h3>
+            <p>Chùa Tảo Sách (Linh Sơn Tự)</p>
+            <p>Địa chỉ của buổi tiệc</p>
+
+            <!-- THAY LINK GOOGLE MAPS TẠI ĐÂY -->
+            <a
+              class="button"
+              href="https://maps.google.com/"
+              target="_blank"
+              rel="noopener"
+            >
+              Mở bản đồ
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="rsvp" class="rsvp">
+      <div class="rsvp-inner">
+        <div class="section-label">Kindly reply</div>
+        <h2>Will You Join Us?</h2>
+
+        <p class="intro">
+          Bạn vui lòng xác nhận trước ngày 01 tháng 12 năm 2026
+          để chúng mình chuẩn bị chu đáo nhé.
+        </p>
+
+        <div class="divider"></div>
+
+        <div class="form-frame">
+          <!--
+            THAY URL BÊN DƯỚI BẰNG URL NHÚNG
+            LẤY TỪ GOOGLE FORMS.
+          -->
+          <iframe
+            src="https://docs.google.com/forms/d/e/REPLACE_WITH_YOUR_FORM_ID/viewform?embedded=true"
+            title="Wedding RSVP form"
+            loading="lazy"
+          >
+            Đang tải biểu mẫu RSVP...
+          </iframe>
+        </div>
+
+        <p class="form-help">
+          Sau khi gửi biểu mẫu, bạn có thể đóng trang này.
+          Cảm ơn bạn đã phản hồi!
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="names">Hoà & Matteo</div>
+    <p>MADE WITH LOVE · 03.01.2027</p>
+  </footer>
+
+  <script>
+    // Đổi thời gian này theo ngày cưới.
+    // Ví dụ: năm-tháng-ngày T giờ:phút:giây
+    const weddingDate = new Date("2027-01-03T08:00:00");
+
+    function updateCountdown() {
+      const now = new Date();
+      const diff = weddingDate.getTime() - now.getTime();
+
+      if (diff <= 0) {
+        ["days", "hours", "minutes", "seconds"].forEach(id => {
+          document.getElementById(id).textContent = "0";
+        });
+        return;
+      }
+
+      document.getElementById("days").textContent =
+        Math.floor(diff / 86400000);
+
+      document.getElementById("hours").textContent =
+        Math.floor((diff % 86400000) / 3600000);
+
+      document.getElementById("minutes").textContent =
+        Math.floor((diff % 3600000) / 60000);
+
+      document.getElementById("seconds").textContent =
+        Math.floor((diff % 60000) / 1000);
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>
