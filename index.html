@@ -3,57 +3,157 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thiệp Việt Nam</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thiệp cưới | An & Mai</title>
+
 <style>
-*{box-sizing:border-box}
-body{
-  margin:0; min-height:100vh; display:grid; place-items:center;
-  background:#173b32; color:#ffe8ad; font-family:Georgia,serif;
-  text-align:center; padding:20px;
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 20px 0;
+  min-height: 100vh;
+  background: #f8eee0;
+  font-family: Georgia, serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffe6a3;
 }
-.card{
-  max-width:480px;width:100%;padding:28px 22px;
-  border:3px double #d9ad58;border-radius:180px 180px 18px 18px;
-  background:linear-gradient(#722b25dd,#241f19ed),
-  url('https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=900&q=80') center/cover;
-  box-shadow:0 0 35px #0008;
+
+.thiep {
+  width: 90%;
+  max-width: 400px;
+  padding: 30px 22px;
+  text-align: center;
+  background: #8b1018;
+  border: 5px double #d9b45b;
+  box-shadow: 0 8px 25px #0003;
 }
-h1{font-size:34px;color:#ffd778;margin:15px 0}
-p{line-height:1.9}
-.lotus{font-size:48px}
-button{
-  padding:12px 24px;border:1px solid #f8d987;
-  border-radius:25px;background:#d9ad58;color:#54251c;
-  font-size:16px;cursor:pointer;
+
+.songhy { font-size: 55px; color: #f4d477; }
+h1 { letter-spacing: 4px; font-size: 28px; }
+.ten { font-size: 25px; margin: 12px; }
+p { line-height: 1.8; }
+
+.nut {
+  display: inline-block;
+  padding: 12px 18px;
+  margin: 6px 3px;
+  border: 0;
+  border-radius: 5px;
+  background: #e5c16b;
+  color: #761019;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
 }
-#message{display:none;animation:fade 1s}
-@keyframes fade{from{opacity:0;transform:translateY(12px)}
-to{opacity:1;transform:translateY(0)}}
-footer{font-size:12px;margin-top:24px;color:#e7d4a3}
+
+.rsvp {
+  margin-top: 25px;
+  padding-top: 18px;
+  border-top: 1px solid #d9b45b;
+}
+
+input, select {
+  display: block;
+  width: 100%;
+  padding: 11px;
+  margin: 10px 0;
+  border: 1px solid #d9b45b;
+  border-radius: 4px;
+  background: #fff8e9;
+  color: #4b1515;
+  font-size: 15px;
+}
+
+.thongbao { font-size: 14px; }
 </style>
 </head>
-<body>
-<main class="card">
-  <div class="lotus">🪷</div>
-  <p>☸ NAM MÔ A DI ĐÀ PHẬT ☸</p>
-  <h1>Thiệp Chúc Mừng</h1>
-  <p>Kính chúc bạn và gia đình</p>
-  <p><strong>An nhiên – Hạnh phúc – Bình an</strong></p>
-  <p>Nguyện cầu mọi điều tốt đẹp,<br>
-  tâm luôn thanh tịnh, đời luôn an vui.</p>
 
-  <button onclick="openCard()">Mở lời chúc ✨</button>
-  <p id="message">
-    🏮 Tâm sáng như sen, lòng an như nước.<br>
-    Chúc bạn luôn gặp duyên lành và vạn sự hanh thông!
+<body>
+<div class="thiep">
+  <div class="songhy">囍</div>
+  <p>TRÂN TRỌNG KÍNH MỜI</p>
+  <h1>THIỆP CƯỚI</h1>
+  <p>LỄ THÀNH HÔN CỦA CHÚNG TÔI</p>
+
+  <div class="ten">Nguyễn Văn An</div>
+  <p>&</p>
+  <div class="ten">Trần Ngọc Mai</div>
+
+  <p>🪷 ❀ 🪷</p>
+  <p>
+    <b>11:00 | Chủ Nhật</b><br>
+    Ngày 15 tháng 11 năm 2026
   </p>
-  <footer>✦ Một chút bình yên mang hồn Việt ✦</footer>
-</main>
+
+  <p>
+    📍 Nhà hàng Hạnh Phúc<br>
+    123 Đường Hoa Sen, TP. Hồ Chí Minh
+  </p>
+
+  <!-- Thay URL bằng địa điểm thật trên Google Maps -->
+  <a class="nut"
+     href="https://www.google.com/maps/search/?api=1&query=123+Duong+Hoa+Sen+TP+Ho+Chi+Minh"
+     target="_blank" rel="noopener">
+     📍 Xem bản đồ
+  </a>
+
+  <div class="rsvp">
+    <h2>XÁC NHẬN THAM DỰ</h2>
+    <p>Rất mong được đón tiếp bạn trong ngày vui!</p>
+
+    <form id="rsvpForm">
+      <input id="tenKhach" type="text"
+             placeholder="Họ và tên của bạn" required>
+
+      <select id="thamDu" required>
+        <option value="">Bạn sẽ tham dự chứ?</option>
+        <option value="Có tham dự">Vâng, tôi sẽ tham dự ❤️</option>
+        <option value="Không tham dự">Rất tiếc, tôi không thể đến</option>
+      </select>
+
+      <select id="soNguoi" required>
+        <option value="">Số người tham dự</option>
+        <option value="1">1 người</option>
+        <option value="2">2 người</option>
+        <option value="3">3 người</option>
+        <option value="4">4 người</option>
+        <option value="5">5 người</option>
+      </select>
+
+      <button class="nut" type="submit">
+        💌 Gửi xác nhận
+      </button>
+    </form>
+
+    <p id="thongbao" class="thongbao"></p>
+  </div>
+</div>
+
 <script>
-function openCard(){
-  document.getElementById('message').style.display='block';
-}
+// Thay bằng link Google Forms của bạn
+const FORM_URL = "https://docs.google.com/forms/";
+
+document.getElementById("rsvpForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const ten = document.getElementById("tenKhach").value.trim();
+  const thamDu = document.getElementById("thamDu").value;
+  const soNguoi = document.getElementById("soNguoi").value;
+
+  if (!ten || !thamDu || !soNguoi) return;
+
+  // Mở Google Forms để khách gửi câu trả lời
+  // Cần cấu hình form và các trường tương ứng để lưu RSVP.
+  const url = FORM_URL;
+  window.open(url, "_blank");
+
+  document.getElementById("thongbao").textContent =
+    "Cảm ơn bạn đã phản hồi! ❤️ Hãy hoàn tất gửi câu trả lời trong biểu mẫu vừa mở.";
+});
 </script>
 </body>
 </html>
