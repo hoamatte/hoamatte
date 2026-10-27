@@ -4,370 +4,541 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Minh & An | Thiệp Cưới</title>
+<title>Minh & An — Thiệp Cưới</title>
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;500&family=Be+Vietnam+Pro:wght@300;400;500&display=swap" rel="stylesheet">
+
 <style>
 :root{
   --cream:#f5efd9;
-  --white:#fffdf5;
-  --olive:#63714b;
+  --ivory:#fffdf5;
+  --olive:#667451;
   --dark:#35442e;
-  --gold:#b6a174;
-  --duration:1100ms;
+  --gold:#b5a174;
 }
 *{box-sizing:border-box}
 html,body{
   margin:0;width:100%;height:100%;
   overflow:hidden;
-  font-family:"Be Vietnam Pro",sans-serif;
   background:var(--cream);
   color:var(--dark);
+  font-family:"Be Vietnam Pro",sans-serif;
 }
-button,input,select{font:inherit}
+button,input,select,textarea{font:inherit}
 button{cursor:pointer}
 h1,h2,h3{
   font-family:"Playfair Display",serif;
   font-weight:400;
 }
+p{line-height:1.9}
 .script{font-family:"Great Vibes",cursive}
-.scene{
-  position:absolute;
-  inset:0;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  overflow:hidden;
-  background:
-    radial-gradient(ellipse at center,var(--white),var(--cream));
-  opacity:0;
-  visibility:hidden;
-  pointer-events:none;
-  transition:opacity .7s,visibility .7s;
-}
-.scene.active{
-  opacity:1;
-  visibility:visible;
-  pointer-events:auto;
-}
-.scene-content{
-  position:relative;
-  z-index:4;
-  width:min(90vw,650px);
-  text-align:center;
-}
 .eyebrow{
-  font-size:11px;
+  font-size:10px;
   letter-spacing:4px;
   text-transform:uppercase;
   color:var(--olive);
 }
-.scene h2{
-  font-size:clamp(34px,6vw,57px);
-  margin:18px 0;
-}
-.scene p{line-height:1.9}
-.divider{
-  width:80px;height:1px;
+.gold-line{
+  width:75px;height:1px;
   background:var(--gold);
   margin:24px auto;
 }
-.reveal-text{
-  opacity:0;
-  transform:translateY(30px);
-  transition:opacity 1s,transform 1s;
-}
-.scene.active .reveal-text{
-  opacity:1;
-  transform:translateY(0);
-  transition-delay:.8s;
+
+/* Global paper grain */
+.grain{
+  position:fixed;
+  inset:0;
+  z-index:50;
+  pointer-events:none;
+  opacity:.14;
+  background-image:
+    radial-gradient(#8e856c .45px,transparent .45px);
+  background-size:7px 7px;
 }
 
-/* SCENE 1: TEMPLE GATES */
-#scene1{background:#eee6d0}
-.temple-behind{
-  position:absolute;inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+/* Scenes */
+.scene{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  visibility:hidden;
+  opacity:0;
+  pointer-events:none;
   background:
-    radial-gradient(circle at 50% 42%,#fffdf5,#e9dfc5);
+    radial-gradient(ellipse at 50% 40%,#fffdf7,#eee7d2);
 }
-.temple-behind:before{
+.scene.active{
+  visibility:visible;
+  opacity:1;
+  pointer-events:auto;
+}
+.scene-inner{
+  width:min(88vw,660px);
+  position:relative;
+  z-index:5;
+  text-align:center;
+}
+.scene h2{
+  font-size:clamp(35px,6vw,55px);
+  margin:14px 0;
+}
+
+/* Decorative frames */
+.ornate-frame{
+  position:absolute;
+  inset:5%;
+  border:1px solid #b5a17465;
+  pointer-events:none;
+  z-index:3;
+}
+.ornate-frame:after{
   content:"";
   position:absolute;
-  inset:7%;
-  border:1px solid #b6a17475;
+  inset:9px;
+  border:1px solid #b5a17432;
 }
-#scene1 h1{
-  font-size:clamp(80px,15vw,145px);
-  line-height:1.1;
-  margin:28px 0;
+.corner{
+  position:absolute;
+  width:50px;height:50px;
+  border-color:var(--gold);
+  opacity:.7;
 }
-#scene1 h1 span{
+.corner.tl{
+  top:-1px;left:-1px;
+  border-top:2px solid;
+  border-left:2px solid;
+}
+.corner.tr{
+  top:-1px;right:-1px;
+  border-top:2px solid;
+  border-right:2px solid;
+}
+.corner.bl{
+  bottom:-1px;left:-1px;
+  border-bottom:2px solid;
+  border-left:2px solid;
+}
+.corner.br{
+  bottom:-1px;right:-1px;
+  border-bottom:2px solid;
+  border-right:2px solid;
+}
+
+/* Floating botanical decorations */
+.botanical{
+  position:absolute;
+  width:200px;
+  height:300px;
+  opacity:.28;
+  z-index:2;
+  pointer-events:none;
+  animation:sway 7s ease-in-out infinite alternate;
+}
+.botanical.left{
+  left:-60px;bottom:-30px;
+  transform-origin:bottom left;
+}
+.botanical.right{
+  right:-60px;top:0;
+  transform:scaleX(-1);
+  transform-origin:top right;
+  animation-delay:-3s;
+}
+@keyframes sway{
+  from{rotate:-4deg}
+  to{rotate:5deg}
+}
+
+/* Clouds */
+.cloud{
+  position:absolute;
+  width:210px;
+  height:100px;
+  opacity:.23;
+  z-index:2;
+  pointer-events:none;
+  animation:cloudDrift 14s ease-in-out infinite alternate;
+}
+.cloud.a{top:12%;left:-40px}
+.cloud.b{bottom:15%;right:-40px;animation-delay:-6s}
+@keyframes cloudDrift{
+  to{translate:70px 0}
+}
+
+/* SCENE 1: TEMPLE GATE */
+#s1{
+  background:
+    radial-gradient(circle at 50% 40%,#fffdf4,#e7dfc8);
+}
+.gate-background{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+}
+.temple-silhouette{
+  position:absolute;
+  bottom:7%;
+  width:min(85vw,700px);
+  opacity:.17;
+  transform:translateY(25px);
+  transition:transform 2.5s,opacity 2.5s;
+}
+#s1.open .temple-silhouette{
+  transform:translateY(0);
+  opacity:.32;
+}
+#s1 h1{
+  font-size:clamp(80px,14vw,140px);
+  line-height:1.15;
+  margin:25px 0;
+}
+#s1 h1 span{
   display:block;
-  font-size:48px;
   color:var(--gold);
+  font-size:48px;
 }
 .gate{
   position:absolute;
   top:0;
   height:100%;
   width:50.5%;
-  z-index:8;
+  z-index:12;
   background:
     repeating-linear-gradient(
-      90deg,
-      transparent 0 33px,
-      #34442d25 34px 36px
+      90deg,transparent 0 35px,
+      #26362522 36px 38px
     ),
-    linear-gradient(100deg,#65734f,#405138);
-  border:7px solid #34442e;
-  transition:transform 2s cubic-bezier(.65,0,.2,1);
-  display:flex;
-  align-items:center;
-  justify-content:center;
+    linear-gradient(110deg,#758261,#43553c);
+  border:6px solid #35442e;
+  transition:transform 2.3s cubic-bezier(.65,0,.15,1);
+  backface-visibility:hidden;
 }
-.gate.left{left:0;transform-origin:left}
-.gate.right{right:0;transform-origin:right}
+.gate.left{left:0;transform-origin:left center}
+.gate.right{right:0;transform-origin:right center}
 .gate:before{
   content:"";
   position:absolute;
-  inset:8% 10%;
-  border:2px solid #c5b383;
+  inset:7% 11%;
+  border:2px solid #c8b889;
 }
 .gate:after{
   content:"";
   position:absolute;
-  inset:12% 15%;
-  border:1px solid #c5b38380;
+  inset:11% 15%;
+  border:1px solid #c8b88980;
 }
-.gate-symbol{
-  font-family:"Playfair Display",serif;
-  font-size:clamp(55px,10vw,110px);
-  color:#d8c69a;
-  opacity:.9;
-}
-#scene1.open .gate.left{
-  transform:perspective(900px) rotateY(-100deg);
-}
-#scene1.open .gate.right{
-  transform:perspective(900px) rotateY(100deg);
-}
-.gate-instruction{
+.gate-motif{
   position:absolute;
-  z-index:12;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font:90px "Playfair Display",serif;
+  color:#e0cfa1;
+  opacity:.8;
+}
+#s1.open .gate.left{
+  transform:perspective(1200px) rotateY(-108deg);
+}
+#s1.open .gate.right{
+  transform:perspective(1200px) rotateY(108deg);
+}
+.gate-button{
+  position:absolute;
+  z-index:15;
   bottom:13%;
-  padding:15px 25px;
-  color:var(--white);
-  background:#35442e;
-  border:1px solid #b6a174;
-  letter-spacing:2px;
+  left:50%;
+  transform:translateX(-50%);
+  background:var(--dark);
+  border:1px solid var(--gold);
+  color:var(--ivory);
+  padding:16px 28px;
   font-size:11px;
+  letter-spacing:2px;
+  white-space:nowrap;
   transition:opacity .5s;
 }
-#scene1.open .gate-instruction{
+#s1.open .gate-button{
   opacity:0;
   pointer-events:none;
 }
+.gate-copy{
+  opacity:0;
+  transform:scale(.88) translateY(30px);
+  transition:opacity 1.6s,transform 1.8s;
+}
+#s1.open .gate-copy{
+  opacity:1;
+  transform:scale(1) translateY(0);
+  transition-delay:.8s;
+}
 
-/* SCENE 2: LOTUS BLOOM */
-#scene2{
-  background:linear-gradient(160deg,#e9e9d5,#faf5e6);
+/* SCENE 2: LOTUS POND */
+#s2{
+  background:
+    radial-gradient(circle at 50% 65%,#f8f8e8,#dfe5d4);
 }
-.lotus-stage{
+.pond-ripple{
   position:absolute;
-  inset:0;
-  display:grid;
-  place-items:center;
-  opacity:.35;
+  width:450px;height:450px;
+  border:1px solid #8a9b8060;
+  border-radius:50%;
+  opacity:0;
+  transform:scale(.2);
+  pointer-events:none;
 }
-.lotus-svg{
-  width:min(75vw,560px);
-  overflow:visible;
+#s2.active .pond-ripple{
+  animation:ripple 5s ease-out infinite;
 }
-.lotus-petal{
-  fill:#c9c7a0;
-  stroke:#778667;
-  stroke-width:1.2;
+#s2.active .pond-ripple:nth-of-type(2){
+  animation-delay:1.7s;
+}
+@keyframes ripple{
+  0%{opacity:.5;transform:scale(.3)}
+  100%{opacity:0;transform:scale(2.3)}
+}
+.lotus-art{
+  position:absolute;
+  width:min(85vw,540px);
+  opacity:.45;
+  transform:translateY(80px) scale(.4);
+  transition:transform 2.3s cubic-bezier(.2,.8,.2,1),opacity 2s;
+}
+#s2.active .lotus-art{
+  transform:translateY(0) scale(1);
+}
+.lotus-art .petal{
+  fill:#d5cba7;
+  stroke:#82916b;
+  stroke-width:2;
   transform-box:fill-box;
   transform-origin:center bottom;
-  transform:scale(.05) rotate(-30deg);
-  opacity:0;
-  transition:transform 2s cubic-bezier(.2,.8,.2,1),opacity 1.5s;
+  transform:scale(.15);
+  transition:transform 2s;
 }
-#scene2.active .lotus-petal{
-  transform:scale(1) rotate(0);
-  opacity:1;
+#s2.active .lotus-art .petal{
+  transform:scale(1);
 }
-#scene2.active .lotus-petal:nth-child(2){transition-delay:.2s}
-#scene2.active .lotus-petal:nth-child(3){transition-delay:.4s}
-#scene2.active .lotus-petal:nth-child(4){transition-delay:.6s}
-#scene2.active .lotus-petal:nth-child(5){transition-delay:.8s}
-.story-panel{
-  position:relative;
-  padding:45px 25px;
-  background:#fffdf5c9;
-  border:1px solid #b6a17488;
+.lotus-art .petal:nth-child(2){transition-delay:.2s}
+.lotus-art .petal:nth-child(3){transition-delay:.4s}
+.lotus-art .petal:nth-child(4){transition-delay:.6s}
+.lotus-art .petal:nth-child(5){transition-delay:.8s}
+.story-card{
+  padding:45px 30px;
+  background:#fffdf5dc;
+  border:1px solid #b5a17490;
   backdrop-filter:blur(8px);
+  box-shadow:0 15px 60px #35442e12;
 }
-.story-panel blockquote{
-  font:italic clamp(20px,4vw,30px)/1.7 "Playfair Display",serif;
+.story-card blockquote{
+  font:italic clamp(19px,4vw,29px)/1.8 "Playfair Display",serif;
   margin:20px 0;
 }
 
 /* SCENE 3: SILK SCROLL */
-#scene3{background:#e9e2cb}
-.scroll-paper{
-  width:min(85vw,700px);
-  max-height:75vh;
+#s3{background:#ebe2cb}
+.silk-scroll{
+  position:relative;
+  width:min(88vw,660px);
+  max-height:76vh;
   overflow:auto;
-  padding:55px 25px;
+  padding:48px 30px;
   background:
-    linear-gradient(90deg,#e6dcc0,#fffdf5 10%,#fffdf5 90%,#e6dcc0);
-  border-top:12px solid #a9a17f;
-  border-bottom:12px solid #a9a17f;
-  box-shadow:0 20px 60px #35442e20;
-  transform:scaleY(.02);
-  opacity:.3;
-  transform-origin:center;
-  transition:transform 1.7s cubic-bezier(.2,.8,.2,1),opacity .7s;
+    linear-gradient(90deg,#e4d8b9,#fffdf5 12%,#fffdf5 88%,#e4d8b9);
+  border-top:12px solid #a7a080;
+  border-bottom:12px solid #a7a080;
+  box-shadow:0 20px 55px #35442e25;
+  transform:scaleX(.03);
+  opacity:0;
+  transition:transform 1.8s cubic-bezier(.2,.8,.2,1),opacity .8s;
 }
-#scene3.active .scroll-paper{
-  transform:scaleY(1);
+#s3.active .silk-scroll{
+  transform:scaleX(1);
   opacity:1;
 }
-.scroll-paper h2{margin:10px 0}
-.event-row{
-  margin:25px auto;
-  border-top:1px solid #b6a17488;
-  padding-top:20px;
+.silk-scroll:before{
+  content:"";
+  position:absolute;
+  inset:16px;
+  border:1px solid #b5a17460;
+  pointer-events:none;
 }
-.event-row h3{
-  font-size:25px;
-  margin:10px;
+.event-detail{
+  padding:16px 0;
+  border-top:1px solid #b5a17460;
 }
-.event-row p{
-  font-size:13px;
-  margin:5px;
+.event-detail h3{font-size:25px;margin:8px}
+.event-detail p{font-size:13px;margin:5px}
+.event-detail .time{
+  color:var(--olive);
+  font:25px "Playfair Display",serif;
 }
 
 /* SCENE 4: FAN */
-#scene4{background:#f5efd9}
-.fan{
+#s4{
+  background:
+    radial-gradient(circle at 50% 65%,#fffdf5,#f0e8d3);
+}
+.fan-art{
   position:absolute;
-  width:min(95vw,700px);
-  height:380px;
+  width:min(95vw,750px);
   bottom:-120px;
   left:50%;
-  transform:translateX(-50%) scale(.3) rotate(-40deg);
+  transform:translateX(-50%) scale(.15) rotate(-55deg);
   transform-origin:bottom center;
   opacity:0;
-  transition:transform 1.8s cubic-bezier(.2,.8,.2,1),opacity 1s;
+  transition:transform 2s cubic-bezier(.2,.8,.2,1),opacity 1.3s;
 }
-#scene4.active .fan{
+#s4.active .fan-art{
   transform:translateX(-50%) scale(1) rotate(0);
-  opacity:.45;
+  opacity:.35;
 }
-.fan svg{width:100%;height:100%}
-.rsvp-panel{
+.rsvp-card{
   padding:35px 25px;
-  background:#fffdf5dd;
-  border:1px solid #b6a17490;
-  backdrop-filter:blur(7px);
+  background:#fffdf5e8;
+  border:1px solid #b5a17490;
+  backdrop-filter:blur(8px);
 }
-.rsvp-panel form{
-  max-width:400px;
-  margin:25px auto 0;
+.rsvp-card form{
   display:grid;
-  gap:12px;
+  gap:13px;
+  max-width:390px;
+  margin:25px auto 0;
 }
-.rsvp-panel input,.rsvp-panel select{
+.rsvp-card input,.rsvp-card select,.rsvp-card textarea{
   width:100%;
-  padding:14px;
-  border:1px solid #c8c5af;
-  background:#fffdf5;
+  border:1px solid #c9c4af;
+  background:var(--ivory);
+  padding:13px;
   color:var(--dark);
+  font-size:13px;
 }
-.rsvp-panel button{
-  border:0;
+.rsvp-card button{
+  padding:15px;
   background:var(--olive);
   color:white;
-  padding:16px;
+  border:0;
   letter-spacing:2px;
 }
 
-/* NAVIGATION */
-.nav{
+/* Per-scene entrance */
+.fade-up{
+  opacity:0;
+  transform:translateY(35px);
+  transition:opacity 1s,transform 1s;
+}
+.scene.active .fade-up{
+  opacity:1;
+  transform:translateY(0);
+  transition-delay:.7s;
+}
+
+/* Transitions */
+#transition{
   position:fixed;
-  z-index:30;
-  bottom:20px;
+  inset:0;
+  z-index:25;
+  pointer-events:none;
+  visibility:hidden;
+}
+#transition.playing{visibility:visible}
+
+/* Circular water reveal */
+#transition.water{
+  background:#dfe5d4;
+  clip-path:circle(0% at 50% 50%);
+  animation:waterCover 1.5s ease-in-out both;
+}
+@keyframes waterCover{
+  0%{clip-path:circle(0% at 50% 50%)}
+  48%{clip-path:circle(150% at 50% 50%)}
+  52%{clip-path:circle(150% at 50% 50%)}
+  100%{clip-path:circle(0% at 50% 50%)}
+}
+
+/* Silk wipe */
+#transition.silk{
+  background:
+    linear-gradient(90deg,#e5d9b9,#fffdf5,#e5d9b9);
+  transform:scaleX(0);
+  animation:silkCover 1.5s ease-in-out both;
+}
+@keyframes silkCover{
+  0%{transform:scaleX(0);transform-origin:left}
+  49%{transform:scaleX(1);transform-origin:left}
+  51%{transform:scaleX(1);transform-origin:right}
+  100%{transform:scaleX(0);transform-origin:right}
+}
+
+/* Fan-inspired radial reveal */
+#transition.fanwipe{
+  background:#f5efd9;
+  clip-path:polygon(50% 100%,50% 100%,50% 100%);
+  animation:fanCover 1.5s ease-in-out both;
+}
+@keyframes fanCover{
+  0%{clip-path:circle(0% at 50% 100%)}
+  48%{clip-path:circle(160% at 50% 100%)}
+  52%{clip-path:circle(160% at 50% 100%)}
+  100%{clip-path:circle(0% at 50% 100%)}
+}
+
+/* Navigation */
+.navigation{
+  position:fixed;
+  bottom:18px;
   left:50%;
   transform:translateX(-50%);
+  z-index:35;
   display:flex;
   align-items:center;
-  gap:15px;
-  padding:9px 15px;
-  border:1px solid #b6a17490;
+  gap:16px;
+  padding:9px 14px;
+  background:#fffdf5f0;
+  border:1px solid #b5a17480;
   border-radius:40px;
-  background:#fffdf5ed;
-  box-shadow:0 8px 30px #35442e18;
+  box-shadow:0 8px 25px #35442e15;
 }
-.nav button{
-  width:37px;height:37px;
-  border-radius:50%;
+.navigation button{
+  width:36px;height:36px;
   border:1px solid var(--gold);
+  border-radius:50%;
   background:transparent;
   color:var(--dark);
 }
-.nav button:disabled{
-  opacity:.3;
-  cursor:default;
-}
-.nav span{
+.navigation button:disabled{opacity:.3}
+.navigation span{
   font-size:11px;
   letter-spacing:2px;
-  min-width:50px;
+  min-width:52px;
   text-align:center;
 }
 
-/* DECORATIVE CLOUDS */
-.cloud{
-  position:absolute;
-  width:220px;
-  height:90px;
-  opacity:.22;
-  animation:cloudDrift 12s ease-in-out infinite alternate;
-  pointer-events:none;
-}
-.cloud.left{left:-30px;top:12%}
-.cloud.right{right:-40px;bottom:15%;animation-delay:-5s}
-@keyframes cloudDrift{to{translate:60px 0}}
-
-/* TRANSITION VEIL */
-#veil{
+/* Tiny drifting particles */
+.particle{
   position:fixed;
-  inset:0;
-  z-index:20;
-  background:var(--cream);
-  transform:scaleX(0);
-  transform-origin:left;
+  z-index:4;
+  width:3px;height:3px;
+  background:#b5a174;
+  border-radius:50%;
   pointer-events:none;
+  opacity:0;
+  animation:floatParticle linear infinite;
 }
-#veil.transitioning{
-  animation:veilWipe 1.2s ease-in-out both;
+@keyframes floatParticle{
+  0%{transform:translateY(30px);opacity:0}
+  30%{opacity:.45}
+  100%{transform:translateY(-130px);opacity:0}
 }
-@keyframes veilWipe{
-  0%{transform:scaleX(0);transform-origin:left}
-  49%{transform:scaleX(1);transform-origin:left}
-  50%{transform:scaleX(1);transform-origin:right}
-  100%{transform:scaleX(0);transform-origin:right}
-}
+
 @media(max-width:650px){
-  .scene-content{width:90vw}
-  .story-panel{padding:30px 18px}
-  .scroll-paper{padding:35px 18px}
-  .fan{bottom:-170px}
-  .nav{bottom:12px}
+  .botanical{width:120px;opacity:.2}
+  .scene-inner{width:88vw}
+  .story-card,.rsvp-card{padding:28px 18px}
+  .silk-scroll{padding:30px 20px}
+  .fan-art{bottom:-165px}
+  .navigation{bottom:10px}
   .gate{border-width:4px}
 }
 @media(prefers-reduced-motion:reduce){
@@ -378,78 +549,143 @@ h1,h2,h3{
 }
 </style>
 </head>
-<body>
 
-<!-- SCENE 1: GATES -->
-<section class="scene active" id="scene1">
-  <div class="temple-behind">
-    <div class="scene-content">
-      <p class="eyebrow reveal-text">Trân trọng báo hỷ</p>
-      <h1 class="script reveal-text">
-        Minh <span>&</span> An
-      </h1>
-      <div class="divider"></div>
-      <p class="reveal-text">20 · 11 · 2027</p>
-      <p class="eyebrow reveal-text">The Wedding Celebration</p>
+<body>
+<div class="grain"></div>
+
+<!-- Reusable decorations -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<symbol id="branch" viewBox="0 0 200 300">
+  <path d="M25 300 Q85 190 120 20"
+    fill="none" stroke="#63714b" stroke-width="2"/>
+  <g fill="#84916c" stroke="#63714b">
+    <ellipse cx="58" cy="235" rx="15" ry="36" transform="rotate(-45 58 235)"/>
+    <ellipse cx="98" cy="198" rx="14" ry="34" transform="rotate(42 98 198)"/>
+    <ellipse cx="78" cy="155" rx="13" ry="31" transform="rotate(-42 78 155)"/>
+    <ellipse cx="122" cy="112" rx="12" ry="30" transform="rotate(40 122 112)"/>
+    <ellipse cx="105" cy="73" rx="11" ry="27" transform="rotate(-32 105 73)"/>
+  </g>
+</symbol>
+<symbol id="cloud" viewBox="0 0 210 100">
+  <path d="M5 65 H85 C45 65 45 20 82 20
+  C112 20 113 55 94 55 C82 55 82 42 94 42
+  M118 65 H205 M132 65 C115 65 115 38 145 38
+  C170 38 170 65 155 65"
+  fill="none" stroke="#82916b" stroke-width="2"/>
+</symbol>
+<symbol id="temple" viewBox="0 0 650 320">
+  <g fill="none" stroke="#63714b" stroke-width="2">
+    <path d="M45 130 Q110 155 175 93
+    Q325 120 475 93 Q540 155 605 130
+    Q550 165 475 140 Q325 155 175 140
+    Q100 165 45 130Z" fill="#63714b25"/>
+    <path d="M175 93 L155 60 M475 93 L495 60
+    M175 145 L175 250 M475 145 L475 250
+    M215 150 L215 250 M435 150 L435 250
+    M215 250 H435 M275 250 V170
+    Q325 140 375 170 V250
+    M135 265 H515 M105 280 H545
+    M80 295 H570"/>
+    <path d="M240 175 V230 M410 175 V230
+    M250 180 H265 M385 180 H400"/>
+  </g>
+</symbol>
+</defs>
+</svg>
+
+<!-- SCENE 1 -->
+<section class="scene active" id="s1">
+  <div class="gate-background">
+    <svg class="temple-silhouette" viewBox="0 0 650 320">
+      <use href="#temple"/>
+    </svg>
+
+    <svg class="cloud a"><use href="#cloud"/></svg>
+    <svg class="cloud b"><use href="#cloud"/></svg>
+
+    <div class="ornate-frame">
+      <i class="corner tl"></i>
+      <i class="corner tr"></i>
+      <i class="corner bl"></i>
+      <i class="corner br"></i>
+    </div>
+
+    <div class="scene-inner gate-copy">
+      <p class="eyebrow">Trân trọng báo hỷ</p>
+      <h1 class="script">Minh <span>&</span> An</h1>
+      <div class="gold-line"></div>
+      <p>20 · 11 · 2027</p>
+      <p class="eyebrow">The Wedding Celebration</p>
     </div>
   </div>
 
   <div class="gate left">
-    <div class="gate-symbol">囍</div>
+    <div class="gate-motif">囍</div>
   </div>
   <div class="gate right">
-    <div class="gate-symbol">囍</div>
+    <div class="gate-motif">囍</div>
   </div>
-  <button class="gate-instruction" id="openGate">
+
+  <button class="gate-button" id="openGate">
     CHẠM ĐỂ MỞ CỔNG
   </button>
 </section>
 
-<!-- SCENE 2: LOTUS -->
-<section class="scene" id="scene2">
-  <div class="lotus-stage">
-    <svg class="lotus-svg" viewBox="0 0 500 430" aria-hidden="true">
-      <path class="lotus-petal" d="M250 350 Q155 190 250 20 Q345 190 250 350Z"/>
-      <path class="lotus-petal" d="M250 350 Q70 260 100 100 Q225 155 250 350Z"/>
-      <path class="lotus-petal" d="M250 350 Q430 260 400 100 Q275 155 250 350Z"/>
-      <path class="lotus-petal" d="M250 350 Q20 360 25 230 Q175 210 250 350Z"/>
-      <path class="lotus-petal" d="M250 350 Q480 360 475 230 Q325 210 250 350Z"/>
-    </svg>
-  </div>
+<!-- SCENE 2 -->
+<section class="scene" id="s2">
+  <div class="pond-ripple"></div>
+  <div class="pond-ripple"></div>
 
-  <div class="scene-content story-panel">
-    <p class="eyebrow reveal-text">Our Love Story</p>
-    <h2 class="reveal-text">Chuyện Chúng Mình</h2>
-    <blockquote class="reveal-text">
+  <svg class="botanical left"><use href="#branch"/></svg>
+  <svg class="botanical right"><use href="#branch"/></svg>
+
+  <svg class="lotus-art" viewBox="0 0 500 430">
+    <path class="petal" d="M250 350 Q155 190 250 20 Q345 190 250 350Z"/>
+    <path class="petal" d="M250 350 Q70 260 100 100 Q225 155 250 350Z"/>
+    <path class="petal" d="M250 350 Q430 260 400 100 Q275 155 250 350Z"/>
+    <path class="petal" d="M250 350 Q20 360 25 230 Q175 210 250 350Z"/>
+    <path class="petal" d="M250 350 Q480 360 475 230 Q325 210 250 350Z"/>
+  </svg>
+
+  <div class="scene-inner story-card">
+    <p class="eyebrow fade-up">Our Love Story</p>
+    <h2 class="fade-up">Chuyện Chúng Mình</h2>
+    <blockquote class="fade-up">
       “Giữa muôn vàn cuộc gặp gỡ,<br>
       thật may mắn khi chúng ta tìm thấy nhau.”
     </blockquote>
-    <div class="divider"></div>
-    <p class="reveal-text">
+    <div class="gold-line"></div>
+    <p class="fade-up">
       Từ những khoảnh khắc giản dị,
-      chúng mình đã cùng viết nên câu chuyện yêu thương.
-      Và hôm nay, câu chuyện ấy bước sang chương mới.
+      chúng mình đã cùng viết nên một câu chuyện
+      yêu thương. Và hôm nay, câu chuyện ấy
+      bước sang chương mới.
     </p>
   </div>
 </section>
 
-<!-- SCENE 3: SILK SCROLL -->
-<section class="scene" id="scene3">
-  <div class="scroll-paper">
+<!-- SCENE 3 -->
+<section class="scene" id="s3">
+  <svg class="cloud a"><use href="#cloud"/></svg>
+  <svg class="cloud b"><use href="#cloud"/></svg>
+
+  <div class="silk-scroll">
     <p class="eyebrow">Wedding Details</p>
     <h2>Ngày Hạnh Phúc</h2>
+    <div class="gold-line"></div>
     <p>Thứ Bảy · 20 tháng 11 năm 2027</p>
 
-    <div class="event-row">
+    <div class="event-detail">
       <h3>Lễ Thành Hôn</h3>
-      <p>09:00</p>
+      <p class="time">09:00</p>
       <p>Tư gia nhà trai</p>
       <p>[Địa chỉ tổ chức]</p>
     </div>
 
-    <div class="event-row">
+    <div class="event-detail">
       <h3>Tiệc Cưới</h3>
-      <p>18:00</p>
+      <p class="time">18:00</p>
       <p>Trung tâm tiệc cưới</p>
       <p>[Địa chỉ tổ chức]</p>
     </div>
@@ -461,32 +697,34 @@ h1,h2,h3{
   </div>
 </section>
 
-<!-- SCENE 4: FAN -->
-<section class="scene" id="scene4">
-  <div class="fan" aria-hidden="true">
-    <svg viewBox="0 0 700 380">
-      <path d="M350 365 L35 145 Q350 -120 665 145Z"
-        fill="#d9d4ae" stroke="#63714b" stroke-width="3"/>
-      <g stroke="#63714b" stroke-width="2" opacity=".65">
-        <line x1="350" y1="365" x2="35" y2="145"/>
-        <line x1="350" y1="365" x2="110" y2="55"/>
-        <line x1="350" y1="365" x2="230" y2="-15"/>
-        <line x1="350" y1="365" x2="350" y2="0"/>
-        <line x1="350" y1="365" x2="470" y2="-15"/>
-        <line x1="350" y1="365" x2="590" y2="55"/>
-        <line x1="350" y1="365" x2="665" y2="145"/>
-      </g>
-      <circle cx="350" cy="365" r="13" fill="#b6a174"/>
-    </svg>
-  </div>
+<!-- SCENE 4 -->
+<section class="scene" id="s4">
+  <svg class="botanical left"><use href="#branch"/></svg>
+  <svg class="botanical right"><use href="#branch"/></svg>
 
-  <div class="scene-content rsvp-panel">
-    <p class="eyebrow reveal-text">Kindly Reply</p>
-    <h2 class="reveal-text">Xác Nhận Tham Dự</h2>
-    <p class="reveal-text">
+  <svg class="fan-art" viewBox="0 0 700 380" aria-hidden="true">
+    <path d="M350 365 L35 145 Q350 -120 665 145Z"
+      fill="#d8d3ac" stroke="#63714b" stroke-width="3"/>
+    <g stroke="#63714b" stroke-width="2">
+      <line x1="350" y1="365" x2="35" y2="145"/>
+      <line x1="350" y1="365" x2="110" y2="55"/>
+      <line x1="350" y1="365" x2="230" y2="-15"/>
+      <line x1="350" y1="365" x2="350" y2="0"/>
+      <line x1="350" y1="365" x2="470" y2="-15"/>
+      <line x1="350" y1="365" x2="590" y2="55"/>
+      <line x1="350" y1="365" x2="665" y2="145"/>
+    </g>
+    <circle cx="350" cy="365" r="12" fill="#b5a174"/>
+  </svg>
+
+  <div class="scene-inner rsvp-card">
+    <p class="eyebrow fade-up">Kindly Reply</p>
+    <h2 class="fade-up">Xác Nhận Tham Dự</h2>
+    <p class="fade-up">
       Chúng mình rất mong được đón tiếp bạn
       trong ngày đặc biệt này.
     </p>
+
     <form id="rsvpForm">
       <input id="guestName" placeholder="Họ và tên" required>
       <select id="attendance" required>
@@ -494,31 +732,81 @@ h1,h2,h3{
         <option value="Có tham dự">Rất vui được tham dự</option>
         <option value="Không tham dự">Xin lỗi, không thể tham dự</option>
       </select>
+      <textarea id="wish" rows="3"
+        placeholder="Lời chúc gửi đến chúng mình"></textarea>
       <button type="submit">GỬI XÁC NHẬN</button>
     </form>
   </div>
 </section>
 
-<div id="veil" aria-hidden="true"></div>
+<div id="transition"></div>
 
-<nav class="nav" aria-label="Điều hướng thiệp">
-  <button id="prev" aria-label="Trang trước">←</button>
+<nav class="navigation" aria-label="Điều hướng">
+  <button id="prev" aria-label="Cảnh trước">←</button>
   <span id="counter">01 / 04</span>
-  <button id="next" aria-label="Trang tiếp">→</button>
+  <button id="next" aria-label="Cảnh tiếp">→</button>
 </nav>
 
 <script>
 const scenes=[...document.querySelectorAll(".scene")];
-const veil=document.getElementById("veil");
+const overlay=document.getElementById("transition");
 const counter=document.getElementById("counter");
 const prev=document.getElementById("prev");
 const next=document.getElementById("next");
-const gate=document.getElementById("scene1");
-const openGate=document.getElementById("openGate");
+const gate=document.getElementById("s1");
 
 let current=0;
-let transitioning=false;
+let busy=false;
 let gateOpened=false;
+
+/* Open 3D temple gate */
+function openTemple(){
+  if(gateOpened)return;
+  gateOpened=true;
+  gate.classList.add("open");
+}
+document.getElementById("openGate")
+  .addEventListener("click",openTemple);
+
+/* Each scene gets its own transition */
+const transitionStyles=[
+  "water",
+  "silk",
+  "fanwipe"
+];
+
+function changeScene(index){
+  if(busy||index<0||index>=scenes.length||index===current)return;
+
+  if(current===0&&!gateOpened){
+    openTemple();
+    return;
+  }
+
+  busy=true;
+
+  // Pick effect based on destination.
+  // Reverse transitions use the previous scene's effect.
+  const boundary=Math.min(current,index);
+  const effect=transitionStyles[boundary];
+
+  overlay.className="";
+  void overlay.offsetWidth;
+  overlay.className="playing "+effect;
+
+  // Switch scenes when the transition covers the screen.
+  setTimeout(()=>{
+    scenes[current].classList.remove("active");
+    current=index;
+    scenes[current].classList.add("active");
+    updateNav();
+  },750);
+
+  setTimeout(()=>{
+    overlay.className="";
+    busy=false;
+  },1550);
+}
 
 function updateNav(){
   counter.textContent=
@@ -527,54 +815,14 @@ function updateNav(){
   next.disabled=current===scenes.length-1;
 }
 
-function changeScene(index){
-  if(transitioning||index<0||index>=scenes.length)return;
-  if(index===current)return;
-
-  if(current===0&&!gateOpened){
-    openTemple();
-    return;
-  }
-
-  transitioning=true;
-  veil.classList.remove("transitioning");
-  void veil.offsetWidth;
-  veil.classList.add("transitioning");
-
-  setTimeout(()=>{
-    scenes[current].classList.remove("active");
-    current=index;
-    scenes[current].classList.add("active");
-    updateNav();
-  },580);
-
-  setTimeout(()=>{
-    transitioning=false;
-    veil.classList.remove("transitioning");
-  },1250);
-}
-
-function openTemple(){
-  if(gateOpened)return;
-  gateOpened=true;
-  gate.classList.add("open");
-}
-
-openGate.addEventListener("click",openTemple);
-
 next.addEventListener("click",()=>{
-  if(current===0&&!gateOpened){
-    openTemple();
-  }else{
-    changeScene(current+1);
-  }
+  if(current===0&&!gateOpened)openTemple();
+  else changeScene(current+1);
 });
-prev.addEventListener("click",()=>{
-  changeScene(current-1);
-});
+prev.addEventListener("click",()=>changeScene(current-1));
 
 document.addEventListener("keydown",e=>{
-  if(["INPUT","SELECT","TEXTAREA"].includes(
+  if(["INPUT","TEXTAREA","SELECT"].includes(
     document.activeElement.tagName
   ))return;
 
@@ -585,6 +833,7 @@ document.addEventListener("keydown",e=>{
   if(e.key==="ArrowLeft")changeScene(current-1);
 });
 
+/* Touch swipe navigation */
 let startX=0,startY=0;
 document.addEventListener("touchstart",e=>{
   startX=e.touches[0].clientX;
@@ -594,6 +843,7 @@ document.addEventListener("touchstart",e=>{
 document.addEventListener("touchend",e=>{
   const dx=e.changedTouches[0].clientX-startX;
   const dy=e.changedTouches[0].clientY-startY;
+
   if(Math.abs(dx)<65||Math.abs(dx)<Math.abs(dy))return;
 
   if(dx<0){
@@ -604,12 +854,27 @@ document.addEventListener("touchend",e=>{
   }
 },{passive:true});
 
-/* RSVP opens an email draft */
+/* Subtle glowing particles */
+if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+  for(let i=0;i<22;i++){
+    const p=document.createElement("div");
+    p.className="particle";
+    p.style.left=Math.random()*100+"%";
+    p.style.top=Math.random()*100+"%";
+    p.style.animationDuration=(5+Math.random()*7)+"s";
+    p.style.animationDelay=(-Math.random()*12)+"s";
+    document.body.appendChild(p);
+  }
+}
+
+/* RSVP - email draft */
 document.getElementById("rsvpForm").addEventListener("submit",e=>{
   e.preventDefault();
   const name=document.getElementById("guestName").value;
   const attendance=document.getElementById("attendance").value;
-  const body=`Họ tên: ${name}\nTham dự: ${attendance}`;
+  const wish=document.getElementById("wish").value;
+  const body=`Họ tên: ${name}\nTham dự: ${attendance}\nLời chúc: ${wish}`;
+
   window.location.href=
     "mailto:your-email@example.com?subject="+
     encodeURIComponent("Xác nhận tham dự - "+name)+
