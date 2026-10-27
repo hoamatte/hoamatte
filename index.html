@@ -5,19 +5,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Minh & An — Thiệp Cưới</title>
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;500&family=Be+Vietnam+Pro:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@400;500;600&family=Be+Vietnam+Pro:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
 :root{
   --cream:#f5efd9;
-  --ivory:#fffdf5;
-  --olive:#667451;
+  --paper:#fffdf5;
+  --olive:#63714b;
   --dark:#35442e;
-  --gold:#b5a174;
+  --gold:#b6a174;
+  --muted:#879476;
 }
 *{box-sizing:border-box}
 html,body{
-  margin:0;width:100%;height:100%;
+  margin:0;
+  width:100%;
+  height:100%;
   overflow:hidden;
   background:var(--cream);
   color:var(--dark);
@@ -26,10 +32,9 @@ html,body{
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
 h1,h2,h3{
-  font-family:"Playfair Display",serif;
-  font-weight:400;
+  font-family:"Cormorant Garamond",serif;
+  font-weight:500;
 }
-p{line-height:1.9}
 .script{font-family:"Great Vibes",cursive}
 .eyebrow{
   font-size:10px;
@@ -37,25 +42,34 @@ p{line-height:1.9}
   text-transform:uppercase;
   color:var(--olive);
 }
+p{line-height:1.9}
+h2{
+  font-size:clamp(39px,7vw,65px);
+  margin:12px 0;
+  line-height:1.1;
+}
 .gold-line{
-  width:75px;height:1px;
-  background:var(--gold);
+  width:80px;
+  height:1px;
   margin:24px auto;
+  background:linear-gradient(
+    90deg,transparent,var(--gold),transparent
+  );
 }
 
-/* Global paper grain */
-.grain{
+/* Paper texture */
+.texture{
   position:fixed;
   inset:0;
-  z-index:50;
+  z-index:40;
   pointer-events:none;
-  opacity:.14;
+  opacity:.13;
   background-image:
-    radial-gradient(#8e856c .45px,transparent .45px);
+    radial-gradient(#9b8c70 .5px,transparent .5px);
   background-size:7px 7px;
 }
 
-/* Scenes */
+/* Scenes: only gentle fade */
 .scene{
   position:absolute;
   inset:0;
@@ -65,154 +79,135 @@ p{line-height:1.9}
   visibility:hidden;
   opacity:0;
   pointer-events:none;
+  transition:opacity 1s ease,visibility 1s;
   background:
-    radial-gradient(ellipse at 50% 40%,#fffdf7,#eee7d2);
+    radial-gradient(
+      ellipse at 50% 40%,
+      #fffdf6,#eee7d2
+    );
 }
 .scene.active{
   visibility:visible;
   opacity:1;
   pointer-events:auto;
 }
-.scene-inner{
-  width:min(88vw,660px);
+.scene-content{
   position:relative;
   z-index:5;
+  width:min(88vw,660px);
   text-align:center;
 }
-.scene h2{
-  font-size:clamp(35px,6vw,55px);
-  margin:14px 0;
-}
 
-/* Decorative frames */
-.ornate-frame{
+/* Decorative border */
+.frame{
   position:absolute;
   inset:5%;
-  border:1px solid #b5a17465;
+  border:1px solid #b6a17470;
   pointer-events:none;
   z-index:3;
 }
-.ornate-frame:after{
+.frame:before{
   content:"";
   position:absolute;
   inset:9px;
-  border:1px solid #b5a17432;
+  border:1px solid #b6a17435;
 }
-.corner{
+.frame:after{
+  content:"❦";
   position:absolute;
-  width:50px;height:50px;
-  border-color:var(--gold);
-  opacity:.7;
-}
-.corner.tl{
-  top:-1px;left:-1px;
-  border-top:2px solid;
-  border-left:2px solid;
-}
-.corner.tr{
-  top:-1px;right:-1px;
-  border-top:2px solid;
-  border-right:2px solid;
-}
-.corner.bl{
-  bottom:-1px;left:-1px;
-  border-bottom:2px solid;
-  border-left:2px solid;
-}
-.corner.br{
-  bottom:-1px;right:-1px;
-  border-bottom:2px solid;
-  border-right:2px solid;
+  top:-15px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:0 12px;
+  background:var(--cream);
+  color:var(--gold);
+  font-size:24px;
 }
 
-/* Floating botanical decorations */
-.botanical{
+/* Botanical branches */
+.branch{
   position:absolute;
-  width:200px;
-  height:300px;
-  opacity:.28;
-  z-index:2;
+  width:210px;
+  height:320px;
+  opacity:.3;
   pointer-events:none;
-  animation:sway 7s ease-in-out infinite alternate;
+  z-index:2;
+  animation:sway 9s ease-in-out infinite alternate;
 }
-.botanical.left{
-  left:-60px;bottom:-30px;
+.branch.left{
+  left:-60px;
+  bottom:-30px;
   transform-origin:bottom left;
 }
-.botanical.right{
-  right:-60px;top:0;
+.branch.right{
+  right:-60px;
+  top:-20px;
   transform:scaleX(-1);
   transform-origin:top right;
-  animation-delay:-3s;
+  animation-delay:-4s;
 }
 @keyframes sway{
-  from{rotate:-4deg}
-  to{rotate:5deg}
+  from{rotate:-2deg}
+  to{rotate:3deg}
 }
 
-/* Clouds */
+/* Floating clouds */
 .cloud{
   position:absolute;
   width:210px;
-  height:100px;
-  opacity:.23;
+  height:90px;
+  opacity:.24;
   z-index:2;
   pointer-events:none;
-  animation:cloudDrift 14s ease-in-out infinite alternate;
+  animation:cloudMove 18s ease-in-out infinite alternate;
 }
-.cloud.a{top:12%;left:-40px}
-.cloud.b{bottom:15%;right:-40px;animation-delay:-6s}
-@keyframes cloudDrift{
-  to{translate:70px 0}
+.cloud.a{left:-40px;top:12%}
+.cloud.b{right:-40px;bottom:16%;animation-delay:-7s}
+@keyframes cloudMove{
+  to{translate:55px 0}
 }
 
-/* SCENE 1: TEMPLE GATE */
-#s1{
+/* Flying swallows */
+.bird{
+  position:absolute;
+  width:105px;
+  height:55px;
+  z-index:3;
+  opacity:.45;
+  pointer-events:none;
+  animation:birdFly 12s ease-in-out infinite alternate;
+}
+.bird.one{top:16%;left:14%}
+.bird.two{
+  top:22%;
+  right:13%;
+  width:70px;
+  animation-delay:-5s;
+}
+@keyframes birdFly{
+  from{transform:translate(-12px,8px)}
+  to{transform:translate(45px,-16px)}
+}
+
+/* Temple gate */
+#scene1{
   background:
-    radial-gradient(circle at 50% 40%,#fffdf4,#e7dfc8);
-}
-.gate-background{
-  position:absolute;
-  inset:0;
-  display:grid;
-  place-items:center;
-}
-.temple-silhouette{
-  position:absolute;
-  bottom:7%;
-  width:min(85vw,700px);
-  opacity:.17;
-  transform:translateY(25px);
-  transition:transform 2.5s,opacity 2.5s;
-}
-#s1.open .temple-silhouette{
-  transform:translateY(0);
-  opacity:.32;
-}
-#s1 h1{
-  font-size:clamp(80px,14vw,140px);
-  line-height:1.15;
-  margin:25px 0;
-}
-#s1 h1 span{
-  display:block;
-  color:var(--gold);
-  font-size:48px;
+    radial-gradient(circle at 50% 40%,#fffdf5,#e8dfc9);
 }
 .gate{
   position:absolute;
   top:0;
-  height:100%;
   width:50.5%;
+  height:100%;
   z-index:12;
+  border:6px solid #344632;
   background:
     repeating-linear-gradient(
-      90deg,transparent 0 35px,
-      #26362522 36px 38px
+      90deg,transparent 0 38px,
+      #26372622 39px 41px
     ),
-    linear-gradient(110deg,#758261,#43553c);
-  border:6px solid #35442e;
-  transition:transform 2.3s cubic-bezier(.65,0,.15,1);
+    linear-gradient(110deg,#718060,#42553e);
+  transition:transform 2.2s cubic-bezier(.65,0,.15,1);
   backface-visibility:hidden;
 }
 .gate.left{left:0;transform-origin:left center}
@@ -220,284 +215,231 @@ p{line-height:1.9}
 .gate:before{
   content:"";
   position:absolute;
-  inset:7% 11%;
-  border:2px solid #c8b889;
+  inset:8% 11%;
+  border:2px solid #d0bd90;
 }
 .gate:after{
   content:"";
   position:absolute;
-  inset:11% 15%;
-  border:1px solid #c8b88980;
+  inset:12% 15%;
+  border:1px solid #d0bd9080;
 }
-.gate-motif{
+.gate-symbol{
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  font:90px "Playfair Display",serif;
-  color:#e0cfa1;
-  opacity:.8;
+  color:#e2d0a5;
+  font-size:clamp(75px,12vw,125px);
+  font-family:"Cormorant Garamond",serif;
 }
-#s1.open .gate.left{
-  transform:perspective(1200px) rotateY(-108deg);
+#scene1.open .gate.left{
+  transform:perspective(1200px) rotateY(-105deg);
 }
-#s1.open .gate.right{
-  transform:perspective(1200px) rotateY(108deg);
+#scene1.open .gate.right{
+  transform:perspective(1200px) rotateY(105deg);
 }
-.gate-button{
+.open-button{
   position:absolute;
-  z-index:15;
   bottom:13%;
   left:50%;
   transform:translateX(-50%);
-  background:var(--dark);
-  border:1px solid var(--gold);
-  color:var(--ivory);
+  z-index:15;
   padding:16px 28px;
-  font-size:11px;
-  letter-spacing:2px;
+  border:1px solid var(--gold);
+  background:var(--dark);
+  color:var(--paper);
+  font-size:10px;
+  letter-spacing:3px;
   white-space:nowrap;
-  transition:opacity .5s;
+  transition:opacity .4s;
 }
-#s1.open .gate-button{
+#scene1.open .open-button{
   opacity:0;
   pointer-events:none;
 }
-.gate-copy{
+.hero-copy{
   opacity:0;
-  transform:scale(.88) translateY(30px);
-  transition:opacity 1.6s,transform 1.8s;
+  transform:translateY(25px);
+  transition:opacity 1.7s,transform 1.7s;
 }
-#s1.open .gate-copy{
+#scene1.open .hero-copy{
   opacity:1;
-  transform:scale(1) translateY(0);
+  transform:translateY(0);
   transition-delay:.8s;
 }
-
-/* SCENE 2: LOTUS POND */
-#s2{
-  background:
-    radial-gradient(circle at 50% 65%,#f8f8e8,#dfe5d4);
-}
-.pond-ripple{
-  position:absolute;
-  width:450px;height:450px;
-  border:1px solid #8a9b8060;
-  border-radius:50%;
-  opacity:0;
-  transform:scale(.2);
-  pointer-events:none;
-}
-#s2.active .pond-ripple{
-  animation:ripple 5s ease-out infinite;
-}
-#s2.active .pond-ripple:nth-of-type(2){
-  animation-delay:1.7s;
-}
-@keyframes ripple{
-  0%{opacity:.5;transform:scale(.3)}
-  100%{opacity:0;transform:scale(2.3)}
-}
-.lotus-art{
-  position:absolute;
-  width:min(85vw,540px);
-  opacity:.45;
-  transform:translateY(80px) scale(.4);
-  transition:transform 2.3s cubic-bezier(.2,.8,.2,1),opacity 2s;
-}
-#s2.active .lotus-art{
-  transform:translateY(0) scale(1);
-}
-.lotus-art .petal{
-  fill:#d5cba7;
-  stroke:#82916b;
-  stroke-width:2;
-  transform-box:fill-box;
-  transform-origin:center bottom;
-  transform:scale(.15);
-  transition:transform 2s;
-}
-#s2.active .lotus-art .petal{
-  transform:scale(1);
-}
-.lotus-art .petal:nth-child(2){transition-delay:.2s}
-.lotus-art .petal:nth-child(3){transition-delay:.4s}
-.lotus-art .petal:nth-child(4){transition-delay:.6s}
-.lotus-art .petal:nth-child(5){transition-delay:.8s}
-.story-card{
-  padding:45px 30px;
-  background:#fffdf5dc;
-  border:1px solid #b5a17490;
-  backdrop-filter:blur(8px);
-  box-shadow:0 15px 60px #35442e12;
-}
-.story-card blockquote{
-  font:italic clamp(19px,4vw,29px)/1.8 "Playfair Display",serif;
+.hero-name{
+  font-size:clamp(88px,15vw,150px);
+  line-height:1.1;
   margin:20px 0;
 }
+.hero-name span{
+  display:block;
+  font-size:48px;
+  color:var(--gold);
+}
+.temple-bg{
+  position:absolute;
+  width:min(85vw,650px);
+  bottom:4%;
+  opacity:.17;
+  z-index:1;
+}
 
-/* SCENE 3: SILK SCROLL */
-#s3{background:#ebe2cb}
-.silk-scroll{
-  position:relative;
-  width:min(88vw,660px);
-  max-height:76vh;
-  overflow:auto;
-  padding:48px 30px;
+/* Lotus */
+.lotus{
+  width:min(65vw,280px);
+  height:auto;
+  display:block;
+  margin:10px auto;
+  overflow:visible;
+  filter:drop-shadow(0 10px 12px #35442e15);
+}
+.lotus .petal{
+  fill:url(#lotusGradient);
+  stroke:#8c9772;
+  stroke-width:1.4;
+}
+.lotus .vein{
+  fill:none;
+  stroke:#b6a174;
+  stroke-width:1;
+  opacity:.65;
+}
+.lotus .leaf{
+  fill:#879879;
+  fill-opacity:.7;
+  stroke:#617451;
+  stroke-width:1.4;
+}
+.lotus.floating{
+  animation:lotusFloat 7s ease-in-out infinite;
+}
+@keyframes lotusFloat{
+  50%{transform:translateY(-7px)}
+}
+
+/* Story */
+#scene2{
   background:
-    linear-gradient(90deg,#e4d8b9,#fffdf5 12%,#fffdf5 88%,#e4d8b9);
-  border-top:12px solid #a7a080;
-  border-bottom:12px solid #a7a080;
-  box-shadow:0 20px 55px #35442e25;
-  transform:scaleX(.03);
-  opacity:0;
-  transition:transform 1.8s cubic-bezier(.2,.8,.2,1),opacity .8s;
+    radial-gradient(circle at 50% 65%,#e5e9db,#faf7ec);
 }
-#s3.active .silk-scroll{
-  transform:scaleX(1);
-  opacity:1;
+.story-panel{
+  padding:38px 30px;
+  border:1px solid #b6a17480;
+  background:#fffdf5df;
+  backdrop-filter:blur(8px);
+  box-shadow:0 20px 55px #35442e12;
 }
-.silk-scroll:before{
+.story-panel blockquote{
+  font:italic clamp(22px,4vw,32px)/1.7
+    "Cormorant Garamond",serif;
+  margin:15px 0;
+}
+.story-panel p{
+  font-size:13px;
+}
+
+/* Details */
+#scene3{background:#f0e8d5}
+.details-panel{
+  width:min(88vw,650px);
+  max-height:77vh;
+  overflow:auto;
+  padding:32px 30px;
+  background:
+    linear-gradient(
+      90deg,#e9dfc5,#fffdf5 12%,
+      #fffdf5 88%,#e9dfc5
+    );
+  border:1px solid #b6a17480;
+  box-shadow:0 20px 55px #35442e18;
+  position:relative;
+}
+.details-panel:before{
   content:"";
   position:absolute;
-  inset:16px;
-  border:1px solid #b5a17460;
+  inset:12px;
+  border:1px solid #b6a17440;
   pointer-events:none;
 }
-.event-detail{
-  padding:16px 0;
-  border-top:1px solid #b5a17460;
+.details-temple{
+  width:min(75%,350px);
+  height:auto;
+  opacity:.65;
 }
-.event-detail h3{font-size:25px;margin:8px}
-.event-detail p{font-size:13px;margin:5px}
-.event-detail .time{
+.event{
+  border-top:1px solid #b6a17460;
+  padding:12px 0;
+}
+.event h3{font-size:28px;margin:7px}
+.event p{font-size:12px;margin:4px}
+.event .time{
+  font:28px "Cormorant Garamond",serif;
   color:var(--olive);
-  font:25px "Playfair Display",serif;
 }
 
-/* SCENE 4: FAN */
-#s4{
+/* Fan */
+#scene4{
   background:
-    radial-gradient(circle at 50% 65%,#fffdf5,#f0e8d3);
+    radial-gradient(circle at 50% 70%,#fffdf5,#eee8d7);
 }
 .fan-art{
   position:absolute;
-  width:min(95vw,750px);
-  bottom:-120px;
+  width:min(96vw,760px);
+  height:auto;
   left:50%;
-  transform:translateX(-50%) scale(.15) rotate(-55deg);
-  transform-origin:bottom center;
-  opacity:0;
-  transition:transform 2s cubic-bezier(.2,.8,.2,1),opacity 1.3s;
+  bottom:-110px;
+  transform:translateX(-50%);
+  opacity:.38;
+  pointer-events:none;
 }
-#s4.active .fan-art{
-  transform:translateX(-50%) scale(1) rotate(0);
-  opacity:.35;
-}
-.rsvp-card{
-  padding:35px 25px;
-  background:#fffdf5e8;
-  border:1px solid #b5a17490;
+.rsvp-panel{
+  padding:30px 25px;
+  background:#fffdf5e9;
+  border:1px solid #b6a17490;
   backdrop-filter:blur(8px);
+  box-shadow:0 18px 50px #35442e12;
 }
-.rsvp-card form{
+.rsvp-panel form{
+  max-width:380px;
+  margin:22px auto 0;
   display:grid;
-  gap:13px;
-  max-width:390px;
-  margin:25px auto 0;
+  gap:12px;
 }
-.rsvp-card input,.rsvp-card select,.rsvp-card textarea{
+.rsvp-panel input,
+.rsvp-panel select,
+.rsvp-panel textarea{
   width:100%;
-  border:1px solid #c9c4af;
-  background:var(--ivory);
   padding:13px;
+  border:1px solid #cbc4ad;
+  background:var(--paper);
   color:var(--dark);
-  font-size:13px;
+  font-size:12px;
 }
-.rsvp-card button{
+.rsvp-panel button{
   padding:15px;
+  border:0;
   background:var(--olive);
   color:white;
-  border:0;
   letter-spacing:2px;
-}
-
-/* Per-scene entrance */
-.fade-up{
-  opacity:0;
-  transform:translateY(35px);
-  transition:opacity 1s,transform 1s;
-}
-.scene.active .fade-up{
-  opacity:1;
-  transform:translateY(0);
-  transition-delay:.7s;
-}
-
-/* Transitions */
-#transition{
-  position:fixed;
-  inset:0;
-  z-index:25;
-  pointer-events:none;
-  visibility:hidden;
-}
-#transition.playing{visibility:visible}
-
-/* Circular water reveal */
-#transition.water{
-  background:#dfe5d4;
-  clip-path:circle(0% at 50% 50%);
-  animation:waterCover 1.5s ease-in-out both;
-}
-@keyframes waterCover{
-  0%{clip-path:circle(0% at 50% 50%)}
-  48%{clip-path:circle(150% at 50% 50%)}
-  52%{clip-path:circle(150% at 50% 50%)}
-  100%{clip-path:circle(0% at 50% 50%)}
-}
-
-/* Silk wipe */
-#transition.silk{
-  background:
-    linear-gradient(90deg,#e5d9b9,#fffdf5,#e5d9b9);
-  transform:scaleX(0);
-  animation:silkCover 1.5s ease-in-out both;
-}
-@keyframes silkCover{
-  0%{transform:scaleX(0);transform-origin:left}
-  49%{transform:scaleX(1);transform-origin:left}
-  51%{transform:scaleX(1);transform-origin:right}
-  100%{transform:scaleX(0);transform-origin:right}
-}
-
-/* Fan-inspired radial reveal */
-#transition.fanwipe{
-  background:#f5efd9;
-  clip-path:polygon(50% 100%,50% 100%,50% 100%);
-  animation:fanCover 1.5s ease-in-out both;
-}
-@keyframes fanCover{
-  0%{clip-path:circle(0% at 50% 100%)}
-  48%{clip-path:circle(160% at 50% 100%)}
-  52%{clip-path:circle(160% at 50% 100%)}
-  100%{clip-path:circle(0% at 50% 100%)}
+  font-size:11px;
 }
 
 /* Navigation */
 .navigation{
   position:fixed;
-  bottom:18px;
+  z-index:35;
+  bottom:16px;
   left:50%;
   transform:translateX(-50%);
-  z-index:35;
   display:flex;
   align-items:center;
   gap:16px;
   padding:9px 14px;
-  background:#fffdf5f0;
-  border:1px solid #b5a17480;
   border-radius:40px;
+  border:1px solid #b6a17480;
+  background:#fffdf5ed;
   box-shadow:0 8px 25px #35442e15;
 }
 .navigation button{
@@ -511,35 +453,20 @@ p{line-height:1.9}
 .navigation span{
   font-size:11px;
   letter-spacing:2px;
-  min-width:52px;
+  min-width:55px;
   text-align:center;
 }
 
-/* Tiny drifting particles */
-.particle{
-  position:fixed;
-  z-index:4;
-  width:3px;height:3px;
-  background:#b5a174;
-  border-radius:50%;
-  pointer-events:none;
-  opacity:0;
-  animation:floatParticle linear infinite;
-}
-@keyframes floatParticle{
-  0%{transform:translateY(30px);opacity:0}
-  30%{opacity:.45}
-  100%{transform:translateY(-130px);opacity:0}
-}
-
 @media(max-width:650px){
-  .botanical{width:120px;opacity:.2}
-  .scene-inner{width:88vw}
-  .story-card,.rsvp-card{padding:28px 18px}
-  .silk-scroll{padding:30px 20px}
-  .fan-art{bottom:-165px}
+  .branch{width:120px;opacity:.2}
+  .bird{width:65px;opacity:.3}
+  .story-panel{padding:25px 18px}
+  .details-panel{padding:24px 20px}
+  .rsvp-panel{padding:25px 18px}
+  .fan-art{bottom:-35px}
   .navigation{bottom:10px}
   .gate{border-width:4px}
+  .lotus{width:min(60vw,230px)}
 }
 @media(prefers-reduced-motion:reduce){
   *,*:before,*:after{
@@ -551,112 +478,235 @@ p{line-height:1.9}
 </head>
 
 <body>
-<div class="grain"></div>
+<div class="texture"></div>
 
-<!-- Reusable decorations -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<!-- Reusable illustrations -->
+<svg width="0" height="0"
+     style="position:absolute" aria-hidden="true">
 <defs>
-<symbol id="branch" viewBox="0 0 200 300">
-  <path d="M25 300 Q85 190 120 20"
+
+<linearGradient id="lotusGradient" x1="0" y1="1" x2="0" y2="0">
+  <stop offset="0%" stop-color="#aab18d"/>
+  <stop offset="50%" stop-color="#e5d7b6"/>
+  <stop offset="100%" stop-color="#fff5de"/>
+</linearGradient>
+
+<linearGradient id="fanGradient" x1="0" y1="0" x2="0" y2="1">
+  <stop offset="0%" stop-color="#fffdf5"/>
+  <stop offset="100%" stop-color="#d9d4b2"/>
+</linearGradient>
+
+<!-- Bamboo and leaves -->
+<symbol id="branch" viewBox="0 0 210 320">
+  <path d="M25 320 Q90 205 135 20"
+    stroke="#63714b" stroke-width="2" fill="none"/>
+  <g fill="#879576" stroke="#63714b" stroke-width="1">
+    <ellipse cx="60" cy="250" rx="15" ry="37"
+      transform="rotate(-45 60 250)"/>
+    <ellipse cx="105" cy="205" rx="14" ry="35"
+      transform="rotate(42 105 205)"/>
+    <ellipse cx="85" cy="160" rx="13" ry="32"
+      transform="rotate(-42 85 160)"/>
+    <ellipse cx="130" cy="118" rx="12" ry="30"
+      transform="rotate(40 130 118)"/>
+    <ellipse cx="110" cy="78" rx="11" ry="28"
+      transform="rotate(-32 110 78)"/>
+  </g>
+</symbol>
+
+<!-- Traditional clouds -->
+<symbol id="cloud" viewBox="0 0 210 90">
+  <path d="M5 60 H80
+    C45 60 45 20 80 20
+    C110 20 110 50 92 50
+    C80 50 80 38 92 38
+    M115 60 H205
+    M130 60 C115 60 115 35 145 35
+    C170 35 170 60 155 60"
+    fill="none" stroke="#82916b" stroke-width="2"/>
+</symbol>
+
+<!-- Swallow birds -->
+<symbol id="swallow" viewBox="0 0 120 60">
+  <path d="M10 38
+    Q35 10 58 32
+    Q78 4 110 22
+    Q83 20 66 43
+    Q60 48 54 43
+    Q35 27 10 38Z"
+    fill="#63714b" fill-opacity=".55"/>
+  <path d="M55 40 L42 57 L63 46 L78 58 L68 40"
+    fill="#63714b" fill-opacity=".45"/>
+</symbol>
+
+<!-- Detailed lotus -->
+<symbol id="lotus" viewBox="0 0 400 320">
+  <path class="leaf"
+    d="M200 250 Q95 200 55 265 Q110 315 200 250Z"/>
+  <path class="leaf"
+    d="M200 250 Q305 200 345 265 Q290 315 200 250Z"/>
+  <path d="M200 250 Q195 280 190 315"
     fill="none" stroke="#63714b" stroke-width="2"/>
-  <g fill="#84916c" stroke="#63714b">
-    <ellipse cx="58" cy="235" rx="15" ry="36" transform="rotate(-45 58 235)"/>
-    <ellipse cx="98" cy="198" rx="14" ry="34" transform="rotate(42 98 198)"/>
-    <ellipse cx="78" cy="155" rx="13" ry="31" transform="rotate(-42 78 155)"/>
-    <ellipse cx="122" cy="112" rx="12" ry="30" transform="rotate(40 122 112)"/>
-    <ellipse cx="105" cy="73" rx="11" ry="27" transform="rotate(-32 105 73)"/>
-  </g>
+
+  <path class="petal"
+    d="M200 245 Q125 135 200 25 Q275 135 200 245Z"/>
+  <path class="petal"
+    d="M200 245 Q75 170 105 80 Q180 105 200 245Z"/>
+  <path class="petal"
+    d="M200 245 Q325 170 295 80 Q220 105 200 245Z"/>
+  <path class="petal"
+    d="M200 245 Q35 230 35 145 Q155 140 200 245Z"/>
+  <path class="petal"
+    d="M200 245 Q365 230 365 145 Q245 140 200 245Z"/>
+
+  <path class="vein" d="M200 240 Q195 145 200 48"/>
+  <path class="vein" d="M197 239 Q140 155 111 98"/>
+  <path class="vein" d="M203 239 Q260 155 289 98"/>
+  <path class="vein" d="M190 239 Q115 194 53 159"/>
+  <path class="vein" d="M210 239 Q285 194 347 159"/>
+
+  <path d="M75 260 Q200 288 325 260"
+    fill="none" stroke="#b6a174" stroke-width="2"/>
 </symbol>
-<symbol id="cloud" viewBox="0 0 210 100">
-  <path d="M5 65 H85 C45 65 45 20 82 20
-  C112 20 113 55 94 55 C82 55 82 42 94 42
-  M118 65 H205 M132 65 C115 65 115 38 145 38
-  C170 38 170 65 155 65"
-  fill="none" stroke="#82916b" stroke-width="2"/>
-</symbol>
+
+<!-- Vietnamese temple -->
 <symbol id="temple" viewBox="0 0 650 320">
-  <g fill="none" stroke="#63714b" stroke-width="2">
-    <path d="M45 130 Q110 155 175 93
-    Q325 120 475 93 Q540 155 605 130
-    Q550 165 475 140 Q325 155 175 140
-    Q100 165 45 130Z" fill="#63714b25"/>
-    <path d="M175 93 L155 60 M475 93 L495 60
-    M175 145 L175 250 M475 145 L475 250
-    M215 150 L215 250 M435 150 L435 250
-    M215 250 H435 M275 250 V170
-    Q325 140 375 170 V250
-    M135 265 H515 M105 280 H545
-    M80 295 H570"/>
-    <path d="M240 175 V230 M410 175 V230
-    M250 180 H265 M385 180 H400"/>
+  <g stroke="#63714b" stroke-width="2"
+     fill="none" stroke-linejoin="round">
+    <path d="M45 125 Q110 153 175 91
+      Q325 120 475 91
+      Q540 153 605 125
+      Q555 165 475 140
+      Q325 153 175 140
+      Q95 165 45 125Z"
+      fill="#63714b25"/>
+    <path d="M175 91 L155 55
+      M475 91 L495 55
+      M175 145 V250
+      M475 145 V250
+      M215 150 V250
+      M435 150 V250
+      M215 250 H435
+      M275 250 V170
+      Q325 140 375 170 V250
+      M135 265 H515
+      M105 280 H545
+      M80 295 H570"/>
+    <path d="M240 175 V230
+      M410 175 V230
+      M250 180 H265
+      M385 180 H400"/>
   </g>
+</symbol>
+
+<!-- Decorative fan -->
+<symbol id="fan" viewBox="0 0 760 430">
+  <path d="M380 410 L55 165
+    Q380 -125 705 165Z"
+    fill="url(#fanGradient)"
+    stroke="#63714b" stroke-width="3"/>
+
+  <path d="M380 390 L95 170
+    Q380 -75 665 170Z"
+    fill="none" stroke="#b6a174" stroke-width="2"/>
+
+  <g stroke="#879576" stroke-width="2" opacity=".65">
+    <line x1="380" y1="410" x2="55" y2="165"/>
+    <line x1="380" y1="410" x2="115" y2="75"/>
+    <line x1="380" y1="410" x2="225" y2="-10"/>
+    <line x1="380" y1="410" x2="380" y2="-30"/>
+    <line x1="380" y1="410" x2="535" y2="-10"/>
+    <line x1="380" y1="410" x2="645" y2="75"/>
+    <line x1="380" y1="410" x2="705" y2="165"/>
+  </g>
+
+  <g transform="translate(300 75) scale(.4)">
+    <path d="M200 245 Q125 135 200 25
+      Q275 135 200 245Z"
+      fill="#c9c9a1" stroke="#63714b" stroke-width="2"/>
+    <path d="M200 245 Q75 170 105 80
+      Q180 105 200 245Z"
+      fill="#e5d8b8" stroke="#63714b" stroke-width="2"/>
+    <path d="M200 245 Q325 170 295 80
+      Q220 105 200 245Z"
+      fill="#e5d8b8" stroke="#63714b" stroke-width="2"/>
+  </g>
+
+  <circle cx="380" cy="410" r="14"
+    fill="#b6a174" stroke="#63714b" stroke-width="2"/>
 </symbol>
 </defs>
 </svg>
 
 <!-- SCENE 1 -->
-<section class="scene active" id="s1">
-  <div class="gate-background">
-    <svg class="temple-silhouette" viewBox="0 0 650 320">
-      <use href="#temple"/>
+<section class="scene active" id="scene1">
+  <div class="frame"></div>
+
+  <svg class="branch left"><use href="#branch"/></svg>
+  <svg class="branch right"><use href="#branch"/></svg>
+
+  <svg class="cloud a"><use href="#cloud"/></svg>
+  <svg class="cloud b"><use href="#cloud"/></svg>
+
+  <svg class="bird one"><use href="#swallow"/></svg>
+  <svg class="bird two"><use href="#swallow"/></svg>
+
+  <svg class="temple-bg" viewBox="0 0 650 320">
+    <use href="#temple"/>
+  </svg>
+
+  <div class="scene-content hero-copy">
+    <p class="eyebrow">Trân trọng báo hỷ</p>
+
+    <svg class="lotus floating"
+         style="width:150px"
+         viewBox="0 0 400 320">
+      <use href="#lotus"/>
     </svg>
 
-    <svg class="cloud a"><use href="#cloud"/></svg>
-    <svg class="cloud b"><use href="#cloud"/></svg>
+    <h1 class="script hero-name">
+      Minh <span>&</span> An
+    </h1>
 
-    <div class="ornate-frame">
-      <i class="corner tl"></i>
-      <i class="corner tr"></i>
-      <i class="corner bl"></i>
-      <i class="corner br"></i>
-    </div>
-
-    <div class="scene-inner gate-copy">
-      <p class="eyebrow">Trân trọng báo hỷ</p>
-      <h1 class="script">Minh <span>&</span> An</h1>
-      <div class="gold-line"></div>
-      <p>20 · 11 · 2027</p>
-      <p class="eyebrow">The Wedding Celebration</p>
-    </div>
+    <div class="gold-line"></div>
+    <p>20 · 11 · 2027</p>
+    <p class="eyebrow">The Wedding Celebration</p>
   </div>
 
   <div class="gate left">
-    <div class="gate-motif">囍</div>
+    <div class="gate-symbol">囍</div>
   </div>
   <div class="gate right">
-    <div class="gate-motif">囍</div>
+    <div class="gate-symbol">囍</div>
   </div>
 
-  <button class="gate-button" id="openGate">
+  <button class="open-button" id="openGate">
     CHẠM ĐỂ MỞ CỔNG
   </button>
 </section>
 
 <!-- SCENE 2 -->
-<section class="scene" id="s2">
-  <div class="pond-ripple"></div>
-  <div class="pond-ripple"></div>
+<section class="scene" id="scene2">
+  <svg class="branch left"><use href="#branch"/></svg>
+  <svg class="branch right"><use href="#branch"/></svg>
+  <svg class="bird one"><use href="#swallow"/></svg>
 
-  <svg class="botanical left"><use href="#branch"/></svg>
-  <svg class="botanical right"><use href="#branch"/></svg>
+  <div class="scene-content story-panel">
+    <p class="eyebrow">Our Love Story</p>
 
-  <svg class="lotus-art" viewBox="0 0 500 430">
-    <path class="petal" d="M250 350 Q155 190 250 20 Q345 190 250 350Z"/>
-    <path class="petal" d="M250 350 Q70 260 100 100 Q225 155 250 350Z"/>
-    <path class="petal" d="M250 350 Q430 260 400 100 Q275 155 250 350Z"/>
-    <path class="petal" d="M250 350 Q20 360 25 230 Q175 210 250 350Z"/>
-    <path class="petal" d="M250 350 Q480 360 475 230 Q325 210 250 350Z"/>
-  </svg>
+    <svg class="lotus floating" viewBox="0 0 400 320">
+      <use href="#lotus"/>
+    </svg>
 
-  <div class="scene-inner story-card">
-    <p class="eyebrow fade-up">Our Love Story</p>
-    <h2 class="fade-up">Chuyện Chúng Mình</h2>
-    <blockquote class="fade-up">
+    <h2>Chuyện Chúng Mình</h2>
+    <div class="gold-line"></div>
+
+    <blockquote>
       “Giữa muôn vàn cuộc gặp gỡ,<br>
       thật may mắn khi chúng ta tìm thấy nhau.”
     </blockquote>
-    <div class="gold-line"></div>
-    <p class="fade-up">
+
+    <p>
       Từ những khoảnh khắc giản dị,
       chúng mình đã cùng viết nên một câu chuyện
       yêu thương. Và hôm nay, câu chuyện ấy
@@ -666,114 +716,118 @@ p{line-height:1.9}
 </section>
 
 <!-- SCENE 3 -->
-<section class="scene" id="s3">
+<section class="scene" id="scene3">
   <svg class="cloud a"><use href="#cloud"/></svg>
   <svg class="cloud b"><use href="#cloud"/></svg>
 
-  <div class="silk-scroll">
+  <div class="details-panel">
     <p class="eyebrow">Wedding Details</p>
+
+    <svg class="details-temple" viewBox="0 0 650 320">
+      <use href="#temple"/>
+    </svg>
+
     <h2>Ngày Hạnh Phúc</h2>
     <div class="gold-line"></div>
-    <p>Thứ Bảy · 20 tháng 11 năm 2027</p>
 
-    <div class="event-detail">
+    <p style="font-size:12px">
+      Thứ Bảy · 20 tháng 11 năm 2027
+    </p>
+
+    <div class="event">
       <h3>Lễ Thành Hôn</h3>
       <p class="time">09:00</p>
       <p>Tư gia nhà trai</p>
       <p>[Địa chỉ tổ chức]</p>
     </div>
 
-    <div class="event-detail">
+    <div class="event">
       <h3>Tiệc Cưới</h3>
       <p class="time">18:00</p>
       <p>Trung tâm tiệc cưới</p>
       <p>[Địa chỉ tổ chức]</p>
     </div>
-
-    <p style="font-size:12px">
-      Sự hiện diện của bạn là niềm hạnh phúc
-      của chúng mình.
-    </p>
   </div>
 </section>
 
 <!-- SCENE 4 -->
-<section class="scene" id="s4">
-  <svg class="botanical left"><use href="#branch"/></svg>
-  <svg class="botanical right"><use href="#branch"/></svg>
+<section class="scene" id="scene4">
+  <div class="frame"></div>
 
-  <svg class="fan-art" viewBox="0 0 700 380" aria-hidden="true">
-    <path d="M350 365 L35 145 Q350 -120 665 145Z"
-      fill="#d8d3ac" stroke="#63714b" stroke-width="3"/>
-    <g stroke="#63714b" stroke-width="2">
-      <line x1="350" y1="365" x2="35" y2="145"/>
-      <line x1="350" y1="365" x2="110" y2="55"/>
-      <line x1="350" y1="365" x2="230" y2="-15"/>
-      <line x1="350" y1="365" x2="350" y2="0"/>
-      <line x1="350" y1="365" x2="470" y2="-15"/>
-      <line x1="350" y1="365" x2="590" y2="55"/>
-      <line x1="350" y1="365" x2="665" y2="145"/>
-    </g>
-    <circle cx="350" cy="365" r="12" fill="#b5a174"/>
+  <svg class="branch left"><use href="#branch"/></svg>
+  <svg class="branch right"><use href="#branch"/></svg>
+
+  <svg class="fan-art" viewBox="0 0 760 430">
+    <use href="#fan"/>
   </svg>
 
-  <div class="scene-inner rsvp-card">
-    <p class="eyebrow fade-up">Kindly Reply</p>
-    <h2 class="fade-up">Xác Nhận Tham Dự</h2>
-    <p class="fade-up">
+  <div class="scene-content rsvp-panel">
+    <p class="eyebrow">Kindly Reply</p>
+
+    <svg class="lotus"
+         style="width:120px"
+         viewBox="0 0 400 320">
+      <use href="#lotus"/>
+    </svg>
+
+    <h2>Xác Nhận Tham Dự</h2>
+    <div class="gold-line"></div>
+
+    <p style="font-size:13px">
       Chúng mình rất mong được đón tiếp bạn
       trong ngày đặc biệt này.
     </p>
 
     <form id="rsvpForm">
-      <input id="guestName" placeholder="Họ và tên" required>
+      <input id="guestName"
+        placeholder="Họ và tên" required>
+
       <select id="attendance" required>
         <option value="">Bạn sẽ tham dự chứ?</option>
         <option value="Có tham dự">Rất vui được tham dự</option>
         <option value="Không tham dự">Xin lỗi, không thể tham dự</option>
       </select>
+
       <textarea id="wish" rows="3"
         placeholder="Lời chúc gửi đến chúng mình"></textarea>
+
       <button type="submit">GỬI XÁC NHẬN</button>
     </form>
   </div>
 </section>
 
-<div id="transition"></div>
-
-<nav class="navigation" aria-label="Điều hướng">
-  <button id="prev" aria-label="Cảnh trước">←</button>
+<nav class="navigation" aria-label="Điều hướng thiệp">
+  <button id="prev" aria-label="Trang trước">←</button>
   <span id="counter">01 / 04</span>
-  <button id="next" aria-label="Cảnh tiếp">→</button>
+  <button id="next" aria-label="Trang tiếp">→</button>
 </nav>
 
 <script>
 const scenes=[...document.querySelectorAll(".scene")];
-const overlay=document.getElementById("transition");
-const counter=document.getElementById("counter");
+const gate=document.getElementById("scene1");
 const prev=document.getElementById("prev");
 const next=document.getElementById("next");
-const gate=document.getElementById("s1");
+const counter=document.getElementById("counter");
 
 let current=0;
-let busy=false;
 let gateOpened=false;
+let busy=false;
 
-/* Open 3D temple gate */
 function openTemple(){
   if(gateOpened)return;
   gateOpened=true;
   gate.classList.add("open");
 }
+
 document.getElementById("openGate")
   .addEventListener("click",openTemple);
 
-/* Each scene gets its own transition */
-const transitionStyles=[
-  "water",
-  "silk",
-  "fanwipe"
-];
+function updateNav(){
+  counter.textContent=
+    String(current+1).padStart(2,"0")+" / 04";
+  prev.disabled=current===0;
+  next.disabled=current===scenes.length-1;
+}
 
 function changeScene(index){
   if(busy||index<0||index>=scenes.length||index===current)return;
@@ -785,34 +839,14 @@ function changeScene(index){
 
   busy=true;
 
-  // Pick effect based on destination.
-  // Reverse transitions use the previous scene's effect.
-  const boundary=Math.min(current,index);
-  const effect=transitionStyles[boundary];
+  scenes[current].classList.remove("active");
 
-  overlay.className="";
-  void overlay.offsetWidth;
-  overlay.className="playing "+effect;
-
-  // Switch scenes when the transition covers the screen.
   setTimeout(()=>{
-    scenes[current].classList.remove("active");
     current=index;
     scenes[current].classList.add("active");
     updateNav();
-  },750);
-
-  setTimeout(()=>{
-    overlay.className="";
-    busy=false;
-  },1550);
-}
-
-function updateNav(){
-  counter.textContent=
-    String(current+1).padStart(2,"0")+" / 04";
-  prev.disabled=current===0;
-  next.disabled=current===scenes.length-1;
+    setTimeout(()=>busy=false,1000);
+  },350);
 }
 
 next.addEventListener("click",()=>{
@@ -833,8 +867,9 @@ document.addEventListener("keydown",e=>{
   if(e.key==="ArrowLeft")changeScene(current-1);
 });
 
-/* Touch swipe navigation */
+/* Swipe on mobile */
 let startX=0,startY=0;
+
 document.addEventListener("touchstart",e=>{
   startX=e.touches[0].clientX;
   startY=e.touches[0].clientY;
@@ -854,26 +889,16 @@ document.addEventListener("touchend",e=>{
   }
 },{passive:true});
 
-/* Subtle glowing particles */
-if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches){
-  for(let i=0;i<22;i++){
-    const p=document.createElement("div");
-    p.className="particle";
-    p.style.left=Math.random()*100+"%";
-    p.style.top=Math.random()*100+"%";
-    p.style.animationDuration=(5+Math.random()*7)+"s";
-    p.style.animationDelay=(-Math.random()*12)+"s";
-    document.body.appendChild(p);
-  }
-}
-
-/* RSVP - email draft */
+/* RSVP opens an email draft */
 document.getElementById("rsvpForm").addEventListener("submit",e=>{
   e.preventDefault();
+
   const name=document.getElementById("guestName").value;
   const attendance=document.getElementById("attendance").value;
   const wish=document.getElementById("wish").value;
-  const body=`Họ tên: ${name}\nTham dự: ${attendance}\nLời chúc: ${wish}`;
+
+  const body=
+    `Họ tên: ${name}\nTham dự: ${attendance}\nLời chúc: ${wish}`;
 
   window.location.href=
     "mailto:your-email@example.com?subject="+
