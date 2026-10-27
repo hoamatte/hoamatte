@@ -4,61 +4,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Minh & An | Wedding Invitation</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:wght@400;500;600&family=Be+Vietnam+Pro:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Minh & An — Thiệp Cưới</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;500&family=Be+Vietnam+Pro:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --paper:#faf7ed;
-  --cream:#f2ebd9;
-  --olive:#637153;
-  --deep:#354633;
-  --gold:#b79d68;
-  --soft-gold:#d8c8a2;
-  --ink:#46503e;
+  --cream:#f5efd9;
+  --ivory:#fffdf5;
+  --olive:#667451;
+  --dark:#35442e;
+  --gold:#b5a174;
 }
 *{box-sizing:border-box}
 html,body{
-  margin:0;
-  width:100%;
-  height:100%;
+  margin:0;width:100%;height:100%;
   overflow:hidden;
-  background:var(--paper);
-  color:var(--ink);
+  background:var(--cream);
+  color:var(--dark);
   font-family:"Be Vietnam Pro",sans-serif;
 }
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
 h1,h2,h3{
-  font-family:"Cormorant Garamond",serif;
-  font-weight:500;
+  font-family:"Playfair Display",serif;
+  font-weight:400;
 }
+p{line-height:1.9}
 .script{font-family:"Great Vibes",cursive}
 .eyebrow{
   font-size:10px;
-  font-weight:400;
   letter-spacing:4px;
   text-transform:uppercase;
   color:var(--olive);
 }
-p{line-height:1.95}
-h2{
-  font-size:clamp(43px,7vw,75px);
-  line-height:1.05;
-  margin:15px 0;
-  color:var(--deep);
-}
-.gold-rule{
-  width:85px;
-  height:1px;
+.gold-line{
+  width:75px;height:1px;
+  background:var(--gold);
   margin:24px auto;
-  background:linear-gradient(
-    90deg,transparent,var(--gold),transparent
-  );
 }
+
+/* Global paper grain */
+.grain{
+  position:fixed;
+  inset:0;
+  z-index:50;
+  pointer-events:none;
+  opacity:.14;
+  background-image:
+    radial-gradient(#8e856c .45px,transparent .45px);
+  background-size:7px 7px;
+}
+
+/* Scenes */
 .scene{
   position:absolute;
   inset:0;
@@ -68,63 +65,44 @@ h2{
   visibility:hidden;
   opacity:0;
   pointer-events:none;
-  transform:scale(1.025);
-  transition:
-    opacity .85s ease,
-    transform 1.25s ease,
-    visibility .85s;
   background:
-    radial-gradient(
-      ellipse at 50% 35%,
-      #fffdf7 0%,
-      var(--paper) 50%,
-      var(--cream) 100%
-    );
+    radial-gradient(ellipse at 50% 40%,#fffdf7,#eee7d2);
 }
 .scene.active{
   visibility:visible;
   opacity:1;
   pointer-events:auto;
-  transform:scale(1);
 }
-.content{
-  width:min(88vw,690px);
+.scene-inner{
+  width:min(88vw,660px);
   position:relative;
   z-index:5;
   text-align:center;
 }
-
-/* Paper grain */
-.texture{
-  position:fixed;
-  inset:0;
-  z-index:40;
-  pointer-events:none;
-  opacity:.12;
-  background-image:
-    radial-gradient(#9c8e70 .5px,transparent .5px);
-  background-size:7px 7px;
+.scene h2{
+  font-size:clamp(35px,6vw,55px);
+  margin:14px 0;
 }
 
-/* Elegant double frame */
-.frame{
+/* Decorative frames */
+.ornate-frame{
   position:absolute;
   inset:5%;
-  border:1px solid #b79d6870;
+  border:1px solid #b5a17465;
   pointer-events:none;
   z-index:3;
 }
-.frame:before{
+.ornate-frame:after{
   content:"";
   position:absolute;
   inset:9px;
-  border:1px solid #b79d6830;
+  border:1px solid #b5a17432;
 }
-.frame .corner{
+.corner{
   position:absolute;
-  width:48px;
-  height:48px;
+  width:50px;height:50px;
   border-color:var(--gold);
+  opacity:.7;
 }
 .corner.tl{
   top:-1px;left:-1px;
@@ -147,39 +125,79 @@ h2{
   border-right:2px solid;
 }
 
-/* Background botanical branches */
-.branch{
+/* Floating botanical decorations */
+.botanical{
   position:absolute;
-  width:210px;
-  height:310px;
-  opacity:.26;
-  pointer-events:none;
+  width:200px;
+  height:300px;
+  opacity:.28;
   z-index:2;
-  animation:sway 9s ease-in-out infinite alternate;
+  pointer-events:none;
+  animation:sway 7s ease-in-out infinite alternate;
 }
-.branch.left{
-  left:-65px;
-  bottom:-20px;
+.botanical.left{
+  left:-60px;bottom:-30px;
   transform-origin:bottom left;
 }
-.branch.right{
-  right:-65px;
-  top:-20px;
+.botanical.right{
+  right:-60px;top:0;
   transform:scaleX(-1);
   transform-origin:top right;
-  animation-delay:-4s;
+  animation-delay:-3s;
 }
 @keyframes sway{
-  from{rotate:-2deg}
-  to{rotate:3deg}
+  from{rotate:-4deg}
+  to{rotate:5deg}
 }
 
-/* Opening gate */
-#scene1{
+/* Clouds */
+.cloud{
+  position:absolute;
+  width:210px;
+  height:100px;
+  opacity:.23;
+  z-index:2;
+  pointer-events:none;
+  animation:cloudDrift 14s ease-in-out infinite alternate;
+}
+.cloud.a{top:12%;left:-40px}
+.cloud.b{bottom:15%;right:-40px;animation-delay:-6s}
+@keyframes cloudDrift{
+  to{translate:70px 0}
+}
+
+/* SCENE 1: TEMPLE GATE */
+#s1{
   background:
-    radial-gradient(
-      circle at center,#fffdf5,#e9e2d0
-    );
+    radial-gradient(circle at 50% 40%,#fffdf4,#e7dfc8);
+}
+.gate-background{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+}
+.temple-silhouette{
+  position:absolute;
+  bottom:7%;
+  width:min(85vw,700px);
+  opacity:.17;
+  transform:translateY(25px);
+  transition:transform 2.5s,opacity 2.5s;
+}
+#s1.open .temple-silhouette{
+  transform:translateY(0);
+  opacity:.32;
+}
+#s1 h1{
+  font-size:clamp(80px,14vw,140px);
+  line-height:1.15;
+  margin:25px 0;
+}
+#s1 h1 span{
+  display:block;
+  color:var(--gold);
+  font-size:48px;
 }
 .gate{
   position:absolute;
@@ -187,340 +205,341 @@ h2{
   height:100%;
   width:50.5%;
   z-index:12;
-  border:7px solid #344632;
   background:
     repeating-linear-gradient(
-      90deg,
-      transparent 0 44px,
-      #24362220 45px 47px
+      90deg,transparent 0 35px,
+      #26362522 36px 38px
     ),
-    linear-gradient(120deg,#718060,#42553e);
-  transition:transform 2.1s cubic-bezier(.7,0,.15,1);
+    linear-gradient(110deg,#758261,#43553c);
+  border:6px solid #35442e;
+  transition:transform 2.3s cubic-bezier(.65,0,.15,1);
   backface-visibility:hidden;
 }
-.gate.left{
-  left:0;
-  transform-origin:left center;
-}
-.gate.right{
-  right:0;
-  transform-origin:right center;
-}
+.gate.left{left:0;transform-origin:left center}
+.gate.right{right:0;transform-origin:right center}
 .gate:before{
   content:"";
   position:absolute;
-  inset:8% 12%;
-  border:2px solid #d4bf8d;
+  inset:7% 11%;
+  border:2px solid #c8b889;
 }
 .gate:after{
   content:"";
   position:absolute;
-  inset:12% 17%;
-  border:1px solid #d4bf8d90;
+  inset:11% 15%;
+  border:1px solid #c8b88980;
 }
-.gate-ornament{
+.gate-motif{
   position:absolute;
   top:50%;
   left:50%;
   transform:translate(-50%,-50%);
-  color:#dfcfa8;
-  font-family:"Cormorant Garamond",serif;
-  font-size:clamp(75px,12vw,135px);
+  font:90px "Playfair Display",serif;
+  color:#e0cfa1;
+  opacity:.8;
 }
-#scene1.open .gate.left{
-  transform:perspective(1200px) rotateY(-105deg);
+#s1.open .gate.left{
+  transform:perspective(1200px) rotateY(-108deg);
 }
-#scene1.open .gate.right{
-  transform:perspective(1200px) rotateY(105deg);
+#s1.open .gate.right{
+  transform:perspective(1200px) rotateY(108deg);
 }
-.open-button{
+.gate-button{
   position:absolute;
+  z-index:15;
   bottom:13%;
   left:50%;
   transform:translateX(-50%);
-  z-index:15;
-  padding:17px 30px;
-  border:1px solid #c9b88f;
-  background:var(--deep);
-  color:var(--paper);
-  font-size:10px;
-  letter-spacing:3px;
+  background:var(--dark);
+  border:1px solid var(--gold);
+  color:var(--ivory);
+  padding:16px 28px;
+  font-size:11px;
+  letter-spacing:2px;
   white-space:nowrap;
-  transition:opacity .4s;
+  transition:opacity .5s;
 }
-#scene1.open .open-button{
+#s1.open .gate-button{
   opacity:0;
   pointer-events:none;
 }
-.hero-content{
+.gate-copy{
   opacity:0;
-  transform:translateY(25px);
-  transition:opacity 1.6s,transform 1.6s;
+  transform:scale(.88) translateY(30px);
+  transition:opacity 1.6s,transform 1.8s;
 }
-#scene1.open .hero-content{
+#s1.open .gate-copy{
   opacity:1;
-  transform:translateY(0);
-  transition-delay:.7s;
-}
-.hero-name{
-  font-size:clamp(95px,16vw,165px);
-  line-height:1.05;
-  margin:18px 0;
-  color:var(--deep);
-}
-.hero-name span{
-  display:block;
-  font-size:55px;
-  color:var(--gold);
-}
-.hero-date{
-  font-family:"Cormorant Garamond",serif;
-  font-size:27px;
-  letter-spacing:5px;
+  transform:scale(1) translateY(0);
+  transition-delay:.8s;
 }
 
-/* Detailed lotus */
+/* SCENE 2: LOTUS POND */
+#s2{
+  background:
+    radial-gradient(circle at 50% 65%,#f8f8e8,#dfe5d4);
+}
+.pond-ripple{
+  position:absolute;
+  width:450px;height:450px;
+  border:1px solid #8a9b8060;
+  border-radius:50%;
+  opacity:0;
+  transform:scale(.2);
+  pointer-events:none;
+}
+#s2.active .pond-ripple{
+  animation:ripple 5s ease-out infinite;
+}
+#s2.active .pond-ripple:nth-of-type(2){
+  animation-delay:1.7s;
+}
+@keyframes ripple{
+  0%{opacity:.5;transform:scale(.3)}
+  100%{opacity:0;transform:scale(2.3)}
+}
 .lotus-art{
-  display:block;
-  width:min(65vw,330px);
-  height:auto;
-  margin:10px auto 20px;
-  overflow:visible;
-  filter:drop-shadow(0 15px 14px #35463312);
+  position:absolute;
+  width:min(85vw,540px);
+  opacity:.45;
+  transform:translateY(80px) scale(.4);
+  transition:transform 2.3s cubic-bezier(.2,.8,.2,1),opacity 2s;
+}
+#s2.active .lotus-art{
+  transform:translateY(0) scale(1);
 }
 .lotus-art .petal{
-  fill:url(#lotusGradient);
-  stroke:#9c9c77;
-  stroke-width:1.3;
+  fill:#d5cba7;
+  stroke:#82916b;
+  stroke-width:2;
+  transform-box:fill-box;
+  transform-origin:center bottom;
+  transform:scale(.15);
+  transition:transform 2s;
 }
-.lotus-art .vein{
-  fill:none;
-  stroke:#b79d68;
-  stroke-width:.85;
-  opacity:.65;
+#s2.active .lotus-art .petal{
+  transform:scale(1);
 }
-.lotus-art .leaf{
-  fill:#829271;
-  fill-opacity:.6;
-  stroke:#5e7151;
-  stroke-width:1.5;
-}
-.lotus-art .stem{
-  fill:none;
-  stroke:#617452;
-  stroke-width:2.5;
-}
-.lotus-art.floating{
-  animation:lotusFloat 6s ease-in-out infinite;
-}
-@keyframes lotusFloat{
-  50%{transform:translateY(-8px)}
-}
-
-/* Scene 2 */
-#scene2{
-  background:
-    radial-gradient(
-      ellipse at 50% 70%,
-      #e4e9dc,#faf7ed 65%
-    );
-}
-.lotus-backdrop{
-  position:absolute;
-  width:min(90vw,650px);
-  opacity:.14;
-  transform:translateY(70px);
-  pointer-events:none;
-}
+.lotus-art .petal:nth-child(2){transition-delay:.2s}
+.lotus-art .petal:nth-child(3){transition-delay:.4s}
+.lotus-art .petal:nth-child(4){transition-delay:.6s}
+.lotus-art .petal:nth-child(5){transition-delay:.8s}
 .story-card{
-  padding:35px 38px;
-  background:#fffdf5d9;
-  border:1px solid #b79d6880;
-  box-shadow:0 20px 65px #3546330c;
+  padding:45px 30px;
+  background:#fffdf5dc;
+  border:1px solid #b5a17490;
   backdrop-filter:blur(8px);
+  box-shadow:0 15px 60px #35442e12;
 }
 .story-card blockquote{
-  margin:20px auto;
-  font:italic clamp(23px,4vw,33px)/1.6
-    "Cormorant Garamond",serif;
-  color:var(--deep);
-}
-.story-card p{
-  font-size:13px;
-  max-width:490px;
-  margin:auto;
+  font:italic clamp(19px,4vw,29px)/1.8 "Playfair Display",serif;
+  margin:20px 0;
 }
 
-/* Scene 3: Wedding details */
-#scene3{
-  background:
-    radial-gradient(
-      ellipse at center,#fffdf5,#eee5d1
-    );
-}
-.details-card{
+/* SCENE 3: SILK SCROLL */
+#s3{background:#ebe2cb}
+.silk-scroll{
   position:relative;
-  width:min(88vw,640px);
-  max-height:77vh;
+  width:min(88vw,660px);
+  max-height:76vh;
   overflow:auto;
-  padding:35px 35px;
-  background:linear-gradient(
-    90deg,#f1e9d5,#fffdf7 12%,
-    #fffdf7 88%,#f1e9d5
-  );
-  border:1px solid #b79d6880;
-  box-shadow:0 20px 55px #35463312;
-  text-align:center;
+  padding:48px 30px;
+  background:
+    linear-gradient(90deg,#e4d8b9,#fffdf5 12%,#fffdf5 88%,#e4d8b9);
+  border-top:12px solid #a7a080;
+  border-bottom:12px solid #a7a080;
+  box-shadow:0 20px 55px #35442e25;
+  transform:scaleX(.03);
+  opacity:0;
+  transition:transform 1.8s cubic-bezier(.2,.8,.2,1),opacity .8s;
 }
-.details-card:before{
+#s3.active .silk-scroll{
+  transform:scaleX(1);
+  opacity:1;
+}
+.silk-scroll:before{
   content:"";
   position:absolute;
-  inset:12px;
-  border:1px solid #b79d683c;
+  inset:16px;
+  border:1px solid #b5a17460;
   pointer-events:none;
 }
-.temple-art{
-  width:min(75%,330px);
-  height:auto;
-  margin:0 auto;
-  opacity:.65;
+.event-detail{
+  padding:16px 0;
+  border-top:1px solid #b5a17460;
 }
-.event{
-  border-top:1px solid #b79d6850;
-  padding:14px 0;
-}
-.event h3{
-  font-size:29px;
-  margin:6px 0;
-}
-.event p{
-  margin:4px 0;
-  font-size:12px;
-}
-.event .time{
-  font:29px "Cormorant Garamond",serif;
+.event-detail h3{font-size:25px;margin:8px}
+.event-detail p{font-size:13px;margin:5px}
+.event-detail .time{
   color:var(--olive);
+  font:25px "Playfair Display",serif;
 }
 
-/* Scene 4: Detailed silk fan */
-#scene4{
+/* SCENE 4: FAN */
+#s4{
   background:
-    radial-gradient(
-      circle at 50% 80%,#fffdf5,#eee8d8
-    );
+    radial-gradient(circle at 50% 65%,#fffdf5,#f0e8d3);
 }
 .fan-art{
   position:absolute;
-  bottom:-95px;
+  width:min(95vw,750px);
+  bottom:-120px;
   left:50%;
-  width:min(96vw,760px);
-  height:auto;
-  transform:translateX(-50%) rotate(-7deg);
-  opacity:.27;
-  pointer-events:none;
-  filter:drop-shadow(0 15px 12px #35463318);
+  transform:translateX(-50%) scale(.15) rotate(-55deg);
+  transform-origin:bottom center;
+  opacity:0;
+  transition:transform 2s cubic-bezier(.2,.8,.2,1),opacity 1.3s;
+}
+#s4.active .fan-art{
+  transform:translateX(-50%) scale(1) rotate(0);
+  opacity:.35;
 }
 .rsvp-card{
-  width:min(88vw,540px);
-  max-height:77vh;
-  overflow:auto;
-  padding:32px 30px;
-  border:1px solid #b79d6880;
+  padding:35px 25px;
   background:#fffdf5e8;
+  border:1px solid #b5a17490;
   backdrop-filter:blur(8px);
-  box-shadow:0 18px 60px #3546330c;
 }
 .rsvp-card form{
   display:grid;
-  gap:12px;
-  max-width:370px;
+  gap:13px;
+  max-width:390px;
   margin:25px auto 0;
 }
-.rsvp-card input,
-.rsvp-card select,
-.rsvp-card textarea{
-  padding:13px;
+.rsvp-card input,.rsvp-card select,.rsvp-card textarea{
   width:100%;
-  background:#fffdf8;
-  border:1px solid #ccc4ab;
-  color:var(--deep);
-  font-size:12px;
+  border:1px solid #c9c4af;
+  background:var(--ivory);
+  padding:13px;
+  color:var(--dark);
+  font-size:13px;
 }
 .rsvp-card button{
   padding:15px;
   background:var(--olive);
   color:white;
   border:0;
-  font-size:11px;
   letter-spacing:2px;
-  transition:background .3s;
 }
-.rsvp-card button:hover{
-  background:var(--deep);
+
+/* Per-scene entrance */
+.fade-up{
+  opacity:0;
+  transform:translateY(35px);
+  transition:opacity 1s,transform 1s;
+}
+.scene.active .fade-up{
+  opacity:1;
+  transform:translateY(0);
+  transition-delay:.7s;
+}
+
+/* Transitions */
+#transition{
+  position:fixed;
+  inset:0;
+  z-index:25;
+  pointer-events:none;
+  visibility:hidden;
+}
+#transition.playing{visibility:visible}
+
+/* Circular water reveal */
+#transition.water{
+  background:#dfe5d4;
+  clip-path:circle(0% at 50% 50%);
+  animation:waterCover 1.5s ease-in-out both;
+}
+@keyframes waterCover{
+  0%{clip-path:circle(0% at 50% 50%)}
+  48%{clip-path:circle(150% at 50% 50%)}
+  52%{clip-path:circle(150% at 50% 50%)}
+  100%{clip-path:circle(0% at 50% 50%)}
+}
+
+/* Silk wipe */
+#transition.silk{
+  background:
+    linear-gradient(90deg,#e5d9b9,#fffdf5,#e5d9b9);
+  transform:scaleX(0);
+  animation:silkCover 1.5s ease-in-out both;
+}
+@keyframes silkCover{
+  0%{transform:scaleX(0);transform-origin:left}
+  49%{transform:scaleX(1);transform-origin:left}
+  51%{transform:scaleX(1);transform-origin:right}
+  100%{transform:scaleX(0);transform-origin:right}
+}
+
+/* Fan-inspired radial reveal */
+#transition.fanwipe{
+  background:#f5efd9;
+  clip-path:polygon(50% 100%,50% 100%,50% 100%);
+  animation:fanCover 1.5s ease-in-out both;
+}
+@keyframes fanCover{
+  0%{clip-path:circle(0% at 50% 100%)}
+  48%{clip-path:circle(160% at 50% 100%)}
+  52%{clip-path:circle(160% at 50% 100%)}
+  100%{clip-path:circle(0% at 50% 100%)}
 }
 
 /* Navigation */
 .navigation{
   position:fixed;
-  z-index:35;
+  bottom:18px;
   left:50%;
-  bottom:16px;
   transform:translateX(-50%);
+  z-index:35;
   display:flex;
   align-items:center;
-  gap:15px;
-  padding:8px 14px;
-  border:1px solid #b79d6880;
+  gap:16px;
+  padding:9px 14px;
+  background:#fffdf5f0;
+  border:1px solid #b5a17480;
   border-radius:40px;
-  background:#fffdf5ed;
-  box-shadow:0 8px 25px #35463312;
+  box-shadow:0 8px 25px #35442e15;
 }
 .navigation button{
-  width:37px;height:37px;
-  border-radius:50%;
+  width:36px;height:36px;
   border:1px solid var(--gold);
+  border-radius:50%;
   background:transparent;
-  color:var(--deep);
+  color:var(--dark);
 }
-.navigation button:disabled{
-  opacity:.3;
-  cursor:default;
-}
+.navigation button:disabled{opacity:.3}
 .navigation span{
   font-size:11px;
   letter-spacing:2px;
-  min-width:55px;
+  min-width:52px;
   text-align:center;
 }
 
-/* Tiny slow drifting particles */
+/* Tiny drifting particles */
 .particle{
   position:fixed;
-  z-index:2;
+  z-index:4;
   width:3px;height:3px;
+  background:#b5a174;
   border-radius:50%;
-  background:var(--gold);
   pointer-events:none;
   opacity:0;
-  animation:drift 10s linear infinite;
+  animation:floatParticle linear infinite;
 }
-@keyframes drift{
-  0%{transform:translateY(20px);opacity:0}
-  35%{opacity:.3}
-  100%{transform:translateY(-100px);opacity:0}
+@keyframes floatParticle{
+  0%{transform:translateY(30px);opacity:0}
+  30%{opacity:.45}
+  100%{transform:translateY(-130px);opacity:0}
 }
 
 @media(max-width:650px){
-  .branch{width:120px;opacity:.18}
-  .story-card{padding:25px 20px}
-  .details-card{padding:25px 22px}
-  .rsvp-card{padding:25px 20px}
-  .lotus-art{width:min(65vw,260px)}
-  .fan-art{bottom:-35px}
+  .botanical{width:120px;opacity:.2}
+  .scene-inner{width:88vw}
+  .story-card,.rsvp-card{padding:28px 18px}
+  .silk-scroll{padding:30px 20px}
+  .fan-art{bottom:-165px}
   .navigation{bottom:10px}
   .gate{border-width:4px}
-  .frame{inset:4%}
-  .hero-name{font-size:100px}
 }
 @media(prefers-reduced-motion:reduce){
   *,*:before,*:after{
@@ -532,360 +551,229 @@ h2{
 </head>
 
 <body>
-<div class="texture"></div>
+<div class="grain"></div>
 
-<!-- Reusable SVG artwork -->
-<svg width="0" height="0"
-     style="position:absolute"
-     aria-hidden="true">
+<!-- Reusable decorations -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
 <defs>
-
-<linearGradient id="lotusGradient" x1="0" y1="1" x2="0" y2="0">
-  <stop offset="0%" stop-color="#a7ad87"/>
-  <stop offset="45%" stop-color="#e4d6b6"/>
-  <stop offset="100%" stop-color="#fff5df"/>
-</linearGradient>
-
-<linearGradient id="fanGradient" x1="0" y1="0" x2="0" y2="1">
-  <stop offset="0%" stop-color="#fffdf3"/>
-  <stop offset="100%" stop-color="#d9d3ae"/>
-</linearGradient>
-
-<!-- Botanical branch -->
-<symbol id="branch-art" viewBox="0 0 210 310">
-  <path d="M25 310 Q85 195 135 20"
-    stroke="#637153" stroke-width="2" fill="none"/>
-  <g fill="#879577" stroke="#637153" stroke-width="1">
-    <ellipse cx="60" cy="245" rx="15" ry="37"
-      transform="rotate(-45 60 245)"/>
-    <ellipse cx="105" cy="205" rx="14" ry="35"
-      transform="rotate(42 105 205)"/>
-    <ellipse cx="84" cy="160" rx="13" ry="32"
-      transform="rotate(-42 84 160)"/>
-    <ellipse cx="130" cy="120" rx="12" ry="30"
-      transform="rotate(40 130 120)"/>
-    <ellipse cx="110" cy="78" rx="11" ry="28"
-      transform="rotate(-32 110 78)"/>
+<symbol id="branch" viewBox="0 0 200 300">
+  <path d="M25 300 Q85 190 120 20"
+    fill="none" stroke="#63714b" stroke-width="2"/>
+  <g fill="#84916c" stroke="#63714b">
+    <ellipse cx="58" cy="235" rx="15" ry="36" transform="rotate(-45 58 235)"/>
+    <ellipse cx="98" cy="198" rx="14" ry="34" transform="rotate(42 98 198)"/>
+    <ellipse cx="78" cy="155" rx="13" ry="31" transform="rotate(-42 78 155)"/>
+    <ellipse cx="122" cy="112" rx="12" ry="30" transform="rotate(40 122 112)"/>
+    <ellipse cx="105" cy="73" rx="11" ry="27" transform="rotate(-32 105 73)"/>
   </g>
 </symbol>
-
-<!-- Detailed lotus illustration -->
-<symbol id="lotus" viewBox="0 0 400 320">
-  <g>
-    <path class="stem"
-      d="M200 245 Q198 280 190 315"/>
-    <path class="leaf"
-      d="M200 252 Q95 200 55 265
-         Q110 315 200 252Z"/>
-    <path class="leaf"
-      d="M200 252 Q305 200 345 265
-         Q290 315 200 252Z"/>
-
-    <path class="petal"
-      d="M200 245 Q125 135 200 25
-         Q275 135 200 245Z"/>
-    <path class="petal"
-      d="M200 245 Q75 170 105 80
-         Q180 105 200 245Z"/>
-    <path class="petal"
-      d="M200 245 Q325 170 295 80
-         Q220 105 200 245Z"/>
-    <path class="petal"
-      d="M200 245 Q35 230 35 145
-         Q155 140 200 245Z"/>
-    <path class="petal"
-      d="M200 245 Q365 230 365 145
-         Q245 140 200 245Z"/>
-
-    <path class="vein" d="M200 240 Q195 145 200 48"/>
-    <path class="vein" d="M197 239 Q140 155 111 98"/>
-    <path class="vein" d="M203 239 Q260 155 289 98"/>
-    <path class="vein" d="M190 239 Q115 194 53 159"/>
-    <path class="vein" d="M210 239 Q285 194 347 159"/>
-
-    <path d="M75 260 Q200 288 325 260"
-      fill="none" stroke="#b79d68" stroke-width="2"/>
-  </g>
+<symbol id="cloud" viewBox="0 0 210 100">
+  <path d="M5 65 H85 C45 65 45 20 82 20
+  C112 20 113 55 94 55 C82 55 82 42 94 42
+  M118 65 H205 M132 65 C115 65 115 38 145 38
+  C170 38 170 65 155 65"
+  fill="none" stroke="#82916b" stroke-width="2"/>
 </symbol>
-
-<!-- Vietnamese temple -->
 <symbol id="temple" viewBox="0 0 650 320">
-  <g stroke="#637153" stroke-width="2"
-     fill="none" stroke-linejoin="round">
-    <path d="M45 125 Q110 153 175 91
-      Q325 120 475 91
-      Q540 153 605 125
-      Q555 165 475 140
-      Q325 153 175 140
-      Q95 165 45 125Z"
-      fill="#63715325"/>
-    <path d="M175 91 L155 55
-      M475 91 L495 55
-      M175 145 V250
-      M475 145 V250
-      M215 150 V250
-      M435 150 V250
-      M215 250 H435
-      M275 250 V170
-      Q325 140 375 170 V250
-      M135 265 H515
-      M105 280 H545
-      M80 295 H570"/>
-    <path d="M240 175 V230
-      M410 175 V230
-      M250 180 H265
-      M385 180 H400"/>
+  <g fill="none" stroke="#63714b" stroke-width="2">
+    <path d="M45 130 Q110 155 175 93
+    Q325 120 475 93 Q540 155 605 130
+    Q550 165 475 140 Q325 155 175 140
+    Q100 165 45 130Z" fill="#63714b25"/>
+    <path d="M175 93 L155 60 M475 93 L495 60
+    M175 145 L175 250 M475 145 L475 250
+    M215 150 L215 250 M435 150 L435 250
+    M215 250 H435 M275 250 V170
+    Q325 140 375 170 V250
+    M135 265 H515 M105 280 H545
+    M80 295 H570"/>
+    <path d="M240 175 V230 M410 175 V230
+    M250 180 H265 M385 180 H400"/>
   </g>
-</symbol>
-
-<!-- Detailed silk fan -->
-<symbol id="fan" viewBox="0 0 760 430">
-  <path d="M380 410 L55 165
-    Q380 -125 705 165Z"
-    fill="url(#fanGradient)"
-    stroke="#637153"
-    stroke-width="3"/>
-
-  <path d="M380 390 L95 170
-    Q380 -75 665 170Z"
-    fill="none"
-    stroke="#b79d68"
-    stroke-width="2"/>
-
-  <g stroke="#8c9777" stroke-width="2" opacity=".65">
-    <line x1="380" y1="410" x2="55" y2="165"/>
-    <line x1="380" y1="410" x2="115" y2="75"/>
-    <line x1="380" y1="410" x2="225" y2="-10"/>
-    <line x1="380" y1="410" x2="380" y2="-30"/>
-    <line x1="380" y1="410" x2="535" y2="-10"/>
-    <line x1="380" y1="410" x2="645" y2="75"/>
-    <line x1="380" y1="410" x2="705" y2="165"/>
-  </g>
-
-  <!-- Lotus on fan -->
-  <g transform="translate(300 75) scale(.4)">
-    <path d="M200 245 Q125 135 200 25
-      Q275 135 200 245Z"
-      fill="#c9c9a1" stroke="#637153" stroke-width="2"/>
-    <path d="M200 245 Q75 170 105 80
-      Q180 105 200 245Z"
-      fill="#e5d8b8" stroke="#637153" stroke-width="2"/>
-    <path d="M200 245 Q325 170 295 80
-      Q220 105 200 245Z"
-      fill="#e5d8b8" stroke="#637153" stroke-width="2"/>
-    <path d="M200 245 Q35 230 35 145
-      Q155 140 200 245Z"
-      fill="#aab493" stroke="#637153" stroke-width="2"/>
-    <path d="M200 245 Q365 230 365 145
-      Q245 140 200 245Z"
-      fill="#aab493" stroke="#637153" stroke-width="2"/>
-  </g>
-
-  <g fill="none" stroke="#b79d68" stroke-width="1.5">
-    <path d="M140 165 Q195 120 235 150"/>
-    <path d="M525 150 Q570 120 620 165"/>
-    <path d="M160 175 Q200 150 225 170"/>
-    <path d="M535 170 Q560 150 600 175"/>
-  </g>
-
-  <circle cx="380" cy="410" r="14"
-    fill="#b79d68" stroke="#637153" stroke-width="2"/>
 </symbol>
 </defs>
 </svg>
 
-<!-- SCENE 1: OPENING -->
-<section class="scene active" id="scene1">
-  <div class="frame">
-    <i class="corner tl"></i>
-    <i class="corner tr"></i>
-    <i class="corner bl"></i>
-    <i class="corner br"></i>
-  </div>
-
-  <svg class="branch left"><use href="#branch-art"/></svg>
-  <svg class="branch right"><use href="#branch-art"/></svg>
-
-  <div class="content hero-content">
-    <p class="eyebrow">Trân trọng báo hỷ</p>
-
-    <svg class="lotus-art floating"
-         style="width:150px;margin-bottom:0"
-         viewBox="0 0 400 320">
-      <use href="#lotus"/>
-    </svg>
-
-    <h1 class="script hero-name">
-      Minh <span>&</span> An
-    </h1>
-
-    <div class="gold-rule"></div>
-    <p class="hero-date">20 · 11 · 2027</p>
-    <p class="eyebrow">The Wedding Celebration</p>
-  </div>
-
-  <div class="gate left">
-    <div class="gate-ornament">囍</div>
-  </div>
-  <div class="gate right">
-    <div class="gate-ornament">囍</div>
-  </div>
-
-  <button class="open-button" id="openGate">
-    CHẠM ĐỂ MỞ THIỆP
-  </button>
-</section>
-
-<!-- SCENE 2: LOVE STORY -->
-<section class="scene" id="scene2">
-  <svg class="branch left"><use href="#branch-art"/></svg>
-  <svg class="branch right"><use href="#branch-art"/></svg>
-
-  <svg class="lotus-art lotus-backdrop"
-       viewBox="0 0 400 320">
-    <use href="#lotus"/>
-  </svg>
-
-  <div class="content story-card">
-    <p class="eyebrow">Our Love Story</p>
-
-    <svg class="lotus-art floating"
-         style="width:170px"
-         viewBox="0 0 400 320">
-      <use href="#lotus"/>
-    </svg>
-
-    <h2>Chuyện Chúng Mình</h2>
-    <div class="gold-rule"></div>
-
-    <blockquote>
-      “Giữa muôn vàn cuộc gặp gỡ,<br>
-      thật may mắn khi chúng ta tìm thấy nhau.”
-    </blockquote>
-
-    <p>
-      Từ những ngày đầu gặp gỡ đến những tháng năm
-      đồng hành, chúng mình đã tìm thấy một mái nhà
-      trong trái tim nhau.
-    </p>
-  </div>
-</section>
-
-<!-- SCENE 3: WEDDING DETAILS -->
-<section class="scene" id="scene3">
-  <svg class="branch left"><use href="#branch-art"/></svg>
-  <svg class="branch right"><use href="#branch-art"/></svg>
-
-  <div class="details-card">
-    <p class="eyebrow">Wedding Details</p>
-
-    <svg class="temple-art" viewBox="0 0 650 320">
+<!-- SCENE 1 -->
+<section class="scene active" id="s1">
+  <div class="gate-background">
+    <svg class="temple-silhouette" viewBox="0 0 650 320">
       <use href="#temple"/>
     </svg>
 
-    <h2>Ngày Hạnh Phúc</h2>
-    <div class="gold-rule"></div>
+    <svg class="cloud a"><use href="#cloud"/></svg>
+    <svg class="cloud b"><use href="#cloud"/></svg>
 
-    <p style="font-size:12px">
-      Thứ Bảy · 20 tháng 11 năm 2027
+    <div class="ornate-frame">
+      <i class="corner tl"></i>
+      <i class="corner tr"></i>
+      <i class="corner bl"></i>
+      <i class="corner br"></i>
+    </div>
+
+    <div class="scene-inner gate-copy">
+      <p class="eyebrow">Trân trọng báo hỷ</p>
+      <h1 class="script">Minh <span>&</span> An</h1>
+      <div class="gold-line"></div>
+      <p>20 · 11 · 2027</p>
+      <p class="eyebrow">The Wedding Celebration</p>
+    </div>
+  </div>
+
+  <div class="gate left">
+    <div class="gate-motif">囍</div>
+  </div>
+  <div class="gate right">
+    <div class="gate-motif">囍</div>
+  </div>
+
+  <button class="gate-button" id="openGate">
+    CHẠM ĐỂ MỞ CỔNG
+  </button>
+</section>
+
+<!-- SCENE 2 -->
+<section class="scene" id="s2">
+  <div class="pond-ripple"></div>
+  <div class="pond-ripple"></div>
+
+  <svg class="botanical left"><use href="#branch"/></svg>
+  <svg class="botanical right"><use href="#branch"/></svg>
+
+  <svg class="lotus-art" viewBox="0 0 500 430">
+    <path class="petal" d="M250 350 Q155 190 250 20 Q345 190 250 350Z"/>
+    <path class="petal" d="M250 350 Q70 260 100 100 Q225 155 250 350Z"/>
+    <path class="petal" d="M250 350 Q430 260 400 100 Q275 155 250 350Z"/>
+    <path class="petal" d="M250 350 Q20 360 25 230 Q175 210 250 350Z"/>
+    <path class="petal" d="M250 350 Q480 360 475 230 Q325 210 250 350Z"/>
+  </svg>
+
+  <div class="scene-inner story-card">
+    <p class="eyebrow fade-up">Our Love Story</p>
+    <h2 class="fade-up">Chuyện Chúng Mình</h2>
+    <blockquote class="fade-up">
+      “Giữa muôn vàn cuộc gặp gỡ,<br>
+      thật may mắn khi chúng ta tìm thấy nhau.”
+    </blockquote>
+    <div class="gold-line"></div>
+    <p class="fade-up">
+      Từ những khoảnh khắc giản dị,
+      chúng mình đã cùng viết nên một câu chuyện
+      yêu thương. Và hôm nay, câu chuyện ấy
+      bước sang chương mới.
     </p>
+  </div>
+</section>
 
-    <div class="event">
+<!-- SCENE 3 -->
+<section class="scene" id="s3">
+  <svg class="cloud a"><use href="#cloud"/></svg>
+  <svg class="cloud b"><use href="#cloud"/></svg>
+
+  <div class="silk-scroll">
+    <p class="eyebrow">Wedding Details</p>
+    <h2>Ngày Hạnh Phúc</h2>
+    <div class="gold-line"></div>
+    <p>Thứ Bảy · 20 tháng 11 năm 2027</p>
+
+    <div class="event-detail">
       <h3>Lễ Thành Hôn</h3>
       <p class="time">09:00</p>
       <p>Tư gia nhà trai</p>
       <p>[Địa chỉ tổ chức]</p>
     </div>
 
-    <div class="event">
+    <div class="event-detail">
       <h3>Tiệc Cưới</h3>
       <p class="time">18:00</p>
       <p>Trung tâm tiệc cưới</p>
       <p>[Địa chỉ tổ chức]</p>
     </div>
+
+    <p style="font-size:12px">
+      Sự hiện diện của bạn là niềm hạnh phúc
+      của chúng mình.
+    </p>
   </div>
 </section>
 
-<!-- SCENE 4: RSVP -->
-<section class="scene" id="scene4">
-  <div class="frame">
-    <i class="corner tl"></i>
-    <i class="corner tr"></i>
-    <i class="corner bl"></i>
-    <i class="corner br"></i>
-  </div>
+<!-- SCENE 4 -->
+<section class="scene" id="s4">
+  <svg class="botanical left"><use href="#branch"/></svg>
+  <svg class="botanical right"><use href="#branch"/></svg>
 
-  <svg class="fan-art" viewBox="0 0 760 430">
-    <use href="#fan"/>
+  <svg class="fan-art" viewBox="0 0 700 380" aria-hidden="true">
+    <path d="M350 365 L35 145 Q350 -120 665 145Z"
+      fill="#d8d3ac" stroke="#63714b" stroke-width="3"/>
+    <g stroke="#63714b" stroke-width="2">
+      <line x1="350" y1="365" x2="35" y2="145"/>
+      <line x1="350" y1="365" x2="110" y2="55"/>
+      <line x1="350" y1="365" x2="230" y2="-15"/>
+      <line x1="350" y1="365" x2="350" y2="0"/>
+      <line x1="350" y1="365" x2="470" y2="-15"/>
+      <line x1="350" y1="365" x2="590" y2="55"/>
+      <line x1="350" y1="365" x2="665" y2="145"/>
+    </g>
+    <circle cx="350" cy="365" r="12" fill="#b5a174"/>
   </svg>
 
-  <div class="rsvp-card">
-    <p class="eyebrow">Kindly Reply</p>
-
-    <svg class="lotus-art"
-         style="width:125px;margin-bottom:0"
-         viewBox="0 0 400 320">
-      <use href="#lotus"/>
-    </svg>
-
-    <h2>Xác Nhận Tham Dự</h2>
-    <div class="gold-rule"></div>
-
-    <p style="font-size:13px">
+  <div class="scene-inner rsvp-card">
+    <p class="eyebrow fade-up">Kindly Reply</p>
+    <h2 class="fade-up">Xác Nhận Tham Dự</h2>
+    <p class="fade-up">
       Chúng mình rất mong được đón tiếp bạn
       trong ngày đặc biệt này.
     </p>
 
     <form id="rsvpForm">
-      <input id="guestName"
-        placeholder="Họ và tên" required>
-
+      <input id="guestName" placeholder="Họ và tên" required>
       <select id="attendance" required>
         <option value="">Bạn sẽ tham dự chứ?</option>
         <option value="Có tham dự">Rất vui được tham dự</option>
         <option value="Không tham dự">Xin lỗi, không thể tham dự</option>
       </select>
-
       <textarea id="wish" rows="3"
         placeholder="Lời chúc gửi đến chúng mình"></textarea>
-
       <button type="submit">GỬI XÁC NHẬN</button>
     </form>
   </div>
 </section>
 
-<nav class="navigation" aria-label="Điều hướng thiệp">
-  <button id="prev" aria-label="Trang trước">←</button>
+<div id="transition"></div>
+
+<nav class="navigation" aria-label="Điều hướng">
+  <button id="prev" aria-label="Cảnh trước">←</button>
   <span id="counter">01 / 04</span>
-  <button id="next" aria-label="Trang tiếp">→</button>
+  <button id="next" aria-label="Cảnh tiếp">→</button>
 </nav>
 
 <script>
 const scenes=[...document.querySelectorAll(".scene")];
-const gate=document.getElementById("scene1");
+const overlay=document.getElementById("transition");
+const counter=document.getElementById("counter");
 const prev=document.getElementById("prev");
 const next=document.getElementById("next");
-const counter=document.getElementById("counter");
+const gate=document.getElementById("s1");
 
 let current=0;
-let gateOpened=false;
 let busy=false;
+let gateOpened=false;
 
+/* Open 3D temple gate */
 function openTemple(){
   if(gateOpened)return;
   gateOpened=true;
   gate.classList.add("open");
 }
-
 document.getElementById("openGate")
   .addEventListener("click",openTemple);
 
-function updateNav(){
-  counter.textContent=
-    String(current+1).padStart(2,"0")+" / 04";
-  prev.disabled=current===0;
-  next.disabled=current===scenes.length-1;
-}
+/* Each scene gets its own transition */
+const transitionStyles=[
+  "water",
+  "silk",
+  "fanwipe"
+];
 
 function changeScene(index){
   if(busy||index<0||index>=scenes.length||index===current)return;
@@ -896,14 +784,35 @@ function changeScene(index){
   }
 
   busy=true;
-  scenes[current].classList.remove("active");
 
+  // Pick effect based on destination.
+  // Reverse transitions use the previous scene's effect.
+  const boundary=Math.min(current,index);
+  const effect=transitionStyles[boundary];
+
+  overlay.className="";
+  void overlay.offsetWidth;
+  overlay.className="playing "+effect;
+
+  // Switch scenes when the transition covers the screen.
   setTimeout(()=>{
+    scenes[current].classList.remove("active");
     current=index;
     scenes[current].classList.add("active");
     updateNav();
-    setTimeout(()=>busy=false,850);
-  },400);
+  },750);
+
+  setTimeout(()=>{
+    overlay.className="";
+    busy=false;
+  },1550);
+}
+
+function updateNav(){
+  counter.textContent=
+    String(current+1).padStart(2,"0")+" / 04";
+  prev.disabled=current===0;
+  next.disabled=current===scenes.length-1;
 }
 
 next.addEventListener("click",()=>{
@@ -924,7 +833,7 @@ document.addEventListener("keydown",e=>{
   if(e.key==="ArrowLeft")changeScene(current-1);
 });
 
-/* Mobile swipe */
+/* Touch swipe navigation */
 let startX=0,startY=0;
 document.addEventListener("touchstart",e=>{
   startX=e.touches[0].clientX;
@@ -945,29 +854,26 @@ document.addEventListener("touchend",e=>{
   }
 },{passive:true});
 
-/* Very subtle decorative particles */
+/* Subtle glowing particles */
 if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches){
-  for(let i=0;i<12;i++){
-    const p=document.createElement("span");
+  for(let i=0;i<22;i++){
+    const p=document.createElement("div");
     p.className="particle";
     p.style.left=Math.random()*100+"%";
     p.style.top=Math.random()*100+"%";
-    p.style.animationDuration=(8+Math.random()*7)+"s";
+    p.style.animationDuration=(5+Math.random()*7)+"s";
     p.style.animationDelay=(-Math.random()*12)+"s";
     document.body.appendChild(p);
   }
 }
 
-/* RSVP opens an email draft */
+/* RSVP - email draft */
 document.getElementById("rsvpForm").addEventListener("submit",e=>{
   e.preventDefault();
-
   const name=document.getElementById("guestName").value;
   const attendance=document.getElementById("attendance").value;
   const wish=document.getElementById("wish").value;
-
-  const body=
-    `Họ tên: ${name}\nTham dự: ${attendance}\nLời chúc: ${wish}`;
+  const body=`Họ tên: ${name}\nTham dự: ${attendance}\nLời chúc: ${wish}`;
 
   window.location.href=
     "mailto:your-email@example.com?subject="+
