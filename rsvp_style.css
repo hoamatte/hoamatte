@@ -97,12 +97,21 @@
       cursor: pointer;
     }
 
-    button:focus-visible,
-    input:focus-visible,
-    textarea:focus-visible {
-      outline: 2px solid var(--olive-light);
-      outline-offset: 2px;
-    }
+	/* Keep focus indicators on buttons */
+	button:focus-visible {
+	  outline: 2px solid var(--olive-light);
+	  outline-offset: 2px;
+	}
+
+	/* No border or outline when typing */
+	.rsvp-input:focus,
+	.rsvp-input:focus-visible,
+	.rsvp-message:focus,
+	.rsvp-message:focus-visible {
+	  outline: none;
+	  border: none;
+	  box-shadow: none;
+	}
 
     /* =====================================
        PAGE 1 — COVER
@@ -559,4 +568,27 @@
   }
 }
 
-  
+
+/* =====================================
+   PAGE 5 — CONFIRMATION MESSAGE
+===================================== */
+
+.confirmation_text {
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  width: 80%;
+
+  transform: translate(-50%, -50%);
+
+  color: var(--olive);
+  font-family: var(--font-title);
+  font-size: clamp(16px, 4cqw, 24px);
+  font-weight: normal;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-align: center;
+}
+
+
+ 

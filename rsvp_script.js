@@ -55,7 +55,7 @@ const SETTINGS = {
 
     sending: "ĐANG GỬI...",
     sent:
-      "Yêu cầu đã được gửi!",
+      "Xác nhận đã được gửi!",
     error: "Không thể gửi. Vui lòng thử lại.",
     noScript: "Chưa kết nối Google Sheets.",
     noMap: "Chưa có liên kết Google Maps.",
@@ -216,7 +216,13 @@ function updateLanguage() {
     $(id).textContent = a.back;
   });
 
-  $("rsvpStatus").textContent = "";
+  /*$("rsvpStatus").textContent = "";*/
+  
+
+showPage("confirmationPage");
+
+$("confirmationText").textContent =
+  SETTINGS[currentLanguage].success;
 
 }
 
@@ -272,28 +278,37 @@ async function submitRSVP(event) {
   status.textContent = "";
 
   try {
-    await fetch(scriptUrl, {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8"
-      },
-      body: JSON.stringify(payload)
-    });
 
-    // no-cors cannot confirm Google Sheets
-    // successfully saved the response.
-    status.textContent = a.sent;
+      await fetch(scriptUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify(payload)
+      });
 
-  } catch (error) {
-    console.error("RSVP submission error:", error);
-    status.textContent = a.error;
+      // Move to Page 5
+      showPage("confirmationPage");
 
-  } finally {
-    button.disabled = false;
-    button.textContent = a.rsvpButton;
+      // Display confirmation on Page 5
+      const confirmationText = $("confirmationText");
+
+      if (confirmationText) {
+        confirmationText.textContent = a.sent;
+      }
+
+    } catch (error) {
+      console.error("RSVP submission error:", error);
+      status.textContent = a.error;
+
+    } finally {
+      button.disabled = false;
+      button.textContent = a.rsvpButton;
+    }
   }
-}
+	  
+    
 
 /* ==========================================
    BUTTON EVENTS
@@ -398,4 +413,3 @@ updateLanguage();
 showPage("coverPage");
 changeGuests(0);
 createFallingPetals();
-
