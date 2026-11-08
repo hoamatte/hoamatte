@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Matteo ♡ Hoà | Wedding Invitation</title>
+
+  <link rel="stylesheet" href="rsvp_style.css">
+</head>
+
+<body>
+
+<main>
+  <div class="card" id="card">
+	  
+	<div class="falling-petals" id="fallingPetals" aria-hidden="true"></div>
+
+    <!-- PAGE 1: COVER -->
+    <section class="page active" id="coverPage">
+
+      <img
+        class="artwork"
+        src="rsvp_cover.png"
+        alt="Matteo and Hoà wedding invitation"
+      >
+
+      <div class="overlay">
+        <button
+          type="button"
+          class="cover-action"
+          id="openItalian"
+          aria-label="Apri in italiano"
+        ></button>
+
+        <button
+          type="button"
+          class="cover-action"
+          id="openVietnamese"
+          aria-label="Mở thiệp tiếng Việt"
+        ></button>
+      </div>
+    </section>
+
+    <!-- PAGE 2: CEREMONY DETAILS -->
+    <section
+      class="page"
+      id="detailsPage"
+      inert
+    >
+
+      <img
+        class="artwork"
+        src="rsvp_details.png"
+        alt="Ceremony details"
+      >
+
+      <div class="overlay">
+
+        <div
+          class="detail-text"
+          id="dateTimeText"
+        >
+		  <div id="dateText"></div>
+          <div id="timeText"></div>
+	  	</div>
+
+        <div
+          class="detail-text"
+          id="locationField"
+        >
+          <span id="venueText"></span>
+          <small id="addressText"></small>
+        </div>
+
+        <button
+          type="button"
+          id="mapButton"
+          aria-label="Google Maps"
+        ></button>
+
+        <div
+          class="detail-text"
+          id="dressText"
+        ></div>
+
+        <button
+          type="button"
+          class="nav-main"
+          id="goProgram"
+        ></button>
+
+        <button
+          type="button"
+          class="back"
+          id="backToCover"
+        ></button>
+
+      </div>
+    </section>
+
+    <!-- PAGE 3: PROGRAM & TIMELINE -->
+    <section
+      class="page"
+      id="programPage"
+      inert
+    >
+
+      <img
+        class="artwork"
+        src="rsvp_program.png"
+        alt="Wedding program"
+      >
+
+      <div class="overlay">
+
+        <div class="program-content">
+
+          <p
+            class="program-intro"
+            id="programIntro"
+          ></p>
+
+          <ol
+            class="timeline"
+            id="timeline"
+          ></ol>
+
+        </div>
+
+        <button
+          type="button"
+          class="nav-main"
+          id="goRSVP"
+        ></button>
+
+        <button
+          type="button"
+          class="back"
+          id="backToDetails"
+        ></button>
+
+      </div>
+    </section>
+
+    <!-- PAGE 4: RSVP -->
+    <section
+      class="page"
+      id="rsvpPage"
+      inert
+    >
+
+      <img
+        class="artwork"
+        src="rsvp_main.png"
+        alt="Wedding RSVP form"
+      >
+
+      <form
+        class="overlay"
+        id="rsvpForm"
+      >
+
+        <h2
+          class="rsvp-title"
+          id="rsvpTitle"
+        ></h2>
+
+        <input
+          class="rsvp-input"
+          id="guestName"
+          name="name"
+          type="text"
+          autocomplete="name"
+          maxlength="150"
+          required
+        >
+
+        <span id="guestCountLabel"></span>
+
+        <div class="guest-counter">
+
+          <button
+            type="button"
+            id="minusGuest"
+            aria-label="Minus one guest"
+          >−</button>
+
+          <span id="guestCount">1</span>
+
+          <button
+            type="button"
+            id="plusGuest"
+            aria-label="Plus one guest"
+          >+</button>
+
+        </div>
+
+        <input
+          class="rsvp-input"
+          id="departure"
+          name="departure"
+          type="text"
+          maxlength="150"
+        >
+
+        <textarea
+          class="rsvp-message"
+          id="guestMessage"
+          name="message"
+          maxlength="1000"
+        ></textarea>
+
+        <input
+          class="rsvp-input"
+          id="dietary"
+          name="dietary"
+          type="text"
+          maxlength="300"
+        >
+		<p id="rsvpHelpText"></p>
+		
+        <button
+          type="submit"
+          id="submitRSVP"
+        ></button>
+
+        <div
+          id="rsvpStatus"
+          role="status"
+          aria-live="polite"
+        ></div>
+
+        <button
+          type="button"
+          class="back"
+          id="backToProgram"
+        ></button>
+
+      </form>
+    </section>
+
+  </div>
+</main>
+
+<script src="rsvp_script.js"></script>
+
+</body>
+</html>
