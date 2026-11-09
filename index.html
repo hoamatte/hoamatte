@@ -1,82 +1,36 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-  <title>Duyên Lành Hội Ngộ | Invitation</title>
-
-  <!-- Load the main background early -->
-  <link rel="preload"
-        href="pagoda_x4.png"
-        as="image"
-        fetchpriority="high">
-
-  <!-- Load stylesheet -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invitation Letter</title>
   <link rel="stylesheet" href="style.css">
-
-  <!-- Load font without blocking rendering -->
-  <link rel="preconnect"
-        href="https://fonts.googleapis.com">
-  <link rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Corinthia:wght@400;700&display=swap"
-        rel="stylesheet">
-
-  <!-- Load JS after HTML parsing -->
-  <script src="script.js" defer></script>
+  <link rel="preload" as="image" href="pagoda_x4.png">
 </head>
-
 <body>
 
-  <div class="stage-container">
+<div class="stage-container">
+  <div class="stage" id="stage">
+    <div class="background-image"></div>
+    <div class="gate-door gate-left" id="gateLeft"></div>
+    <div class="gate-door gate-right" id="gateRight"></div>
+    <div class="bird" id="bird">
+      <div class="bird-sprite"></div>
+    </div>
+	<div class="flying-letter-bird" id="flyingBird">
+	  <div class="letter-bird-sprite"></div>
+	</div>
+    <div class="character character-left" id="charLeft">
+      <div class="sprite"></div>
+    </div>
+    <div class="character character-right" id="charRight">
+      <div class="sprite"></div>
+    </div>
 
-    <main class="stage" id="stage">
+	<div class="final-title" id="finalTitle"></div> <!-->Chào mừng! Benvenuti!<!-->
+	</div>
+</div>
 
-      <!-- Pagoda background -->
-      <div class="background-image"></div>
-
-      <!-- Pagoda doors -->
-      <div class="gate-door gate-left"
-           id="gateLeft"></div>
-
-      <div class="gate-door gate-right"
-           id="gateRight"></div>
-
-      <!-- Small flying bird -->
-      <div class="bird" id="bird">
-        <div class="bird-sprite"></div>
-      </div>
-
-      <!-- Bird delivering invitation -->
-      <div class="flying-letter-bird"
-           id="flyingBird">
-        <div class="letter-bird-sprite"></div>
-      </div>
-
-      <!-- Left character -->
-      <div class="character character-left"
-           id="charLeft">
-        <div class="sprite"></div>
-      </div>
-
-      <!-- Right character -->
-      <div class="character character-right"
-           id="charRight">
-        <div class="sprite"></div>
-      </div>
-
-      <!-- Final title -->
-      <div class="final-title"
-           id="finalTitle">
-      </div>
-
-    </main>
-
-  </div>
-
+  <script src="script.js" defer></script>
 </body>
 </html>
