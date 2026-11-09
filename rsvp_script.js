@@ -2,6 +2,11 @@
 /* ==========================================
    SETTINGS — EDIT YOUR INFORMATION HERE
 ========================================== */
+// Replace with your actual wedding date and time.
+// Example: March 1, 2027 at 09:00 in Vietnam (UTC+7).
+const WEDDING_DATE = "2027-01-03T09:00:00+07:00";
+
+
 
 const SETTINGS = {
   googleMapsUrl: "https://maps.app.goo.gl/GvbNT3b8N9Pje87b8",
@@ -9,7 +14,7 @@ const SETTINGS = {
 
   vi: {
     date: "03 . Tháng 01 . 2027",
-    time: "9:00",
+    time: "9:00 Sáng",
     venue: "Chùa Tảo Sách (Linh Sơn Tự)",
     address: "386 Đ. Lạc Long Quân, Tây Hồ,\r\nHà Nội",
     dresscode: "Áo Dài - Âu Phục",
@@ -64,7 +69,7 @@ const SETTINGS = {
 
   it: {
     date: "03 . Gennaio . 2027",
-    time: "9:00",
+    time: "Orario: 9.00",
     venue: "Tao Sach Pagoda (Linh Son Tu)",
     address: "386 Via Lac Long Quan, Tay Ho,\r\nHanoi, Vietnam",
     dresscode: "Ao Dai - Abito",
@@ -214,6 +219,7 @@ function updateLanguage() {
     "backToProgram"
   ].forEach(id => {
     $(id).textContent = a.back;
+	updateCountdownLanguage();
   });
 
   /*$("rsvpStatus").textContent = "";*/
@@ -406,10 +412,52 @@ function createFallingPetals() {
 
 
 /* ==========================================
+   WEDDING COUNTDOWN
+========================================== */
+
+function updateCountdown() {
+  const weddingTime = new Date(WEDDING_DATE).getTime();
+  const now = Date.now();
+
+  if (!Number.isFinite(weddingTime)) return;
+
+  const difference = Math.max(0, weddingTime - now);
+
+  const days = Math.floor(difference / 86400000);
+  const hours = Math.floor((difference / 3600000) % 24);
+  const minutes = Math.floor((difference / 60000) % 60);
+  const seconds = Math.floor((difference / 1000) % 60);
+
+  $("countDays").textContent = String(days).padStart(2, "0");
+  $("countHours").textContent = String(hours).padStart(2, "0");
+  $("countMinutes").textContent = String(minutes).padStart(2, "0");
+  $("countSeconds").textContent = String(seconds).padStart(2, "0");
+}
+
+function updateCountdownLanguage() {
+  const isItalian = currentLanguage === "it";
+
+  $("countdownTitle").textContent = isItalian
+    ? "CONTO ALLA ROVESCIA"
+    : "ĐẾM NGƯỢC NGÀY LỄ";
+
+  $("labelDays").textContent = isItalian ? "Giorni" : "Ngày";
+  $("labelHours").textContent = isItalian ? "Ore" : "Giờ";
+  $("labelMinutes").textContent = isItalian ? "Minuti" : "Phút";
+  $("labelSeconds").textContent = isItalian ? "Secondi" : "Giây";
+}
+
+
+/* ==========================================
    INITIALIZE
 ========================================== */
+
 
 updateLanguage();
 showPage("coverPage");
 changeGuests(0);
 createFallingPetals();
+
+// Start wedding countdown
+updateCountdown();
+setInterval(updateCountdown, 1000);
