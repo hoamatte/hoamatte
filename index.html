@@ -1,40 +1,82 @@
-<!doctype html>
-<html lang="vi">
+
+<!DOCTYPE html>
+<html lang="it">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#fff8ee">
-  <title>Duyên Lành Hội Ngộ</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Corinthia:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="preload" as="image" href="pagoda_x4.png" fetchpriority="high">
-  <link rel="preload" as="image" href="aodai_man_1.png">
-  <link rel="preload" as="image" href="aodai_lady_1.png">
-  <link rel="preload" as="image" href="door_left.png">
-  <link rel="preload" as="image" href="door_right.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Duyên Lành Hội Ngộ | Invitation</title>
+
+  <!-- Load the main background early -->
+  <link rel="preload"
+        href="pagoda_x4.png"
+        as="image"
+        fetchpriority="high">
+
+  <!-- Load stylesheet -->
   <link rel="stylesheet" href="style.css">
+
+  <!-- Load font without blocking rendering -->
+  <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+  <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Corinthia:wght@400;700&display=swap"
+        rel="stylesheet">
+
+  <!-- Load JS after HTML parsing -->
   <script src="script.js" defer></script>
 </head>
+
 <body>
-  <div class="loading-overlay" id="loadingOverlay" role="status" aria-live="polite">
-    <div class="loading-flower" aria-hidden="true">❀</div>
-    <p>Đang chuẩn bị thiệp mời…</p>
-    <div class="loading-track"><div class="loading-progress" id="loadingProgress"></div></div>
-  </div>
+
   <div class="stage-container">
-    <main class="stage" id="stage" aria-label="Wedding invitation animation">
+
+    <main class="stage" id="stage">
+
+      <!-- Pagoda background -->
       <div class="background-image"></div>
-      <div class="gate-door gate-left" id="gateLeft"></div>
-      <div class="gate-door gate-right" id="gateRight"></div>
-      <div class="bird" id="bird"><div class="bird-sprite"></div></div>
-      <button class="flying-letter-bird" id="flyingBird" type="button" aria-label="Open wedding invitation" disabled>
-        <span class="letter-bird-sprite"></span>
-      </button>
-      <div class="character character-left" id="charLeft"><div class="sprite"></div></div>
-      <div class="character character-right" id="charRight"><div class="sprite"></div></div>
-      <div class="final-title" id="finalTitle" aria-hidden="true"></div>
+
+      <!-- Pagoda doors -->
+      <div class="gate-door gate-left"
+           id="gateLeft"></div>
+
+      <div class="gate-door gate-right"
+           id="gateRight"></div>
+
+      <!-- Small flying bird -->
+      <div class="bird" id="bird">
+        <div class="bird-sprite"></div>
+      </div>
+
+      <!-- Bird delivering invitation -->
+      <div class="flying-letter-bird"
+           id="flyingBird">
+        <div class="letter-bird-sprite"></div>
+      </div>
+
+      <!-- Left character -->
+      <div class="character character-left"
+           id="charLeft">
+        <div class="sprite"></div>
+      </div>
+
+      <!-- Right character -->
+      <div class="character character-right"
+           id="charRight">
+        <div class="sprite"></div>
+      </div>
+
+      <!-- Final title -->
+      <div class="final-title"
+           id="finalTitle">
+      </div>
+
     </main>
+
   </div>
+
 </body>
 </html>
