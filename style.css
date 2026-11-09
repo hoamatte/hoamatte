@@ -1,351 +1,82 @@
-/* Import fonts */
-/* Font loaded in HTML for faster parallel loading */
 
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-/* =========================================================
-   1. RESET E STILI DI BASE
-   ========================================================= */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+  <title>Duyên Lành Hội Ngộ | Invitation</title>
 
-body, html {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #111;
-}
+  <!-- Load the main background early -->
+  <link rel="preload"
+        href="pagoda_x4.png"
+        as="image"
+        fetchpriority="high">
 
-:root {
-  --char-scale: 0.5;
-  --bird-scale: 0.15;
-  --letter-bird-scale: 0.6;
-}
+  <!-- Load stylesheet -->
+  <link rel="stylesheet" href="style.css">
 
+  <!-- Load font without blocking rendering -->
+  <link rel="preconnect"
+        href="https://fonts.googleapis.com">
+  <link rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Corinthia:wght@400;700&display=swap"
+        rel="stylesheet">
 
-/* =========================================================
-   2. CONTENITORE E PALCOSCENICO (STAGE)
-   ========================================================= */
-.stage-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  background-color: #111;
-  overflow: hidden;
-}
+  <!-- Load JS after HTML parsing -->
+  <script src="script.js" defer></script>
+</head>
 
-.stage {
-  position: relative;
-  width: min(100vw, calc(100vh * (1226 / 864)));
-  aspect-ratio: 1226 / 864;
-  max-width: 1226px;
-  max-height: 864px;
-  overflow: hidden;
-  flex-shrink: 0;
-  perspective: 1000px;
-}
+<body>
 
+  <div class="stage-container">
 
-/* =========================================================
-   3. SFONDO ANIMATO E TITOLO
-   ========================================================= */
-.background-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('pagoda_x4.png');
-  background-size: 400% 100%;
-  background-repeat: no-repeat;
-  background-position: 0 0;
-  z-index: 1;
-  animation: bgSpriteAnimation 0.8s steps(4) infinite;
-}
+    <main class="stage" id="stage">
 
-@keyframes bgSpriteAnimation {
-  from {
-    background-position-x: 0%;
-  }
-  to {
-    background-position-x: 133.333%;
-  }
-}
+      <!-- Pagoda background -->
+      <div class="background-image"></div>
 
+      <!-- Pagoda doors -->
+      <div class="gate-door gate-left"
+           id="gateLeft"></div>
 
-/* --- UCCELLINO RESPONSIVO --- */
-.bird {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: calc((595 / 1226 * 100%) * var(--bird-scale));
-  height: calc((685 / 864 * 100%) * var(--bird-scale));
-  transform: translate(500%, -350%) translate(0%, 0%) scale(-1,1);
-  z-index: 6;
-  pointer-events: none;
-}
+      <div class="gate-door gate-right"
+           id="gateRight"></div>
 
-.bird-sprite {
-  width: 100%;
-  height: 100%;
-  background-image: url('bird_anim.png');
-  background-size: 300% 100%;
-  background-repeat: no-repeat;
-  background-position: 0 0;
-  image-rendering: pixelated;
-  animation: birdFly 0.55s steps(3) infinite;
-}
+      <!-- Small flying bird -->
+      <div class="bird" id="bird">
+        <div class="bird-sprite"></div>
+      </div>
 
-@keyframes birdFly {
-  from {
-    background-position-x: 0%;
-  }
-  to {
-    background-position-x: 150%;
-  }
-}
+      <!-- Bird delivering invitation -->
+      <div class="flying-letter-bird"
+           id="flyingBird">
+        <div class="letter-bird-sprite"></div>
+      </div>
 
-/* =========================================================
-   4. OMINI (RESPONSIVI + SCALABILI)
-   ========================================================= */
-.character {
-  position: absolute;
-  width: calc(24.47% * var(--char-scale));
-  height: calc(42.59% * var(--char-scale));
-  bottom: 5%;
-  z-index: 10;
-  transition: left var(--walk-duration) linear, right var(--walk-duration) linear;
-}
+      <!-- Left character -->
+      <div class="character character-left"
+           id="charLeft">
+        <div class="sprite"></div>
+      </div>
 
-.character-left {
-  left: calc(-25% * var(--char-scale));
-}
+      <!-- Right character -->
+      <div class="character character-right"
+           id="charRight">
+        <div class="sprite"></div>
+      </div>
 
-.character-left .sprite {
-  background-image: url('aodai_man_1.png');
-}
+      <!-- Final title -->
+      <div class="final-title"
+           id="finalTitle">
+      </div>
 
-.character-left.center-stage {
-  left: calc(50% - (19% * var(--char-scale)));
-}
+    </main>
 
-.character-right {
-  right: calc(-25% * var(--char-scale));
-  transform: scaleX(-1);
-  transform-origin: center;
-}
+  </div>
 
-.character-right .sprite {
-  background-image: url('aodai_lady_1.png');
-}
-
-.character-right.center-stage {
-  right: calc(50% - (19% * var(--char-scale)));
-  transform: scaleX(-1);
-}
-
-.character .sprite {
-  width: 100%;
-  height: 100%;
-  background-size: 500% 200%;
-  background-repeat: no-repeat;
-  background-position: 0 0;
-  image-rendering: pixelated;
-}
-
-.character.walking .sprite {
-  background-position-y: 0%;
-  animation: walkSprite 0.6s steps(5) infinite;
-}
-
-@keyframes walkSprite {
-  from { background-position-x: 0%; }
-  to   { background-position-x: 125%; }
-}
-
-.character.bowing .sprite {
-  background-position-y: 100%;
-  animation: bowSprite 1.2s steps(4) forwards;
-}
-
-@keyframes bowSprite {
-  from { background-position-x: 0%; }
-  to   { background-position-x: 100%; }
-}
-
-
-/* =========================================================
-   5. PORTONE PAGODA (PORTONE SX & DX)
-   ========================================================= */
-.gate-door {
-  position: absolute;
-  top: 56%;
-  width: 8.07%;
-  aspect-ratio: 99 / 268;
-  height: auto;
-  z-index: 5;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  transition: transform 2s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-.gate-left {
-  left: calc(50% - 8.07%);
-  background-image: url('door_left.png');
-  transform-origin: left center;
-}
-
-.gate-left.open {
-  transform: rotateY(-105deg);
-}
-
-.gate-right {
-  left: 50%;
-  background-image: url('door_right.png');
-  transform-origin: right center;
-}
-
-.gate-right.open {
-  transform: rotateY(105deg);
-}
-
-
-/* =========================================================
-   6. UCCELLO CON LETTERA (SCALABILE & FLUIDO)
-   ========================================================= */
-.flying-letter-bird {
-  position: absolute;
-  top: 70%;
-  left: 50%;
-  width: calc(40.78% * var(--letter-bird-scale));
-  height: calc(52.08% * var(--letter-bird-scale));
-  aspect-ratio: 500 / 450;
-  transform: translate(-50%, -50%) scale(0.5);
-  transform-origin: center center;
-  z-index: 7;
-  opacity: 0;
-  pointer-events: none;
-  transition: transform 4s cubic-bezier(0.5, 1, 0.5, 1), opacity 0.1s ease;
-}
-
-.flying-letter-bird.zoom-in {
-  opacity: 1;
-  transform: translate(-50%, -150%) scale(0.9);
-}
-
-.flying-letter-bird.clickable {
-  pointer-events: auto;
-  cursor: pointer;
-}
-
-.letter-bird-sprite {
-  width: 100%;
-  height: 100%;
-  background-image: url('bird_letter.png');
-  background-size: 300% 200%;
-  background-repeat: no-repeat;
-  background-position: 0 0;
-  image-rendering: pixelated;
-  animation: birdLetterFly 0.4s steps(3) infinite;
-}
-
-/* Riga 1 di default */
-.letter-bird-sprite {
-  background-position-y: 0%;
-}
-
-@keyframes birdLetterFly {
-  from { 
-    background-position-x: 0%; 
-  }
-  to { 
-    background-position-x: 150%; 
-  }
-}
-
-/* Riga 2 attivata al click */
-.flying-letter-bird.row-2 .letter-bird-sprite {
-  background-position-y: 100%;
-}
-
-/* =========================================================
-   7. TESTI FINALI (TITOLO PRINCIPALE & SOTTOTITOLO IN BASSO)
-   ========================================================= */
-
-/* Titolo Centrale Principale */
-.final-title {
-  position: absolute;
-  top: 15%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.8);
-  
-  /* Font personalizzato ed elegante */
-  font-family: 'Corinthia', cursive, serif;
-  
-  /* Dimensione fluida: min 1.8rem, ideale 4vw, max 4.5rem (scala con lo schermo) */
-  font-size: clamp(2rem, 9vw, 8rem);
-  font-weight: 900;
-  
-  color: #ffffff;
-  -webkit-text-stroke-color: #000000;
-  -webkit-text-stroke-width: clamp(0.5px, 0.08vw, 1.5px);
-  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
-  opacity: 0;
-  z-index: 20;
-  transition: opacity 1.5s ease;
-  text-align: center;
-  width: 90%;
-  pointer-events: none;
-}
-
-.final-title.show {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-}
-
-/* ===== Loading and performance improvements ===== */
-/* Google font is linked in HTML instead of blocking the stylesheet with @import. */
-html, body, .stage-container { background: #fff8ee; }
-.stage { opacity: 0; transition: opacity .65s ease; }
-body.scene-ready .stage { opacity: 1; }
-/* Prevent any sprite animation running before all artwork is decoded. */
-body:not(.scene-ready) .background-image,
-body:not(.scene-ready) .bird-sprite,
-body:not(.scene-ready) .letter-bird-sprite,
-body:not(.scene-ready) .character .sprite { animation-play-state: paused !important; }
-/* Smooth artwork instead of jagged pixel-art scaling. */
-.bird-sprite, .letter-bird-sprite, .character .sprite { image-rendering: auto; }
-.flying-letter-bird {
-  padding: 0; border: 0; background: transparent;
-  appearance: none; -webkit-appearance: none;
-  display: block;
-  will-change: transform, opacity;
-}
-.flying-letter-bird:focus-visible { outline: 3px solid #bd3827; outline-offset: 5px; }
-.flying-letter-bird:disabled { cursor: default; }
-.letter-bird-sprite { display: block; }
-.final-title { transition: opacity 1.5s ease, transform 1.5s ease; }
-.loading-overlay {
-  position: fixed; inset: 0; z-index: 9999;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 15px; background: #fff8ee; color: #405b21;
-  font-family: Georgia, serif; font-size: 17px;
-  transition: opacity .65s ease, visibility .65s ease;
-}
-.loading-overlay.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-.loading-overlay.has-error { cursor: pointer; }
-.loading-flower { color: #df3d2b; font-size: 44px; animation: flowerPulse 1.6s ease-in-out infinite; }
-.loading-track { width: min(230px, 65vw); height: 3px; background: #e5dac6; border-radius: 9px; overflow: hidden; }
-.loading-progress { height: 100%; width: 0; background: #b8442c; transition: width .25s ease; }
-@keyframes flowerPulse { 50% { transform: scale(1.15) rotate(12deg); opacity: .75; } }
-@media (prefers-reduced-motion: reduce) {
-  .loading-flower { animation: none; }
-  .stage, .loading-overlay { transition-duration: .15s; }
-}
+</body>
+</html>
