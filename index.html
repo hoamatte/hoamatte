@@ -1,36 +1,40 @@
-<!DOCTYPE html>
-<html lang="it">
+<!doctype html>
+<html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lễ Hằng Thuận| Matteo ♡ Hoà</title>
+  <meta name="theme-color" content="#fff8ee">
+  <title>Duyên Lành Hội Ngộ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Corinthia:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="pagoda_x4.png" fetchpriority="high">
+  <link rel="preload" as="image" href="aodai_man_1.png">
+  <link rel="preload" as="image" href="aodai_lady_1.png">
+  <link rel="preload" as="image" href="door_left.png">
+  <link rel="preload" as="image" href="door_right.png">
   <link rel="stylesheet" href="style.css">
-  <link rel="preload" as="image" href="pagoda_x4.png">
+  <script src="script.js" defer></script>
 </head>
 <body>
-
-<div class="stage-container">
-  <div class="stage" id="stage">
-    <div class="background-image"></div>
-    <div class="gate-door gate-left" id="gateLeft"></div>
-    <div class="gate-door gate-right" id="gateRight"></div>
-    <div class="bird" id="bird">
-      <div class="bird-sprite"></div>
-    </div>
-	<div class="flying-letter-bird" id="flyingBird">
-	  <div class="letter-bird-sprite"></div>
-	</div>
-    <div class="character character-left" id="charLeft">
-      <div class="sprite"></div>
-    </div>
-    <div class="character character-right" id="charRight">
-      <div class="sprite"></div>
-    </div>
-
-	<div class="final-title" id="finalTitle"></div> <!-->Chào mừng! Benvenuti!<!-->
-	</div>
-</div>
-
-  <script src="script.js"></script>
+  <div class="loading-overlay" id="loadingOverlay" role="status" aria-live="polite">
+    <div class="loading-flower" aria-hidden="true">❀</div>
+    <p>Đang chuẩn bị thiệp mời…</p>
+    <div class="loading-track"><div class="loading-progress" id="loadingProgress"></div></div>
+  </div>
+  <div class="stage-container">
+    <main class="stage" id="stage" aria-label="Wedding invitation animation">
+      <div class="background-image"></div>
+      <div class="gate-door gate-left" id="gateLeft"></div>
+      <div class="gate-door gate-right" id="gateRight"></div>
+      <div class="bird" id="bird"><div class="bird-sprite"></div></div>
+      <button class="flying-letter-bird" id="flyingBird" type="button" aria-label="Open wedding invitation" disabled>
+        <span class="letter-bird-sprite"></span>
+      </button>
+      <div class="character character-left" id="charLeft"><div class="sprite"></div></div>
+      <div class="character character-right" id="charRight"><div class="sprite"></div></div>
+      <div class="final-title" id="finalTitle" aria-hidden="true"></div>
+    </main>
+  </div>
 </body>
 </html>

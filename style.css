@@ -1,5 +1,5 @@
 /* Import fonts */
-@import url('https://fonts.googleapis.com/css2?family=Corinthia:wght@400;700&display=swap');
+/* Font loaded in HTML for faster parallel loading */
 
 
 /* =========================================================
@@ -308,4 +308,44 @@ body, html {
 .final-title.show {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
+}
+
+/* ===== Loading and performance improvements ===== */
+/* Google font is linked in HTML instead of blocking the stylesheet with @import. */
+html, body, .stage-container { background: #fff8ee; }
+.stage { opacity: 0; transition: opacity .65s ease; }
+body.scene-ready .stage { opacity: 1; }
+/* Prevent any sprite animation running before all artwork is decoded. */
+body:not(.scene-ready) .background-image,
+body:not(.scene-ready) .bird-sprite,
+body:not(.scene-ready) .letter-bird-sprite,
+body:not(.scene-ready) .character .sprite { animation-play-state: paused !important; }
+/* Smooth artwork instead of jagged pixel-art scaling. */
+.bird-sprite, .letter-bird-sprite, .character .sprite { image-rendering: auto; }
+.flying-letter-bird {
+  padding: 0; border: 0; background: transparent;
+  appearance: none; -webkit-appearance: none;
+  display: block;
+  will-change: transform, opacity;
+}
+.flying-letter-bird:focus-visible { outline: 3px solid #bd3827; outline-offset: 5px; }
+.flying-letter-bird:disabled { cursor: default; }
+.letter-bird-sprite { display: block; }
+.final-title { transition: opacity 1.5s ease, transform 1.5s ease; }
+.loading-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 15px; background: #fff8ee; color: #405b21;
+  font-family: Georgia, serif; font-size: 17px;
+  transition: opacity .65s ease, visibility .65s ease;
+}
+.loading-overlay.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.loading-overlay.has-error { cursor: pointer; }
+.loading-flower { color: #df3d2b; font-size: 44px; animation: flowerPulse 1.6s ease-in-out infinite; }
+.loading-track { width: min(230px, 65vw); height: 3px; background: #e5dac6; border-radius: 9px; overflow: hidden; }
+.loading-progress { height: 100%; width: 0; background: #b8442c; transition: width .25s ease; }
+@keyframes flowerPulse { 50% { transform: scale(1.15) rotate(12deg); opacity: .75; } }
+@media (prefers-reduced-motion: reduce) {
+  .loading-flower { animation: none; }
+  .stage, .loading-overlay { transition-duration: .15s; }
 }
