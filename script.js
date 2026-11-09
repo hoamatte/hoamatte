@@ -2,7 +2,7 @@
 "use strict";
 
 // ==========================================
-// 1. ELEMENTS
+// 1. DOM ELEMENTS
 // ==========================================
 
 const stage = document.getElementById("stage");
@@ -14,7 +14,7 @@ const finalTitle = document.getElementById("finalTitle");
 const flyingBird = document.getElementById("flyingBird");
 
 // ==========================================
-// 2. SETTINGS
+// 2. CONFIGURATION
 // ==========================================
 
 const CONFIG = {
@@ -29,7 +29,7 @@ const CONFIG = {
   rsvpPage: "rsvp_index.html"
 };
 
-const ASSETS = [
+const IMAGE_ASSETS = [
   "pagoda_x4.png",
   "aodai_man_1.png",
   "aodai_lady_1.png",
@@ -39,46 +39,41 @@ const ASSETS = [
   "bird_letter.png"
 ];
 
-let walkDuration = CONFIG.minimumWalkDuration;
+let walkDurationMs = CONFIG.minimumWalkDuration;
 let animationStarted = false;
 let invitationOpened = false;
+let initialized = false;
 
 // ==========================================
-// 3. UTILITY FUNCTIONS
+// 3. HELPERS
 // ==========================================
 
 function sleep(ms) {
-  return new Promise(resolve => {
+  return new Promise(function(resolve) {
     setTimeout(resolve, ms);
   });
 }
 
 function nextFrame() {
-  return new Promise(resolve => {
-    requestAnimationFrame(() => {
+  return new Promise(function(resolve) {
+    requestAnimationFrame(function() {
       requestAnimationFrame(resolve);
     });
   });
 }
 
-// Wait for a specific CSS transition.
-// A timeout ensures the animation continues
-// even if transitionend never fires.
+// Wait for a CSS transition to finish.
+// The fallback prevents the animation
+// from becoming stuck if the event is missed.
 
-function waitForTransition(
-  element,
-  propertyName,
-  fallbackMs
-) {
-  return new Promise(resolve => {
+function waitForTransition(element, property, fallbackMs) {
+  return new Promise(function(resolve) {
     if (!element) {
       resolve();
       return;
     }
 
     let finished = false;
-
-    const timer = setTimeout(finish, fallbackMs);
 
     function finish() {
       if (finished) return;
@@ -88,24 +83,26 @@ function waitForTransition(
 
       element.removeEventListener(
         "transitionend",
-        onEnd
+        onTransitionEnd
       );
 
       resolve();
     }
 
-    function onEnd(event) {
+    function onTransitionEnd(event) {
       if (
         event.target === element &&
-        event.propertyName === propertyName
+        event.propertyName === property
       ) {
         finish();
       }
     }
 
+    const timer = setTimeout(finish, fallbackMs);
+
     element.addEventListener(
       "transitionend",
-      onEnd
+      onTransitionEnd
     );
   });
 }
@@ -114,68 +111,57 @@ function waitForTransition(
 // 4. IMAGE PRELOADING
 // ==========================================
 
-// Start loading every image concurrently.
-// Each image resolves whether it loads or fails.
+function preloadImage(src) {
+  return new Promise(function(resolve) {
+    const image = new Image();
 
-function loadImage(src) {
-  return new Promise(resolve => {
-    const img = new Image();
-
-    img.onload = () => {
+    image.onload = function() {
       resolve(true);
     };
 
-    img.onerror = () => {
-      console.warn("Image unavailable:", src);
+    image.onerror = function() {
+      console.warn("Image failed to load:", src);
       resolve(false);
     };
 
-    img.src = src;
+    image.src = src;
   });
 }
 
-// Wait until either all images have loaded
-// or the maximum preload time has passed.
-
 async function preloadImages() {
   const allImages = Promise.all(
-    ASSETS.map(loadImage)
-  );
-
-  const timeout = sleep(
-    CONFIG.maxPreloadTime
+    IMAGE_ASSETS.map(preloadImage)
   );
 
   await Promise.race([
     allImages,
-    timeout
+    sleep(CONFIG.maxPreloadTime)
   ]);
 }
 
 // ==========================================
-// 5. RESPONSIVE WALK SPEED
+// 5. RESPONSIVE WALKING SPEED
 // ==========================================
 
 function updateWalkSpeed() {
   if (!stage) return;
 
   const stageWidth = stage.clientWidth;
-
   const distance = stageWidth / 2;
 
-  walkDuration = Math.max(
+  walkDurationMs = Math.max(
     CONFIG.minimumWalkDuration,
-    distance / CONFIG.walkingSpeed * 1000
+    (distance / CONFIG.walkingSpeed) * 1000
   );
 
   document.documentElement.style.setProperty(
     "--walk-duration",
-    `${walkDuration / 1000}s`
+    (walkDurationMs / 1000).toFixed(2) + "s"
   );
 }
 
 // ==========================================
-// 6. BIRD CLICK
+// 6. BIRD INTERACTION
 // ==========================================
 
 function setupBirdInteraction() {
@@ -191,9 +177,7 @@ function setupBirdInteraction() {
   function openInvitation() {
     if (invitationOpened) return;
 
-    if (
-      !flyingBird.classList.contains("clickable")
-    ) {
+    if (!flyingBird.classList.contains("clickable")) {
       return;
     }
 
@@ -204,7 +188,7 @@ function setupBirdInteraction() {
 
     flyingBird.style.pointerEvents = "none";
 
-    setTimeout(() => {
+    setTimeout(function() {
       window.location.href = CONFIG.rsvpPage;
     }, CONFIG.invitationDelay);
   }
@@ -216,7 +200,7 @@ function setupBirdInteraction() {
 
   flyingBird.addEventListener(
     "keydown",
-    event => {
+    function(event) {
       if (
         event.key === "Enter" ||
         event.key === " "
@@ -234,52 +218,32 @@ function setupBirdInteraction() {
 
 async function startAnimation() {
   if (animationStarted) return;
-
-  if (!charLeft || !charRight) {
-    console.error("Character elements missing");
-    return;
-  }
+  if (!charLeft || !charRight) return;
 
   animationStarted = true;
 
-  // PHASE 1
-  // Pause before characters enter.
-
+  // STEP 1: Short pause before walking
   await sleep(CONFIG.initialDelay);
 
-  // PHASE 2
-  // Both characters walk together.
-
+  // STEP 2: Characters walk to center
   const leftWalk = waitForTransition(
     charLeft,
     "left",
-    walkDuration + 350
+    walkDurationMs + 400
   );
 
   const rightWalk = waitForTransition(
     charRight,
     "right",
-    walkDuration + 350
+    walkDurationMs + 400
   );
 
-  charLeft.classList.add(
-    "center-stage",
-    "walking"
-  );
+  charLeft.classList.add("center-stage", "walking");
+  charRight.classList.add("center-stage", "walking");
 
-  charRight.classList.add(
-    "center-stage",
-    "walking"
-  );
+  await Promise.all([leftWalk, rightWalk]);
 
-  await Promise.all([
-    leftWalk,
-    rightWalk
-  ]);
-
-  // PHASE 3
-  // Both characters bow together.
-
+  // STEP 3: Characters bow
   charLeft.classList.remove("walking");
   charRight.classList.remove("walking");
 
@@ -288,9 +252,7 @@ async function startAnimation() {
 
   await sleep(CONFIG.bowDuration);
 
-  // PHASE 4
-  // Pagoda doors open.
-
+  // STEP 4: Pagoda doors open
   if (gateLeft) {
     gateLeft.classList.add("open");
   }
@@ -301,21 +263,17 @@ async function startAnimation() {
 
   await sleep(CONFIG.gateWait);
 
-  // PHASE 5
-  // Bird carrying letter flies forward.
-
+  // STEP 5: Bird flies forward
   if (flyingBird) {
     const birdFlight = waitForTransition(
       flyingBird,
       "transform",
-      CONFIG.birdFlightDuration + 350
+      CONFIG.birdFlightDuration + 400
     );
 
     flyingBird.classList.add("zoom-in");
 
-    // PHASE 6
-    // Title appears during the bird entrance.
-
+    // STEP 6: Final title appears
     await sleep(500);
 
     if (finalTitle) {
@@ -324,54 +282,61 @@ async function startAnimation() {
 
     await birdFlight;
 
-    // Bird is now clickable.
-
+    // Enable clicking after flight
     flyingBird.classList.add("clickable");
-
-    flyingBird.setAttribute(
-      "tabindex",
-      "0"
-    );
+    flyingBird.setAttribute("tabindex", "0");
   } else if (finalTitle) {
     finalTitle.classList.add("show");
   }
 }
 
 // ==========================================
-// 8. PAGE INITIALIZATION
+// 8. INITIALIZE PAGE
 // ==========================================
 
 async function initializePage() {
+  if (initialized) return;
+  initialized = true;
+
   if (!stage) {
-    console.error("Stage not found");
+    console.error("Stage element not found.");
     return;
   }
 
-  // Calculate layout before animation.
-  updateWalkSpeed();
+  // Remove any old loading screen
+  const oldLoaders = document.querySelectorAll(
+    "#weddingLoader, #loadingScreen"
+  );
 
-  // Register bird interactions.
+  oldLoaders.forEach(function(loader) {
+    loader.remove();
+  });
+
+  updateWalkSpeed();
   setupBirdInteraction();
 
-  // Begin image loading.
-  // Maximum wait: 2.5 seconds.
-  await preloadImages();
+  // Wait briefly for images
+  try {
+    await preloadImages();
+  } catch (error) {
+    console.warn("Preloading issue:", error);
+  }
 
-  // Let browser paint the scene.
+  // Give browser time to paint
   await nextFrame();
 
-  // Reveal entire scene.
+  // Reveal scene
   stage.classList.add("ready");
 
-  // Allow the fade-in to finish.
-  await sleep(700);
+  // Let fade-in finish
+  await sleep(650);
 
-  // Begin wedding animation.
+  // Start animation
   startAnimation();
 }
 
 // ==========================================
-// 9. START WEBSITE
+// 9. START
 // ==========================================
 
 if (document.readyState === "loading") {
@@ -384,8 +349,8 @@ if (document.readyState === "loading") {
   initializePage();
 }
 
-// Update walking speed before animation.
-window.addEventListener("resize", () => {
+// Recalculate walking speed on resize
+window.addEventListener("resize", function() {
   if (!animationStarted) {
     updateWalkSpeed();
   }
