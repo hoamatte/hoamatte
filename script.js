@@ -1,9 +1,9 @@
 
 "use strict";
 
-// =========================================================
+// ==========================================
 // 1. ELEMENTS
-// =========================================================
+// ==========================================
 
 const stage = document.getElementById("stage");
 const charLeft = document.getElementById("charLeft");
@@ -13,43 +13,44 @@ const gateRight = document.getElementById("gateRight");
 const finalTitle = document.getElementById("finalTitle");
 const flyingBird = document.getElementById("flyingBird");
 
-// =========================================================
+// ==========================================
 // 2. SETTINGS
-// =========================================================
+// ==========================================
 
-const SETTINGS = {
+const CONFIG = {
+  maxPreloadTime: 2500,
   initialDelay: 500,
   bowDuration: 1200,
-  gateDuration: 2000,
-  birdDuration: 4000,
+  gateWait: 1100,
   walkingSpeed: 95,
   minimumWalkDuration: 2200,
+  birdFlightDuration: 3200,
+  invitationDelay: 800,
   rsvpPage: "rsvp_index.html"
 };
 
-// These are the images used by your CSS.
-// Keep the filenames exactly as they are in your folder.
-
-const IMAGE_ASSETS = [
+const ASSETS = [
   "pagoda_x4.png",
-  "bird_anim.png",
   "aodai_man_1.png",
   "aodai_lady_1.png",
   "door_left.png",
   "door_right.png",
+  "bird_anim.png",
   "bird_letter.png"
 ];
 
-let walkDurationMs = SETTINGS.minimumWalkDuration;
+let walkDuration = CONFIG.minimumWalkDuration;
 let animationStarted = false;
-let birdClicked = false;
+let invitationOpened = false;
 
-// =========================================================
-// 3. HELPERS
-// =========================================================
+// ==========================================
+// 3. UTILITY FUNCTIONS
+// ==========================================
 
-function wait(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+function sleep(ms) {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
 }
 
 function nextFrame() {
@@ -60,154 +61,224 @@ function nextFrame() {
   });
 }
 
-// =========================================================
+// Wait for a specific CSS transition.
+// A timeout ensures the animation continues
+// even if transitionend never fires.
+
+function waitForTransition(
+  element,
+  propertyName,
+  fallbackMs
+) {
+  return new Promise(resolve => {
+    if (!element) {
+      resolve();
+      return;
+    }
+
+    let finished = false;
+
+    const timer = setTimeout(finish, fallbackMs);
+
+    function finish() {
+      if (finished) return;
+
+      finished = true;
+      clearTimeout(timer);
+
+      element.removeEventListener(
+        "transitionend",
+        onEnd
+      );
+
+      resolve();
+    }
+
+    function onEnd(event) {
+      if (
+        event.target === element &&
+        event.propertyName === propertyName
+      ) {
+        finish();
+      }
+    }
+
+    element.addEventListener(
+      "transitionend",
+      onEnd
+    );
+  });
+}
+
+// ==========================================
 // 4. IMAGE PRELOADING
-// =========================================================
+// ==========================================
 
-// Load all images before showing the animation.
-// Promise.allSettled prevents one missing image from
-// freezing the entire website.
+// Start loading every image concurrently.
+// Each image resolves whether it loads or fails.
 
-function preloadImage(src) {
+function loadImage(src) {
   return new Promise(resolve => {
     const img = new Image();
 
-    img.onload = async () => {
-      try {
-        if (img.decode) {
-          await img.decode();
-        }
-      } catch (error) {
-        // Image is still usable if decode fails.
-      }
-
-      resolve({ src, success: true });
+    img.onload = () => {
+      resolve(true);
     };
 
     img.onerror = () => {
-      console.warn("Could not load image:", src);
-      resolve({ src, success: false });
+      console.warn("Image unavailable:", src);
+      resolve(false);
     };
 
     img.src = src;
   });
 }
 
-async function preloadAllImages() {
-  const results = await Promise.allSettled(
-    IMAGE_ASSETS.map(preloadImage)
+// Wait until either all images have loaded
+// or the maximum preload time has passed.
+
+async function preloadImages() {
+  const allImages = Promise.all(
+    ASSETS.map(loadImage)
   );
 
-  const failed = results.filter(result => {
-    return (
-      result.status === "rejected" ||
-      !result.value.success
-    );
-  });
+  const timeout = sleep(
+    CONFIG.maxPreloadTime
+  );
 
-  if (failed.length > 0) {
-    console.warn(
-      `${failed.length} image(s) could not be loaded.`
-    );
-  }
-
-  return results;
+  await Promise.race([
+    allImages,
+    timeout
+  ]);
 }
 
-// =========================================================
-// 5. DYNAMIC WALKING SPEED
-// =========================================================
+// ==========================================
+// 5. RESPONSIVE WALK SPEED
+// ==========================================
 
-function applyDynamicWalkSpeed() {
+function updateWalkSpeed() {
   if (!stage) return;
 
   const stageWidth = stage.clientWidth;
-  const distanceToCenter = stageWidth / 2;
 
-  walkDurationMs = Math.max(
-    SETTINGS.minimumWalkDuration,
-    (distanceToCenter / SETTINGS.walkingSpeed) * 1000
+  const distance = stageWidth / 2;
+
+  walkDuration = Math.max(
+    CONFIG.minimumWalkDuration,
+    distance / CONFIG.walkingSpeed * 1000
   );
 
   document.documentElement.style.setProperty(
     "--walk-duration",
-    `${(walkDurationMs / 1000).toFixed(2)}s`
+    `${walkDuration / 1000}s`
   );
 }
 
-// =========================================================
-// 6. BIRD INTERACTION
-// =========================================================
+// ==========================================
+// 6. BIRD CLICK
+// ==========================================
 
-function initBirdInteraction() {
+function setupBirdInteraction() {
   if (!flyingBird) return;
 
-  // Make the bird clickable only after its
-  // entrance animation has finished.
+  flyingBird.setAttribute(
+    "aria-label",
+    "Open wedding invitation"
+  );
 
-  flyingBird.addEventListener("transitionend", event => {
-    if (
-      event.target === flyingBird &&
-      event.propertyName === "transform" &&
-      flyingBird.classList.contains("zoom-in")
-    ) {
-      flyingBird.classList.add("clickable");
-      flyingBird.setAttribute("tabindex", "0");
-      flyingBird.setAttribute("role", "button");
-      flyingBird.setAttribute(
-        "aria-label",
-        "Open wedding invitation"
-      );
-    }
-  });
+  flyingBird.setAttribute("role", "button");
 
   function openInvitation() {
-    if (birdClicked) return;
+    if (invitationOpened) return;
 
-    if (!flyingBird.classList.contains("clickable")) {
+    if (
+      !flyingBird.classList.contains("clickable")
+    ) {
       return;
     }
 
-    birdClicked = true;
+    invitationOpened = true;
 
     flyingBird.classList.remove("clickable");
     flyingBird.classList.add("row-2");
+
     flyingBird.style.pointerEvents = "none";
 
-    // Give the envelope animation time to play.
     setTimeout(() => {
-      window.location.href = SETTINGS.rsvpPage;
-    }, 800);
+      window.location.href = CONFIG.rsvpPage;
+    }, CONFIG.invitationDelay);
   }
 
-  flyingBird.addEventListener("click", openInvitation);
+  flyingBird.addEventListener(
+    "click",
+    openInvitation
+  );
 
-  flyingBird.addEventListener("keydown", event => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      openInvitation();
+  flyingBird.addEventListener(
+    "keydown",
+    event => {
+      if (
+        event.key === "Enter" ||
+        event.key === " "
+      ) {
+        event.preventDefault();
+        openInvitation();
+      }
     }
-  });
+  );
 }
 
-// =========================================================
-// 7. SMOOTH ANIMATION SEQUENCE
-// =========================================================
+// ==========================================
+// 7. MAIN ANIMATION
+// ==========================================
 
-async function runAnimation() {
+async function startAnimation() {
   if (animationStarted) return;
-  if (!charLeft || !charRight) return;
+
+  if (!charLeft || !charRight) {
+    console.error("Character elements missing");
+    return;
+  }
 
   animationStarted = true;
 
-  // PHASE 1: Wait briefly before walking.
-  await wait(SETTINGS.initialDelay);
+  // PHASE 1
+  // Pause before characters enter.
 
-  charLeft.classList.add("center-stage", "walking");
-  charRight.classList.add("center-stage", "walking");
+  await sleep(CONFIG.initialDelay);
 
-  // PHASE 2: Characters reach the center.
-  await wait(walkDurationMs);
+  // PHASE 2
+  // Both characters walk together.
+
+  const leftWalk = waitForTransition(
+    charLeft,
+    "left",
+    walkDuration + 350
+  );
+
+  const rightWalk = waitForTransition(
+    charRight,
+    "right",
+    walkDuration + 350
+  );
+
+  charLeft.classList.add(
+    "center-stage",
+    "walking"
+  );
+
+  charRight.classList.add(
+    "center-stage",
+    "walking"
+  );
+
+  await Promise.all([
+    leftWalk,
+    rightWalk
+  ]);
+
+  // PHASE 3
+  // Both characters bow together.
 
   charLeft.classList.remove("walking");
   charRight.classList.remove("walking");
@@ -215,171 +286,107 @@ async function runAnimation() {
   charLeft.classList.add("bowing");
   charRight.classList.add("bowing");
 
-  // PHASE 3: Characters bow.
-  await wait(SETTINGS.bowDuration);
+  await sleep(CONFIG.bowDuration);
 
-  if (gateLeft && gateRight) {
+  // PHASE 4
+  // Pagoda doors open.
+
+  if (gateLeft) {
     gateLeft.classList.add("open");
+  }
+
+  if (gateRight) {
     gateRight.classList.add("open");
   }
 
-  // PHASE 4: Wait for doors to open enough.
-  await wait(1000);
+  await sleep(CONFIG.gateWait);
 
-  // PHASE 5: Bird flies forward.
+  // PHASE 5
+  // Bird carrying letter flies forward.
+
   if (flyingBird) {
+    const birdFlight = waitForTransition(
+      flyingBird,
+      "transform",
+      CONFIG.birdFlightDuration + 350
+    );
+
     flyingBird.classList.add("zoom-in");
-  }
 
-  // PHASE 6: Reveal final title.
-  await wait(500);
+    // PHASE 6
+    // Title appears during the bird entrance.
 
-  if (finalTitle) {
+    await sleep(500);
+
+    if (finalTitle) {
+      finalTitle.classList.add("show");
+    }
+
+    await birdFlight;
+
+    // Bird is now clickable.
+
+    flyingBird.classList.add("clickable");
+
+    flyingBird.setAttribute(
+      "tabindex",
+      "0"
+    );
+  } else if (finalTitle) {
     finalTitle.classList.add("show");
   }
 }
 
-// =========================================================
-// 8. LOADING SCREEN
-// =========================================================
+// ==========================================
+// 8. PAGE INITIALIZATION
+// ==========================================
 
-function createLoadingScreen() {
-  const loader = document.createElement("div");
-
-  loader.id = "weddingLoader";
-
-  Object.assign(loader.style, {
-    position: "fixed",
-    inset: "0",
-    zIndex: "99999",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "20px",
-    backgroundColor: "#fff8ef",
-    opacity: "1",
-    transition: "opacity 0.8s ease",
-    pointerEvents: "auto"
-  });
-
-  const flower = document.createElement("div");
-  flower.textContent = "❀";
-
-  Object.assign(flower.style, {
-    fontSize: "54px",
-    color: "#d92b1d",
-    animation: "loaderPulse 1.5s ease-in-out infinite"
-  });
-
-  const message = document.createElement("div");
-  message.textContent = "Duyên Lành Hội Ngộ";
-
-  Object.assign(message.style, {
-    color: "#405b22",
-    fontFamily: "'Corinthia', cursive, serif",
-    fontSize: "clamp(32px, 6vw, 54px)",
-    textAlign: "center"
-  });
-
-  const loadingText = document.createElement("div");
-  loadingText.textContent = "Đang chuẩn bị thiệp mời...";
-
-  Object.assign(loadingText.style, {
-    fontFamily: "sans-serif",
-    fontSize: "13px",
-    letterSpacing: "1px",
-    color: "#8b725c"
-  });
-
-  const style = document.createElement("style");
-
-  style.textContent = `
-    @keyframes loaderPulse {
-      0%, 100% {
-        transform: scale(1);
-        opacity: 0.65;
-      }
-      50% {
-        transform: scale(1.15);
-        opacity: 1;
-      }
-    }
-  `;
-
-  document.head.appendChild(style);
-
-  loader.appendChild(flower);
-  loader.appendChild(message);
-  loader.appendChild(loadingText);
-
-  document.body.appendChild(loader);
-
-  return loader;
-}
-
-// =========================================================
-// 9. REVEAL SCENE
-// =========================================================
-
-async function revealScene(loader) {
-  // Ensure browser has painted the loaded scene.
-  await nextFrame();
-
-  // Smoothly fade away the loading screen.
-  loader.style.opacity = "0";
-  loader.style.pointerEvents = "none";
-
-  await wait(800);
-
-  loader.remove();
-
-  // Start only after the scene is visible.
-  runAnimation();
-}
-
-// =========================================================
-// 10. INITIALIZE WEBSITE
-// =========================================================
-
-async function initializeWebsite() {
+async function initializePage() {
   if (!stage) {
-    console.error("Stage element not found.");
+    console.error("Stage not found");
     return;
   }
 
-  const loader = createLoadingScreen();
+  // Calculate layout before animation.
+  updateWalkSpeed();
 
-  applyDynamicWalkSpeed();
-  initBirdInteraction();
+  // Register bird interactions.
+  setupBirdInteraction();
 
-  // Wait for all required artwork.
-  await preloadAllImages();
+  // Begin image loading.
+  // Maximum wait: 2.5 seconds.
+  await preloadImages();
 
-  // Allow the browser to render everything.
+  // Let browser paint the scene.
   await nextFrame();
 
-  // Reveal the complete scene.
-  await revealScene(loader);
+  // Reveal entire scene.
+  stage.classList.add("ready");
+
+  // Allow the fade-in to finish.
+  await sleep(700);
+
+  // Begin wedding animation.
+  startAnimation();
 }
 
-// =========================================================
-// 11. START
-// =========================================================
+// ==========================================
+// 9. START WEBSITE
+// ==========================================
 
 if (document.readyState === "loading") {
   document.addEventListener(
     "DOMContentLoaded",
-    initializeWebsite,
+    initializePage,
     { once: true }
   );
 } else {
-  initializeWebsite();
+  initializePage();
 }
 
-// Update speed only before the animation begins.
+// Update walking speed before animation.
 window.addEventListener("resize", () => {
   if (!animationStarted) {
-    applyDynamicWalkSpeed();
+    updateWalkSpeed();
   }
 });
