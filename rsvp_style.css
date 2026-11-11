@@ -412,9 +412,17 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     #guestMessage {
-      top: 67.7%;
-/*      padding: 9px 10px;*/
-    }
+  top: 67.7%;
+  height: 7.2%;
+  padding: 7px 10px;
+  box-sizing: border-box;
+
+  font-size: clamp(10px, 2.4cqw, 13px);
+  line-height: 1.4;
+
+  resize: none;
+  overflow-y: auto;
+}
 
     #dietary {
       top: 75.8%;
