@@ -11,14 +11,15 @@
   padding: 0;
 }
 
-body, html {
+html,
+body {
+  margin: 0;
+  padding: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #111;
+  background: #f8f1e8;
 }
-
 :root {
   --char-scale: 0.5;
   --bird-scale: 0.15;
@@ -29,25 +30,41 @@ body, html {
 /* =========================================================
    2. CONTENITORE E PALCOSCENICO (STAGE)
    ========================================================= */
+.
+
 .stage-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: fixed;
+  inset: 0;
+
   width: 100vw;
   height: 100vh;
-  background-color: #111;
+  height: 100dvh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   overflow: hidden;
+  background: #f8f1e8;
 }
+
+
 
 .stage {
   position: relative;
-  width: min(100vw, calc(100vh * (1226 / 864)));
+
+  width: min(100vw, calc(100dvh * 1226 / 864));
   aspect-ratio: 1226 / 864;
+
   max-width: 1226px;
   max-height: 864px;
+
+  flex: 0 0 auto;
+
   overflow: hidden;
-  flex-shrink: 0;
   perspective: 1000px;
+
+  background: #f8f1e8;
 }
 
 
@@ -220,59 +237,86 @@ body, html {
 /* =========================================================
    6. UCCELLO CON LETTERA (SCALABILE & FLUIDO)
    ========================================================= */
+
+/* ========================================
+   BLUE SWALLOW CARRYING THE LETTER
+======================================== */
+
+/* The entire bird flies forward */
 .flying-letter-bird {
   position: absolute;
-  top: 70%;
+
+  /* Center of pagoda gate */
   left: 50%;
-  width: calc(40.78% * var(--letter-bird-scale));
-  height: calc(52.08% * var(--letter-bird-scale));
-  aspect-ratio: 500 / 450;
-  transform: translate(-50%, -50%) scale(0.5);
+  top: 70%;
+
+  /*
+    The six-frame image is 2172 x 768.
+    Each frame is 362 x 768.
+  */
+  width: 24%;
+  aspect-ratio: 362 / 768;
+  height: auto;
+
+  z-index: 30;
+
+  /* Initially small, inside the gate */
+  transform: translate(-50%, -50%) scale(0.15);
   transform-origin: center center;
-  z-index: 7;
+
   opacity: 0;
   pointer-events: none;
-  transition: transform 4s cubic-bezier(0.5, 1, 0.5, 1), opacity 0.1s ease;
+
+  transition:
+    transform 4s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.4s ease;
 }
 
+/* Bird flies out toward the viewer */
 .flying-letter-bird.zoom-in {
   opacity: 1;
-  transform: translate(-50%, -150%) scale(0.9);
+
+  transform:
+    translate(-50%, -105%)
+    scale(1.15);
 }
 
-.flying-letter-bird.clickable {
-  pointer-events: auto;
-  cursor: pointer;
-}
-
+/* One frame of the bird at a time */
 .letter-bird-sprite {
+  display: block;
   width: 100%;
   height: 100%;
-  background-image: url('bird_letter.png');
-  background-size: 300% 200%;
+
+  background-image: url("bird_letter.png");
   background-repeat: no-repeat;
-  background-position: 0 0;
-  image-rendering: pixelated;
-  animation: birdLetterFly 0.4s steps(3) infinite;
+
+  background-size: 600% 100%;
+  background-position: 0% 0%;
+
+  /* Six wing positions */
+  animation: letterBirdFlap 0.72s steps(6) infinite;
 }
 
-/* Riga 1 di default */
-.letter-bird-sprite {
-  background-position-y: 0%;
-}
-
-@keyframes birdLetterFly {
-  from { 
-    background-position-x: 0%; 
+/* Move through six frames */
+@keyframes letterBirdFlap {
+  from {
+    background-position-x: 0%;
   }
-  to { 
-    background-position-x: 150%; 
+
+  to {
+    background-position-x: 120%;
   }
 }
 
-/* Riga 2 attivata al click */
+/* Enable clicking after the flight */
+.flying-letter-bird.clickable {
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+/* Stop flapping after clicking */
 .flying-letter-bird.row-2 .letter-bird-sprite {
-  background-position-y: 100%;
+  animation-play-state: paused;
 }
 
 /* =========================================================
@@ -318,3 +362,62 @@ body, html {
 .stage:not(.ready) .letter-bird-sprite { animation-play-state: paused; }
 /* Smooth illustrated artwork rather than pixel-art edges. */
 .bird-sprite, .letter-bird-sprite, .character .sprite { image-rendering: auto; }
+
+
+/* ======================================
+   FORCE PAGODA TO CENTER ON SCREEN
+   ====================================== */
+
+html,
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  background: #f8f1e8 !important;
+}
+
+.stage-container {
+  position: fixed !important;
+  inset: 0 !important;
+
+  width: 100% !important;
+  height: 100vh !important;
+  height: 100dvh !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  overflow: hidden !important;
+  background: #f8f1e8 !important;
+}
+
+.stage {
+  position: relative !important;
+
+  width: min(100vw, calc(100dvh * 1226 / 864)) !important;
+  max-width: 1226px !important;
+
+  aspect-ratio: 1226 / 864 !important;
+  height: auto !important;
+  max-height: 864px !important;
+
+  flex: 0 0 auto !important;
+
+  margin: 0 auto !important;
+
+  left: auto !important;
+  right: auto !important;
+
+  transform: none !important;
+
+  overflow: hidden !important;
+  perspective: 1000px;
+  background: #f8f1e8;
+}
+

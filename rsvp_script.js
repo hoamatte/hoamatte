@@ -64,7 +64,7 @@ const SETTINGS = {
     error: "Không thể gửi. Vui lòng thử lại.",
     noScript: "Chưa kết nối Google Sheets.",
     noMap: "Chưa có liên kết Google Maps.",
-	rsvpHelp: "Vui lòng xác nhận trước ngày 1 tháng 12"
+	rsvpHelp: "Vui lòng xác nhận trước ngày 01/12/2026"
   },
 
   it: {
@@ -120,7 +120,7 @@ const SETTINGS = {
       "Google Sheets non è ancora collegato.",
     noMap:
       "Il link di Google Maps non è disponibile.",
-	rsvpHelp: "Per favore, confermare entro il 01/12"
+	rsvpHelp: "Per favore, confermare entro il 01/12/2026"
   }
 };
 

@@ -1,6 +1,5 @@
 
-
-@import url('https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&family=Indie+Flower&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mali:wght@400;500;600;700&family=Patrick+Hand&display=swap');
 
 :root {
   --olive: #34472d;
@@ -10,18 +9,26 @@
   --cream: #fffaf4;
 
   --font-title: "Mali", cursive;
-  --font-body: "Indie Flower", cursive;
+  --font-body: "Patrick Hand", cursive;
 }
 
 body {
   font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.8;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-title);
   font-weight: 600;
-  letter-spacing: 0.5px;
+  font-style: normal;
+  letter-spacing: 0;
+  line-height: 1.5;
+  text-transform: none;
 }
+
+
+
 
 
 
@@ -166,7 +173,7 @@ h1, h2, h3, h4, h5, h6 {
       justify-content: center;
       padding: 0 4px;
       color: var(--brown);
-      font-size: clamp(15px, 2.5cqw, 19px);
+      font-size: clamp(13px, 2.5cqw, 15px);
       line-height: 1.25;
       text-align: center;
     }
@@ -192,7 +199,7 @@ h1, h2, h3, h4, h5, h6 {
 
 	/* Make only the temple name bolder */
 	#locationField > :first-child {
-	  font-weight: 700;
+	  font-weight: 600;
 	}
     
 
@@ -620,7 +627,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .wedding-countdown {
   position: absolute;
-  top: 73%;
+  top: 71%;
   left: 15%;
   width: 70%;
   text-align: center;
