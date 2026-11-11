@@ -268,13 +268,13 @@ async function startAnimation() {
     const birdFlight = waitForTransition(
       flyingBird,
       "transform",
-      CONFIG.birdFlightDuration + 400
+      CONFIG.birdFlightDuration + 300
     );
 
     flyingBird.classList.add("zoom-in");
 
     // STEP 6: Final title appears
-    await sleep(500);
+    await sleep(200);
 
     if (finalTitle) {
       finalTitle.classList.add("show");
