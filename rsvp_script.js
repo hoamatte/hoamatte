@@ -54,7 +54,7 @@ const SETTINGS = {
     guests: "Số lượng tham dự",
     departure: "Bạn khởi hành từ đâu?",
     messageHint:
-      "Tên người đi cùng, câu hỏi hoặc yêu cầu (nếu có)",
+      "Tên người đi cùng, ngày dự kiến đến Hà Nội hoặc yêu cầu khác (nếu có)",
     dietary:
       "Yêu cầu ăn uống / Dị ứng (nếu có)",
 
@@ -109,7 +109,7 @@ const SETTINGS = {
     guests: "Numero di partecipanti",
     departure: "Da dove partirai?",
     messageHint:
-      "Nomi degli accompagnatori, domande o richieste",
+      "Nomi degli accompagnatori, data di arrivo prevista ad Hanoi o  altre richieste ",
     dietary: "Esigenze alimentari / Allergie",
 
     sending: "INVIO...",
