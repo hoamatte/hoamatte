@@ -34,19 +34,19 @@ const SETTINGS = {
         note: "Tại chánh điện"
       },
       {
-        time: "10:30",
+        time: "11:30",
         title: "Chụp ảnh lưu niệm",
         note: "Cùng gia đình và khách mời"
       },
       {
-        time: "11:30",
+        time: "12:00",
         title: "Tiệc chay thân mật",
         note: "Gặp gỡ và chung vui"
       }
     ],
 
     rsvpTitle: "XÁC NHẬN THAM DỰ",
-    nextButton: "XÁC NHẬN THAM DỰ",
+    nextButton: "LỜI HỒI ĐÁP",
     rsvpButton: "GỬI XÁC NHẬN",
     back: "← Quay lại",
 
@@ -89,19 +89,19 @@ const SETTINGS = {
         note: "Nel tempio"
       },
       {
-        time: "10:30",
+        time: "11:30",
         title: "Foto ricordo",
         note: "Con familiari e invitati"
       },
       {
-        time: "11:30",
+        time: "12:00",
         title: "Ricevimento",
         note: "Pranzo vegetariano tradizionale"
       }
     ],
 
     rsvpTitle: "CONFERMA PRESENZA",
-    nextButton: "CONFERMA PRESENZA",
+    nextButton: "FACCI SAPERE!",
     rsvpButton: "INVIA CONFERMA",
     back: "← Indietro",
 
